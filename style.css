@@ -1,0 +1,98 @@
+/* Global */
+* { margin: 0; padding: 0; font-family: "微软雅黑","文泉驿微米黑",verdana, arial, helvetica, sans-serif; }
+body { background-color: black; color: white; font-size: 20px; }
+a {color: #aaffaa; text-decoration: none;}
+a:hover {text-decoration: underline;}
+button { background-color: dimgray; border: 2px solid white; color: white; font-size: 1em; padding: 2px; }
+button:hover { background-color: white; color: dimgray; }
+button:active { border-color: dimgray; }
+input { padding: 2px; }
+
+/* Header */
+div#header { width: 1000px; margin: auto; font-size: 1.5em; }
+div#header img { border: none; vertical-align: middle; }
+
+/* Main Section */
+div#main { width: 1000px; margin: auto; height: 404px; position: relative; margin-bottom: 50px; }
+div.workplace { height: 400px; border-style: solid; border-color: white; border-width: 2px 0 2px 2px; float: left;  overflow: hidden; }
+div.workplace#normal { background-color: cornflowerblue; }
+div.workplace#url { background-color: mediumseagreen; }
+div.workplace#drop { background-color: palevioletred; }
+div.workplace.wpright { border-right-width: 2px; }
+div.workplace.expanded { width: 916px; overflow: auto; }
+div.workplace.collapsed { width: 38px;}
+div.workplace.collapsed:hover { cursor: pointer; }
+div.workplace#normal.collapsed:hover { background-color: white; color: cornflowerblue; }
+div.workplace#url.collapsed:hover { background-color: white; color: mediumseagreen; }
+div.workplace#drop.collapsed:hover { background-color: white; color: palevioletred; }
+div.method { -moz-user-select: -moz-none; -webkit-user-select: none; cursor: default; font-size: 1.5em; width: 876px; margin: 20px;}
+div.workplace.collapsed div.method {
+	cursor: pointer;
+	margin: 0;
+	font-size: 1.2em;
+	height: 34px;
+	width: 300px;
+	-moz-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	-moz-transform-origin: left bottom;
+	-o-transform-origin: left bottom;
+	-webkit-transform-origin: left bottom;
+	-ms-transform-origin: left bottom;
+	transform-origin: left bottom;
+}
+
+div.userhandle { width:876px; margin: 20px; overflow: auto; }
+div.userhandle p { margin: 10px 0 10px 0; }
+div.userhandle li { margin-left: 40px; }
+textarea#urllist { resize: vertical; color: #333333; background-color: lightgrey; border: 2px solid dimgray; width: 862px; height: 200px; min-height: 200px; padding: 5px; line-height: 120%; }
+textarea#urllist:hover, textarea#urllist:focus { background-color: white; color: black; }
+p.psubmit{ text-align: center; }
+ul#filelist { list-style: none; }
+ul#filelist li { display: inline-block; margin: 5px 20px 5px 0;}
+ul#filelist input { width: 310px; background-color: lightgrey; color: #333333; border: 2px solid dimgray; }
+
+div#settings { clear:left; border: 2px solid white; position: absolute; right: 0; bottom: -40px; background-color: goldenrod; width: 38px; height: 38px; overflow: hidden; }
+div#param { margin: 20px; width: 660px; height: 210px; }
+div#param p { margin: 10px 0 10px 0; }
+input#thumb_size { background-color: lightgrey; color: #333333; font-size: 1em; width: 80px; text-align: right; padding: 0 5px 0 5px; border: 2px solid dimgray; }
+input#thumb_size:hover, input#thumb_size:focus { background-color: white; color: black; }
+div#tsslider { background-color: white; border: 2px solid white; cursor: e-resize; width: 580px; height: 25px; margin-top: -8px; }
+div.tsrange { float:left; color: black; width: 40px; font-size: 1em; height: 25px; text-align: center; }
+div#tssliderctn{ float:left; width: 500px; height: 25px; }
+div#tssliderbar { background-color: magenta; height: 25px; }
+div#seticon { font-size: 1.5em; text-align: center; cursor: pointer; position: absolute; right: 0; bottom: 0; width: 38px; height: 38px; background-color: goldenrod; -moz-user-select: -moz-none; -webkit-user-select: none; }
+div#seticon:hover { color: goldenrod; background-color: white; }
+span.help { border-bottom: 1px dotted white; cursor: help; }
+div#tips { text-align: center; border: 2px solid white; position: absolute; right: 40px; bottom: -40px; background-color: goldenrod; -moz-user-select: -moz-none; -webkit-user-select: none; width: 660px; height: 28px; overflow: hidden; padding-top: 10px; cursor: default; font-size: 0.8em; }
+
+div#usertipsicon { font-size: 1.5em; text-align: center; cursor: pointer; position: absolute; right: 0; top: -40px; width: 38px; height: 38px; background-color: red; border: 2px solid white; cursor: pointer; -moz-user-select: -moz-none; -webkit-user-select: none; }
+div#usertipsicon:hover { background-color: white; color: red; }
+div#usertips { font-size: 1em; position: absolute; right: 0; top: 0; background-color: red; border: 2px solid white; padding: 20px; max-height: 400px; max-width: 956px; overflow: auto; }
+
+/* Result */
+div#result { width: 996px; margin: auto; background-color: slateblue; border-left: 2px solid white; border-right: 2px solid white; border-bottom: 2px solid white; margin-top: -50px; }
+div#result_title { width: 274px; font-size: 1.2em; padding: 10px; text-align: center; -moz-user-select: -moz-none; -webkit-user-select: none; cursor: default; }
+ul#result_list { width: 976px; margin: 10px; list-style: none; }
+ul#result_list li { display: inline-block; border: 2px solid white; padding: 20px; margin: 10px; width: 424px; height: 347px; vertical-align:top; }
+ul#result_list li.normalresult { background-color: cornflowerblue; }
+ul#result_list li div.preview { width: 424px; min-height: 200px; text-align: center; }
+ul#result_list li div.preview img { border: 0; max-width: 424px; max-height: 200px; }
+ul#result_list li div.links { height: 143px; }
+ul#result_list li div.links p { margin: 2px 0 2px 0; font-size: 0.8em; text-align: right; }
+input.url { width: 200px; background-color: lightgrey; color: #333333; border: 2px solid dimgray; font-size: 1em; }
+input.url:hover { width: 416px; background-color: white; color: black; }
+
+ul#result_list li.imgfail { background-color: darkred; overflow: auto; }
+ul#result_list li div.errortitle, ul#result_list li div.errorname, ul#result_list li div.errormsg { margin: 20px 0 20px 0; }
+ul#result_list li div.errortitle { font-size: 1.5em; text-align: center; }
+ul#result_list li div.errorname { word-wrap: break-word; }
+
+
+
+/* Footer */
+div#footer { width: 1000px; margin: auto; font-size: 0.5em; text-align: center; margin-top: 10px;}
+div#footer p { margin: 5px 0; }
+
