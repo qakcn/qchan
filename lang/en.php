@@ -53,7 +53,7 @@ define('ERR_UPLOAD_FAIL_SAVE', 'Failed to save file to upload directory.');
 define('ERR_UPLOAD_FORM_SIZE', 'File size exceeds size limit');
 define('ERR_UPLOAD_WRONG_TYPE', 'Unupport filetype');
 define('ERR_UPLOAD_TOO_MANY', 'Too many files, only first 20 will upload');
-define('ERR_DRAG_WAIT', "Wait for previous uploading finished!\nIf it takes much time, please refresh this page.");
+define('ERR_WAIT', "Wait for previous uploading finished!\nIf it takes much time, please refresh this page.");
 define('ERR_NOT_URL', 'This is not a legal URL!');
 define('ERR_NO_RESPONSE', 'No response from server, Please try again!');
 
@@ -65,7 +65,6 @@ define('MANAGE_LOGIN', 'Login');
 define('MANAGE_LOGGEDIN', 'Logged in!');
 define('MANAGE_INTRO', 'Manage Page for Qchan');
 define('MANAGE_FOLDER_YEAR', 'Years & Months');
-define('MANAGE_FOLDER_MONTH', 'Months');
 define('MANAGE_NO_THUMB', 'No Thumbnail');
 define('MANAGE_DELETE', 'Delete');
 define('MANAGE_DELETED', 'File Deleting Successful');
