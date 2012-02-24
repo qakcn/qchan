@@ -51,7 +51,7 @@ textarea#urllist { resize: vertical; color: #333333; background-color: lightgrey
 textarea#urllist:hover, textarea#urllist:focus { background-color: white; color: black; }
 p.psubmit{ text-align: center; }
 ul#filelist { list-style: none; }
-ul#filelist li { display: inline-block; margin: 5px 20px 5px 0;}
+ul#filelist li { display: inline-block; margin: 5px 20px 5px 0; *float: left; }
 ul#filelist input { width: 310px; background-color: lightgrey; color: #333333; border: 2px solid dimgray; }
 
 div#settings { clear:left; border: 2px solid white; position: absolute; right: 0; bottom: -40px; background-color: goldenrod; width: 38px; height: 38px; overflow: hidden; }
@@ -74,21 +74,28 @@ div#usertips { font-size: 1em; position: absolute; right: 0; top: 0; background-
 
 /* Result */
 div#result { width: 996px; margin: auto; background-color: slateblue; border-left: 2px solid white; border-right: 2px solid white; border-bottom: 2px solid white; margin-top: -50px; }
-div#result_title { width: 274px; font-size: 1.2em; padding: 10px; text-align: center; -moz-user-select: -moz-none; -webkit-user-select: none; cursor: default; }
-ul#result_list { width: 976px; margin: 10px; list-style: none; }
-ul#result_list li { display: inline-block; border: 2px solid white; padding: 20px; margin: 10px; width: 424px; height: 347px; vertical-align:top; }
-ul#result_list li.normalresult { background-color: cornflowerblue; }
-ul#result_list li div.preview { width: 424px; min-height: 200px; text-align: center; }
-ul#result_list li div.preview img { border: 0; max-width: 424px; max-height: 200px; }
-ul#result_list li div.links { height: 143px; }
-ul#result_list li div.links p { margin: 2px 0 2px 0; font-size: 0.8em; text-align: right; }
+div#resulttitle { width: 274px; font-size: 1.2em; padding: 10px; text-align: center; -moz-user-select: -moz-none; -webkit-user-select: none; cursor: default; }
+ul#resultlist { width: 976px; margin: 10px; list-style: none; }
+ul#resultlist li { display: inline-block; border: 2px solid white; padding: 20px; margin: 10px; width: 424px; height: 347px; vertical-align:top; }
+ul#resultlist li.normalresult { background-color: cornflowerblue; }
+ul#resultlist li.urlresult { background-color: mediumseagreen; }
+ul#resultlist li.dropresult { background-color: palevioletred; }
+
+ul#resultlist li div.preview { width: 424px; min-height: 200px; text-align: center; }
+ul#resultlist li div.preview img { border: 0; max-width: 424px; max-height: 200px; }
+ul#resultlist li div.links { height: 143px; }
+ul#resultlist li div.links p { margin: 2px 0 2px 0; font-size: 0.8em; text-align: right; }
 input.url { width: 200px; background-color: lightgrey; color: #333333; border: 2px solid dimgray; font-size: 1em; }
 input.url:hover { width: 416px; background-color: white; color: black; }
+ul#resultlist li.grabimg img { max-width: 424px; max-height: 347px; }
 
-ul#result_list li.imgfail { background-color: darkred; overflow: auto; }
-ul#result_list li div.errortitle, ul#result_list li div.errorname, ul#result_list li div.errormsg { margin: 20px 0 20px 0; }
-ul#result_list li div.errortitle { font-size: 1.5em; text-align: center; }
-ul#result_list li div.errorname { word-wrap: break-word; }
+ul#resultlist li.imgfail { background-color: darkred; overflow: auto; }
+ul#resultlist li div.errortitle, ul#resultlist li div.errorname, ul#resultlist li div.errormsg { margin: 20px 0 20px 0; }
+ul#resultlist li div.errortitle { font-size: 1.5em; text-align: center; }
+ul#resultlist li div.errorname { word-wrap: break-word; }
+
+ul#resultlist li.working { background-image: url(site-img/p.svg); background-position: 50%; background-image: url(site-img/p.gif)\9; }
+
 
 
 

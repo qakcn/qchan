@@ -4,13 +4,13 @@
   */
 
 // Load configurations
-require './config.php';
+require 'config.php';
 
 // Load language file
-require './lang/' . LANG . '.php';
+require 'lang/' . LANG . '.php';
 
 // Some system settings
-define('SUPPORT_TYPE', 'jpg|jpeg|jpe|jifi|jif|gif|png|webp|svg');
+define('SUPPORT_TYPE', 'jpg|jpeg|jpe|jifi|jif|gif|png|svg');
 define('QCHAN_VER', '0.6');
 if(function_exists('date_default_timezone_set'))
 	date_default_timezone_set(TIMEZONE);
@@ -47,7 +47,7 @@ function remote_filesize($url){
    $tmp = fgets($fp);
    if(trim($tmp) == ''){
     break;
-   }else if(preg_match('/Content-Length:(.*)/si',$tmp,$arr)){
+   }elseif(preg_match('/Content-Length:(.*)/si',$tmp,$arr)){
     return trim($arr[1]);
    }
   }
@@ -90,8 +90,8 @@ function the_upload_error($code){
 	}
 }
 
-function make_thumb($uploads_dir, $thumbs_dir, $name, $size){
-	if($_POST['is_thumb']=='no') return false;
+function make_thumb($uploads_dir, $thumbs_dir, $name, $size, $isthumb){
+	if($isthumb=='no') return false;
 	switch(true){
 		case $size<THUMB_MIN: $size=THUMB_MIN; break;
 		case $size>THUMB_MAX: $size=THUMB_MAX; break;
@@ -103,7 +103,6 @@ function make_thumb($uploads_dir, $thumbs_dir, $name, $size){
 	switch($imgInfo[2]){
 		case IMAGETYPE_GIF:$readf="imagecreatefromgif";$writef="imagegif";$makethumb=true;break;
 		case IMAGETYPE_JPEG:$readf="imagecreatefromjpeg";$writef="imagejpeg";$makethumb=true;break;
-		case IMAGETYPE_PNG:$readf="imagecreatefrompng";$writef="imagepng";$makethumb=true;break;
 		case IMAGETYPE_PNG:$readf="imagecreatefrompng";$writef="imagepng";$makethumb=true;break;
 		default:$makethumb=false;
 	}
@@ -124,20 +123,26 @@ function make_thumb($uploads_dir, $thumbs_dir, $name, $size){
 		$image_p = imagecreatetruecolor($width, $height);
 		$image = $readf("$uploads_dir/$name");
 		
-		// Create alpha channel for gif and png
-		if($imgInfo[2] == IMAGETYPE_GIF OR $imgInfo[2] == IMAGETYPE_PNG) {
+		// Create alpha channel for png
+		if($imgInfo[2] == IMAGETYPE_PNG) {
 			imagealphablending($image_p, false);
 			imagesavealpha($image_p,true);
 			$transparent = imagecolorallocatealpha($image_p, 255, 255, 255, 127);
-			imagefilledrectangle($image_p, 0, 0, $width, $height, $transparent);
+			imagefill($image_p, 0, 0, $transparent);
 		}
 					
 		// Resize image
 		imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+		
+		// Make transparent for gif
+		if($imgInfo[2] == IMAGETYPE_GIF) {
+			$bgcolor = ImageColorAllocate($image_p,0,0,0);   
+			$bgcolor = ImageColorTransparent($image_p,$bgcolor) ;
+		}
+		
 		$writef($image_p, "$thumbs_dir/$name");
 		imagedestroy($image);imagedestroy($image_p);
-		$namec=rawurlencode($name);
-		return "$thumbs_dir/$namec";
+		return $thumbs_dir;
 	}else {
 		return false;
 	}
@@ -152,6 +157,8 @@ function setup_dir() {
 	if(!file_exists(UPLOAD_DIR . '/' . $year .'/'. $month))
 		mkdir(UPLOAD_DIR . '/' . $year .'/'. $month);
 	$uploads_dir=UPLOAD_DIR . '/' . $year .'/'. $month;
+	if(!file_exists(UPLOAD_DIR . '/working'))
+		mkdir(UPLOAD_DIR . '/working');
 	if(!file_exists(THUMB_DIR))
 		mkdir(THUMB_DIR);
 	if(!file_exists(THUMB_DIR . '/' . $year))
@@ -159,7 +166,22 @@ function setup_dir() {
 	if(!file_exists(THUMB_DIR . '/' . $year .'/'. $month))
 		mkdir(THUMB_DIR . '/' . $year .'/'. $month);
 	$thumbs_dir=THUMB_DIR . '/' . $year .'/'. $month;
+	
 	return array($uploads_dir,$thumbs_dir);
+}
+
+// Rename file if exists
+function rename_if_exists($name, $thumbs_dir) {
+	$num = 1;
+	while(file_exists("$thumbs_dir/$name")){
+		$name = preg_replace('/(\(\d*\))?\.(' . SUPPORT_TYPE . ')$/i', '(' .$num . ').\2', $name);
+		$num++;
+	}
+	return $name;
+}
+
+function escape_special_char($name){
+	return str_replace(array('#','?','=','&','/','\\'), '_', $name);
 }
 
 // Save the uploaded files
@@ -169,52 +191,46 @@ function save_upload_files(){
 	
 	// Loop every uploaded file
 	foreach ($_FILES['files']['error'] as $key => $error) {
-		$name = str_replace(array('#','?','=','&','/','\\'), '_', $_FILES['files']['name'][$key]);
+		$name =  escape_special_char($_FILES['files']['name'][$key]);
 		if($error==UPLOAD_ERR_OK) {
 			
 			// Refuse to save unsupport filetype
 			if(!preg_match('/\.(' . SUPPORT_TYPE . ')$/i', $name)) {
-				$err[$key]['name']=htmlspecialchars($name);
+				$err[$key]['name']=$name;
 				$err[$key]['error']=10;	
 				continue;
 			}
 			$tmp_name = $_FILES['files']['tmp_name'][$key];
 			
 			if(filesize($tmp_name)>the_size_limit()) {
-				$err[$key]['name']=htmlspecialchars($name);
+				$err[$key]['name']=$name;
 				$err[$key]['error']=UPLOAD_ERR_FORM_SIZE;	
 				continue;
 			}
-			// Rename file if exists
-			$num = 1;
-			while(file_exists("$uploads_dir/$name")){
-					$name = preg_replace('/(\(\d*\))?\.(' . SUPPORT_TYPE . ')$/i', '(' .$num . ').\2', $name);
-					$num++;
-			}
+			$name = rename_if_exists($name, $thumbs_dir);
 			
 			// Save file
 			if(!move_uploaded_file($tmp_name, "$uploads_dir/$name")) {
-				$err[$key]['name']=htmlspecialchars($name);
+				$err[$key]['name']=$name;
 				$err[$key]['error']=9;
 			}else{
-				$namec=rawurlencode($name);
 				$err[$key]['error']=UPLOAD_ERR_OK;
 				if(is_null($_POST['thumb_size']) || !is_numeric($_POST['thumb_size'])) $size=THUMB_DEFAULT;
 				else $size=$_POST['thumb_size'];
-				$err[$key]['thumb']=make_thumb($uploads_dir,$thumbs_dir,$name,$size);
-				$err[$key]['name']=htmlspecialchars($name);
-				$err[$key]['path']="$uploads_dir/$namec";
+				$err[$key]['thumb']=make_thumb($uploads_dir,$thumbs_dir,$name,$size, $_POST['is_thumb']);
+				$err[$key]['name']=$name;
+				$err[$key]['path']=$uploads_dir;
 			}
 		}else {
 			// Return error code
-			$err[$key]['name']=htmlspecialchars($name);
+			$err[$key]['name']=$name;
 			$err[$key]['error']=$error;
 		}
 	}
 	return $err;
 }
 
-function result_format($files) {
+function result_format($files,$type) {
 	$thumbfmt=<<<THUMBFMT
 <div class="preview">
 <a title="%s" href="%s" target="_blank"><img src="%s" alt="%s"></a>
@@ -239,26 +255,52 @@ THUMBFMT;
 NOTHUMBFMT;
 	foreach($files as $file) {
 		if($file['error']==UPLOAD_ERR_OK)	{
-			$name=$file['name'];
-			$path=the_url() . $file['path'];
+			$name=htmlspecialchars($file['name']);
+			$namec='/' . rawurlencode($file['name']);
+			$path=the_url() . $file['path'] . $namec;
 			$thumb=$file['thumb'];
-			echo '<li class="imgok normalresult">';
+			echo '<li class="'.$type.'">';
 			if($thumb) {
-				$thumb=the_url() . $thumb;
+				$thumb=the_url() . $thumb . $namec;
 				printf($thumbfmt, $name, $path, $thumb, $name, UI_RESULT_ORIG, $path, UI_RESULT_ORIGBB, $path, UI_RESULT_THBB, $path, $thumb, UI_RESULT_ORIGHTML, $path, $name, $name, UI_RESULT_THHTML, $path, $name, $thumb, $name);
 			}else {
 				printf($nothumbfmt, $path, $name, $name, UI_RESULT_ORIG, $path, UI_RESULT_ORIGBB, $path, UI_RESULT_ORIGHTML, $path, $name, $name);
 			}
 		}else {
 			$theerror=the_upload_error($file['error']);
-			echo '<li class="imgfail">';
 			$name=$file['name'];
-			echo '<div class="errortitle">'.UI_ERROR_TITLE.'</div>';
-			echo '<div class="errorname">'.UI_ERROR_NAME.$name.'</div>';
-			echo '<div class="errormsg">'.$theerror.'</div>';
+			echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname">'.UI_ERROR_NAME.'<em>'.$name.'</em></div><div class="errormsg">'.$theerror.'</div>';
 		}
 		echo "</li>";
 	}
 }
+
+function file_mime_type($file) {
+	/*if(function_exists('mime_content_type')) {
+		return mime_content_type($file);
+	}elseif(function_exists('finfo_open') && ($finfo=finfo_open(FILEINFO_MIME_TYPE))) {
+		return finfo_file($finfo, $file);
+	}else*/if(function_exists('fopen') && ($hl=fopen($file, 'r'))) {
+		$bytes = fread($hl, 512);
+		if(preg_match('/^\x89\x50\x4e\x47\x0d\x0a\x1a\x0a/',$bytes)) {
+			return 'image/png';
+		}elseif(preg_match('/^\xff\xd8/',$bytes)) {
+			fseek($hl,-2,SEEK_END);
+			$bytes=fread($hl,2);
+			if(preg_match('/^\xff\xd9/',$bytes)) {
+				return 'image/jpeg';
+			}
+		}elseif(preg_match('/^GIF8/',$bytes)) {
+			return 'image/gif';
+		}elseif(preg_match('/^BM....\x00\x00\x00\x00/',$bytes)) {
+			return 'image/bmp';
+		}elseif(preg_match('/^\s*<\?xml\C+<!DOCTYPE svg/',$bytes)) {
+			return 'image/svg+xml';
+		}
+		fclose($hl);
+	}
+	return false;
+}
+
 
 ?>

@@ -40,6 +40,9 @@ define('UI_RESULT_ORIGHTML','<span class="help" title="这是原始图片的HTML
 define('UI_RESULT_THHTML','<span class="help" title="这是带原始图片链接的缩略图HTML代码">带链接的缩略图HTML</span>');
 define('UI_ERROR_TITLE', '文件上传出错！');
 define('UI_ERROR_NAME', '<strong>文件名</strong>：<br>');
+define('UI_MSG_WAIT', "请等待上一次上传完成！\n如果您上传的文件很大，需要花费的时间会较长。\n如果花费时间过长，请刷新本页后重试。");
+define('UI_UPLOADING_TITLE',"上传文件");
+define('UI_UPLOADING_INFO',"正在上传，请稍候！");
 
 // ERR
 define('ERR_UPLOAD_INI_SIZE', '文件大小超出php.ini限制');
@@ -52,7 +55,6 @@ define('ERR_UPLOAD_FAIL_SAVE', '保存文件失败');
 define('ERR_UPLOAD_FORM_SIZE', '文件大小超出限制');
 define('ERR_UPLOAD_WRONG_TYPE', '不支持的文件格式');
 define('ERR_UPLOAD_TOO_MANY', '文件太多，仅有前20个会被上传。');
-define('ERR_WAIT', "请等待上一次上传完成！\n如果花费时间过长，请刷新重试。");
 define('ERR_NOT_URL', '不是合法的URL！');
 define('ERR_NO_RESPONSE', '服务器无响应，请重试！');
 

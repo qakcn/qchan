@@ -41,6 +41,9 @@ define('UI_RESULT_ORIGHTML','<span class="help" title="This is HTML code to orig
 define('UI_RESULT_THHTML','<span class="help" title="This is HTML code to thumbnail with link to original picture">Thumbnail HTML link</span>');
 define('UI_ERROR_TITLE', 'Upload Error');
 define('UI_ERROR_NAME', '<strong>File name</strong>: <br>');
+define('UI_MSG_WAIT', "Wait for previous uploading finished!\nWhen you are uploading big picture, it will take more time.\nIf it takes too much time, please refresh this page and retry.");
+define('UI_UPLOADING_TITLE',"Uploading");
+define('UI_UPLOADING_INFO',"Uploading now, please have a cup of tea!");
 
 // ERR
 define('ERR_UPLOAD_INI_SIZE', 'File size exceeds php.ini settings.');
@@ -53,7 +56,6 @@ define('ERR_UPLOAD_FAIL_SAVE', 'Failed to save file to upload directory.');
 define('ERR_UPLOAD_FORM_SIZE', 'File size exceeds size limit');
 define('ERR_UPLOAD_WRONG_TYPE', 'Unupport filetype');
 define('ERR_UPLOAD_TOO_MANY', 'Too many files, only first 20 will upload');
-define('ERR_WAIT', "Wait for previous uploading finished!\nIf it takes much time, please refresh this page.");
 define('ERR_NOT_URL', 'This is not a legal URL!');
 define('ERR_NO_RESPONSE', 'No response from server, Please try again!');
 

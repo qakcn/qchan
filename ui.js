@@ -153,14 +153,36 @@ $(function(){
 	});
 	
 	// Auto expansion for result
-	$('input.url').on('mouseenter',function(){
+	$(document).on('mouseenter','input.url',function(){
 		$(this).prev('label').hide();
 	});
-	$('input.url').on('mouseleave',function(){
+	$(document).on('mouseleave','input.url',function(){
 		$(this).prev('label').show();
 	});
-	$('input.url').on('click',function(){
+	$(document).on('click','input.url',function(){
 		$(this).select();
+	});
+	
+	// Event for URL upload
+	$('button#urlsubmit').on('click', function(){
+		if($('ul#resultlist li.working').length > 0) {
+			alert($('div#result').attr('data-err-chottomatte'));
+		}else {
+			url_upload($('textarea#urllist').val().split('\n'),'url');
+		}
+	});
+	
+	$('button#urlgrab').on('click', function(){
+		if($('ul#resultlist li.working').length > 0) {
+			alert($('div#result').attr('data-err-chottomatte'));
+		}else {
+			url_upload($('textarea#urllist').val().split('\n'),'grab');
+		}
+	});
+	
+	// Event for clear URL textarea
+	$('button#urlclear').on('click', function(){
+		$('textarea#urllist').val('');
 	});
 });
 
