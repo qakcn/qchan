@@ -276,26 +276,24 @@ NOTHUMBFMT;
 }
 
 function file_mime_type($file) {
-	/*if(function_exists('mime_content_type')) {
+	if(function_exists('mime_content_type')) {
 		return mime_content_type($file);
 	}elseif(function_exists('finfo_open') && ($finfo=finfo_open(FILEINFO_MIME_TYPE))) {
 		return finfo_file($finfo, $file);
-	}else*/if(function_exists('fopen') && ($hl=fopen($file, 'r'))) {
+	}elseif(function_exists('fopen') && ($hl=fopen($file, 'r'))) {
 		$bytes = fread($hl, 512);
 		if(preg_match('/^\x89\x50\x4e\x47\x0d\x0a\x1a\x0a/',$bytes)) {
 			return 'image/png';
 		}elseif(preg_match('/^\xff\xd8/',$bytes)) {
-			fseek($hl,-2,SEEK_END);
-			$bytes=fread($hl,2);
-			if(preg_match('/^\xff\xd9/',$bytes)) {
-				return 'image/jpeg';
-			}
+			return 'image/jpeg';
 		}elseif(preg_match('/^GIF8/',$bytes)) {
 			return 'image/gif';
 		}elseif(preg_match('/^BM....\x00\x00\x00\x00/',$bytes)) {
 			return 'image/bmp';
 		}elseif(preg_match('/^\s*<\?xml\C+<!DOCTYPE svg/',$bytes)) {
 			return 'image/svg+xml';
+		}else {
+			return 'unknow';
 		}
 		fclose($hl);
 	}
