@@ -47,11 +47,11 @@ div.workplace.collapsed div.method {
 div.userhandle { width:876px; margin: 20px; overflow: auto; }
 div.userhandle p { margin: 10px 0 10px 0; }
 div.userhandle li { margin-left: 40px; }
-textarea#urllist { resize: vertical; color: #333333; background-color: lightgrey; border: 2px solid dimgray; width: 862px; height: 200px; min-height: 200px; padding: 5px; line-height: 120%; }
+textarea#urllist { resize: vertical; color: #333333; background-color: lightgrey; border: 2px solid dimgray; width: 862px; height: 190px; min-height: 190px; padding: 5px; line-height: 120%; }
 textarea#urllist:hover, textarea#urllist:focus { background-color: white; color: black; }
 p.psubmit{ text-align: center; }
 ul#filelist { list-style: none; }
-ul#filelist li { display: inline-block; margin: 5px 20px 5px 0; *float: left; }
+ul#filelist li { display: inline-block; margin: 2px 20px 2px 0; *float: left; }
 ul#filelist input { width: 310px; background-color: lightgrey; color: #333333; border: 2px solid dimgray; }
 
 div#settings { clear:left; border: 2px solid white; position: absolute; right: 0; bottom: -40px; background-color: goldenrod; width: 38px; height: 38px; overflow: hidden; }
@@ -87,7 +87,8 @@ ul#resultlist li div.links { height: 143px; }
 ul#resultlist li div.links p { margin: 2px 0 2px 0; font-size: 0.8em; text-align: right; }
 input.url { width: 200px; background-color: lightgrey; color: #333333; border: 2px solid dimgray; font-size: 1em; }
 input.url:hover { width: 416px; background-color: white; color: black; }
-ul#resultlist li.grabimg img { max-width: 424px; max-height: 347px; }
+ul#resultlist li.grabimg { text-align: center; }
+ul#resultlist li.grabimg img { max-width: 424px; max-height: 347px;}
 
 ul#resultlist li.imgfail { background-color: darkred; overflow: auto; }
 ul#resultlist li div.errortitle, ul#resultlist li div.errorname, ul#resultlist li div.errormsg { margin: 20px 0 20px 0; }
@@ -96,7 +97,7 @@ ul#resultlist li div.errorname { word-wrap: break-word; }
 
 ul#resultlist li.working { background-image: url(site-img/p.svg); background-position: 50%; background-image: url(site-img/p.gif)\9; }
 
-
+div#dragover {position: fixed; top: 0; bottom: 0; left: 0; right: 0; background-color: rgba(255,255,255,0.8); color: silver;}
 
 
 /* Footer */

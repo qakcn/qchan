@@ -134,6 +134,7 @@ data-err-noturl="<?=ERR_NOT_URL ?>"
 data-err-toomany="<?=ERR_UPLOAD_TOO_MANY ?>"
 data-err-noresponse="<?=ERR_NO_RESPONSE ?>"
 data-err-toobig="<?=ERR_UPLOAD_FORM_SIZE ?>"
+data-err-notype="<?=ERR_UPLOAD_WRONG_TYPE ?>"
 >
   <div id="resulttitle"><?=UI_RESULT_TITLE ?></div>
   <ul id="resultlist">
@@ -156,7 +157,6 @@ if (defined('SITE_HOMEPAGE') && SITE_HOMEPAGE != '') {
 ?>.</p>
   <p>Powered by <a href="http://sourceforge.net/projects/qchan/" target="_blank" title="Qchan Image Hosting">Qchan <?=QCHAN_VER ?></a>. &copy;2011-2012 <a href="http://tsukkomi.org" title="有槽必吐 - 不吐槽，毋宁死" target="_blank">有槽必吐</a>.</p>
 </div>
-
 </body>
 
 </html>

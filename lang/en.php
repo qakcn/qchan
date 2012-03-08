@@ -29,7 +29,7 @@ define('UI_USER_TIPS', 'Tips');
 define('UI_RESULT_TITLE', 'RESULTS');
 define('UI_SUBMIT', 'Upload');
 define('UI_CLEAR', 'Clear');
-define('UI_GRAB', 'Grab through GFW');
+define('UI_GRAB', 'Get Image Directly');
 define('UI_ADD', 'Add one more file');
 define('UI_REMOVE', 'Remove');
 define('UI_NOMORE', 'No more than 10 files');

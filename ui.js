@@ -172,6 +172,7 @@ $(function(){
 		}
 	});
 	
+	// Event for grab image though GFW
 	$('button#urlgrab').on('click', function(){
 		if($('ul#resultlist li.working').length > 0) {
 			alert($('div#result').attr('data-err-chottomatte'));
@@ -183,6 +184,25 @@ $(function(){
 	// Event for clear URL textarea
 	$('button#urlclear').on('click', function(){
 		$('textarea#urllist').val('');
+	});
+	
+	$(document).on('dragenter',function(e){
+		e.stopPropagation();
+		e.preventDefault();
+	});
+	$(document).on('dragover',function(e){
+		e.stopPropagation();
+		e.preventDefault();
+	});
+	
+	$(document).on('drop', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		if($('ul#resultlist li.working').length > 0) {
+			alert($('div#result').attr('data-err-chottomatte'));
+		}else {
+			drop_upload(e.originalEvent.dataTransfer.files);
+		}
 	});
 });
 
