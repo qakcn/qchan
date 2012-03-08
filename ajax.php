@@ -29,7 +29,7 @@ if($_POST['type']=='url') {
 			$mime=file_mime_type($temp);
 			switch($mime) {
 			case 'image/jpeg':	
-				if(!preg_match('/\.(jpg|jpeg|jpe|jifi|jif)$/i', $name)) {
+				if(!preg_match('/\.(jpg|jpeg|jpe|jfif|jfi|jif)$/i', $name)) {
 					$name.='.jpg';
 				}
 				break;
@@ -109,7 +109,7 @@ if($_POST['type']=='url') {
 		$mime=file_mime_type($temp);
 		switch($mime) {
 		case 'image/jpeg':	
-			if(!preg_match('/\.(jpg|jpeg|jpe|jifi|jif)$/i', $name)) {
+			if(!preg_match('/\.(jpg|jpeg|jpe|jfif|jfi|jif)$/i', $name)) {
 				$name.='.jpg';
 			}
 			break;
