@@ -186,6 +186,7 @@ $(function(){
 		$('textarea#urllist').val('');
 	});
 	
+	// Prevent default handle for drag and drop
 	$(document).on('dragenter',function(e){
 		e.stopPropagation();
 		e.preventDefault();
@@ -195,6 +196,7 @@ $(function(){
 		e.preventDefault();
 	});
 	
+	// Event fot drag and drop upload
 	$(document).on('drop', function(e){
 		e.stopPropagation();
 		e.preventDefault();

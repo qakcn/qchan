@@ -47,7 +47,7 @@ div.workplace.collapsed div.method {
 div.userhandle { width:876px; margin: 20px; overflow: auto; }
 div.userhandle p { margin: 10px 0 10px 0; }
 div.userhandle li { margin-left: 40px; }
-textarea#urllist { resize: vertical; color: #333333; background-color: lightgrey; border: 2px solid dimgray; width: 862px; height: 190px; min-height: 190px; padding: 5px; line-height: 120%; }
+textarea#urllist { resize: vertical; color: #333333; background-color: lightgrey; border: 2px solid dimgray; width: 862px; height: 177px; min-height: 188px; padding: 5px; line-height: 120%; }
 textarea#urllist:hover, textarea#urllist:focus { background-color: white; color: black; }
 p.psubmit{ text-align: center; }
 ul#filelist { list-style: none; }

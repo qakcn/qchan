@@ -1,10 +1,11 @@
 ajaxid=0;
 
-// Handle for url upload
+// Handler for url upload
 function url_upload(urls,urltype) {
 	var isthumb=$('input#normalisthumb').val();
 	var thumbsize=$('input#normalthumbsize').val();
-	for(var i=0,url;url=urls[i];i++,ajaxid++) {
+	for(var i=0,url;i<urls.length;i++,ajaxid++) {
+		url=urls[i];
 		if(isurl(url)) {
 			$('div#result').show();
 			$(document).scrollTop($('div#result').offset().top);
@@ -19,11 +20,16 @@ function url_upload(urls,urltype) {
 					$('li.working#ajax-'+id).animate({opacity:0}).replaceWith(rcv).animate({opacity:1});
 				}
 			})(ajaxid),'html');
+		}else if(!isempty(url)) {
+				$('div#result').show();
+				$(document).scrollTop($('div#result').offset().top);
+				$('<li class="imgfail" style="opacity: 0;"><div class="errortitle">'+$('div#result').attr('data-err-title')+'</div><div class="errorname"><em>'+$('<div />').text(url).html()+'</em></div><div class="errormsg">'+$('div#result').attr('data-err-noturl')+'</div></li>').prependTo('ul#resultlist').animate({opacity:1});
 		}
 	}
 	$('textarea#urllist').val('');
 }
 
+//Handler for drag and drop upload
 function drop_upload(flist) {
 	var isthumb=$('input#normalisthumb').val();
 	var thumbsize=$('input#normalthumbsize').val();
@@ -31,7 +37,8 @@ function drop_upload(flist) {
 	var errname=$('div#result').attr('data-err-name');
 	var errtype=$('div#result').attr('data-err-notype');
 	var errtoobig=$('div#result').attr('data-err-toobig');
-	for(var i=0, f;f=flist[i];i++,ajaxid++) {
+	for(var i=0, f;i<flist.length;i++,ajaxid++) {
+		f=flist[i]
 		$('div#result').show();
 		$(document).scrollTop($('div#result').offset().top);
 		if(!f.type.match(/image\/(jpeg|png|gif|svg\+xml)/)) {
@@ -70,13 +77,10 @@ function drop_upload(flist) {
 }
 
 // Check if is URL or empty
-function isurl(url) {
-	var isit=/^\s*https?:\/\//.test(url);
-	var isempty=/^\s*$/.test(url);
-	if(!isit && !isempty) {
-		$('div#result').show();
-		$(document).scrollTop($('div#result').offset().top);
-		$('<li class="imgfail" style="opacity: 0;"><div class="errortitle">'+$('div#result').attr('data-err-title')+'</div><div class="errorname"><em>'+$('<div />').text(url).html()+'</em></div><div class="errormsg">'+$('div#result').attr('data-err-noturl')+'</div></li>').prependTo('ul#resultlist').animate({opacity:1});
-	}
-	return isit;
+function isurl(theurl) {
+	return /^\s*https?:\/\//.test(theurl);
+}
+
+function isempty(theurl) {
+	return /^\s*$/.test(theurl);
 }
