@@ -34,6 +34,7 @@ function drop_upload(flist) {
 	var isthumb=$('input#normalisthumb').val();
 	var thumbsize=$('input#normalthumbsize').val();
 	var errtitle=$('div#result').attr('data-err-title');
+	var uptitle=$('div#result').attr('data-upload-title');
 	var errname=$('div#result').attr('data-err-name');
 	var errtype=$('div#result').attr('data-err-notype');
 	var errtoobig=$('div#result').attr('data-err-toobig');
@@ -53,7 +54,7 @@ function drop_upload(flist) {
 			alert($('div#result').attr('data-err-toomany'));
 			break;
 		}else {
-			$('<li class="working" style="opacity: 0;" id="ajax-'+ ajaxid +'"><div class="errortitle">'+errtitle+'</div><div class="errorname">'+errname+'<em>'+$('<div />').text(f.name).html()+'</em></div><div class="errormsg">'+$('div#result').attr('data-upload-info')+'</div></li>').prependTo('ul#resultlist').animate({opacity:1});
+			$('<li class="working" style="opacity: 0;" id="ajax-'+ ajaxid +'"><div class="errortitle">'+uptitle+'</div><div class="errorname">'+errname+'<em>'+$('<div />').text(f.name).html()+'</em></div><div class="errormsg">'+$('div#result').attr('data-upload-info')+'</div></li>').prependTo('ul#resultlist').animate({opacity:1});
 			
 			var reader = new FileReader();			
 			reader.onload = (function(theFile,theNum,theSize,isThumb) {
