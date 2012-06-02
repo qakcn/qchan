@@ -1,0 +1,11 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+*.php text
+*.js text
+*.css text
+
+*.png binary
+*.gif binary
+*.jpg binary
+*.svg text
