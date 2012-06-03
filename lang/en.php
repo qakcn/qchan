@@ -44,6 +44,8 @@ define('UI_ERROR_NAME', '<strong>File name</strong>: <br>');
 define('UI_MSG_WAIT', "Wait for previous uploading finished!\nWhen you are uploading big picture, it will take more time.\nIf it takes too much time, please refresh this page and retry.");
 define('UI_UPLOADING_TITLE',"Uploading");
 define('UI_UPLOADING_INFO',"Uploading now, please have a cup of tea!");
+define('UI_MOBILE_EDITION',"Mobile");
+define('UI_DESKTOP_EDITION',"Desktop");
 
 // ERR
 define('ERR_UPLOAD_INI_SIZE', 'File size exceeds php.ini settings.');

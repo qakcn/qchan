@@ -43,6 +43,8 @@ define('UI_ERROR_NAME', '<strong>文件名</strong>：<br>');
 define('UI_MSG_WAIT', "请等待上一次上传完成！\n如果您上传的文件很大，需要花费的时间会较长。\n如果花费时间过长，请刷新本页后重试。");
 define('UI_UPLOADING_TITLE',"上传文件");
 define('UI_UPLOADING_INFO',"正在上传，请稍候！");
+define('UI_MOBILE_EDITION',"移动版");
+define('UI_DESKTOP_EDITION',"桌面版");
 
 // ERR
 define('ERR_UPLOAD_INI_SIZE', '文件大小超出php.ini限制');
