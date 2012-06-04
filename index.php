@@ -94,7 +94,7 @@ function linkedin() {
 <div id="main">
   <form id="normal" method="post" enctype="multipart/form-data">
     <h1 class="method"><?=UI_METHOD_NORMAL ?></h1>
-    <p><input type="file" name="files[]" accept="image"><button type="submit" name="submit" value="normalsubmit"><?=UI_SUBMIT ?></button></p>
+    <p><input type="file" name="files[]" accept="image/*" capture="filesystem camera"><button type="submit" name="submit" value="normalsubmit"><?=UI_SUBMIT ?></button></p>
   </form>
   <form id="url" method="post">
     <h1 class="method"><?=UI_METHOD_URL ?></h1>
@@ -162,7 +162,7 @@ if (defined('SITE_HOMEPAGE') && SITE_HOMEPAGE != '') {
       <p><?=UI_INFO_NORMAL ?></p>
       <form id="normalform" method="post" enctype="multipart/form-data">
       <p class="psubmit"><button id="normalsubmit" type="submit" name="submit" value="submit"><?=UI_SUBMIT ?></button>&nbsp;&nbsp;<button id="normaladd" type="button" data-nomore="<?=UI_NOMORE ?>" data-more="<?=UI_ADD ?>" data-remove="<?=UI_REMOVE ?>"><?=UI_ADD ?></button></p>
-      <ul id="filelist"><li><button class="normalremove" type="button"><?=UI_REMOVE ?></button><input type="file" name="files[]" accept="image"></li></ul>
+      <ul id="filelist"><li><button class="normalremove" type="button"><?=UI_REMOVE ?></button><input type="file" name="files[]" accept="image/*" capture="filesystem camera"></li></ul>
       <input type="hidden" id="normalisthumb" name="is_thumb" value="<?=$is_thumb ? 'yes' : 'no' ?>">
       <input type="hidden" id="normalthumbsize" name="thumb_size" value="<?=$thumb_size ?>">
       <input id="filesizebytes" type="hidden" name="MAX_FILE_SIZE" value="<?=the_size_limit() ?>">

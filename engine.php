@@ -91,6 +91,7 @@ function the_upload_error($code){
 	}
 }
 
+// Generate Thumbnail image
 function make_thumb($uploads_dir, $thumbs_dir, $name, $size, $isthumb){
 	if(!$isthumb) return false;
 	switch(true){
@@ -149,6 +150,7 @@ function make_thumb($uploads_dir, $thumbs_dir, $name, $size, $isthumb){
 	}
 }
 
+// Setup path for upload
 function setup_dir() {
 	$year=date('Y');$month=date('m');
 	if(!file_exists(UPLOAD_DIR))
@@ -181,6 +183,7 @@ function rename_if_exists($name, $thumbs_dir) {
 	return $name;
 }
 
+// Escape special character
 function escape_special_char($name){
 	return str_replace(array('#','?','=','&','/','\\'), '_', $name);
 }

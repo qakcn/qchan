@@ -60,7 +60,7 @@ $(function(){
 				$(this).addClass('expanded').children('div.userhandle').fadeIn();
 				if($(this).is('div#url')) {
 					setCookie('lastest_upload_method','url',30);
-				}else {
+				}else if($(this).is('div#normal')) {
 					setCookie('lastest_upload_method','normal',30);
 				}
 			}).removeClass('collapsed');
@@ -132,7 +132,7 @@ $(function(){
 		nomorefiles=$(this).attr('data-nomore');
 		remove=$(this).attr('data-remove');
 		if(!$(this).hasClass('disabled')) {
-			$('ul#filelist').append('<li><button class="normalremove" type="button">'+remove+'</button><input type="file" name="files[]" accept="image"></li>');
+			$('ul#filelist').append('<li><button class="normalremove" type="button">'+remove+'</button><input type="file" name="files[]" accept="image/*" capture="filesystem camera"></li>');
 			if($('ul#filelist li').length >= 10) {
 				$(this).toggleClass('disabled').html(nomorefiles);
 			}
