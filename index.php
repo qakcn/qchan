@@ -196,7 +196,9 @@ if (defined('SITE_HOMEPAGE') && SITE_HOMEPAGE != '') {
     <!-- Settings Setup -->
     <div id="param" style="display:none;">
       <p><?=UI_SET_TIPS ?></p>
+      <?php if(ALLOW_USER_CHANGE_IS_THUMB) { ?>
       <p><?=UI_SET_IS_THUMB ?>: <input type="checkbox" id="is_thumb" data-init="<?=$is_thumb ? 'yes' : 'no' ?>" <?=$is_thumb ? 'checked' : '' ?> data-default="<?=IS_THUMB ? 'yes' : 'no' ?>"></p>
+      <?php } ?>
       <p><?=UI_SET_THUMB_SIZE ?>: <input type="number" id="thumb_size" min="<?=THUMB_MIN ?>" max="<?=THUMB_MAX ?>" value="<?=$thumb_size ?>" data-default="<?=THUMB_DEFAULT ?>" data-init="<?=$thumb_size ?>"></p>
       <!-- Thumbnail Size Slider -->
       <div id="tsslider"><div class="tsrange"><?=THUMB_MIN ?></div><div id="tssliderctn"><div id="tssliderbar" style="width:<?=500*($thumb_size-THUMB_MIN)/(THUMB_MAX-THUMB_MIN) ?>px;">&nbsp;</div></div><div class="tsrange"><?=THUMB_MAX ?></div></div>

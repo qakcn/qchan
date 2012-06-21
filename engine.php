@@ -2,9 +2,13 @@
  /**
   * This file handle the configurations and functions.
   */
-
+  
 // Load configurations
-require 'config.php';
+if(file_exists('config.php')) {
+	require 'config.php';
+}else {
+	die('No config.php found! Copy or rename config-template.php to config.php and edit it, then retry.');
+}
 
 // Load language file
 require 'lang/' . LANG . '.php';
@@ -174,9 +178,9 @@ function setup_dir() {
 }
 
 // Rename file if exists
-function rename_if_exists($name, $thumbs_dir) {
+function rename_if_exists($name, $dir) {
 	$num = 1;
-	while(file_exists("$thumbs_dir/$name")){
+	while(file_exists("$dir/$name")){
 		$name = preg_replace('/(\(\d*\))?\.(' . SUPPORT_TYPE . ')$/i', '(' .$num . ').\2', $name);
 		$num++;
 	}
@@ -211,7 +215,7 @@ function save_upload_files($files, $thumb_size, $is_thumb){
 				$err[$key]['error']=UPLOAD_ERR_FORM_SIZE;	
 				continue;
 			}
-			$name = rename_if_exists($name, $thumbs_dir);
+			$name = rename_if_exists($name, $uploads_dir);
 			
 			// Save file
 			if(!move_uploaded_file($tmp_name, "$uploads_dir/$name")) {

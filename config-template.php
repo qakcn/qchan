@@ -24,6 +24,7 @@ define('SIZE_LIMIT', 2); // In megabyte
 
 // Thumbnail size limit
 define('IS_THUMB', false); // Will it generate thumbnails or not, true or false.
+define('ALLOW_USER_CHANGE_IS_THUMB', false); // Set to true if you want user changing thumbnails option
 define('THUMB_MAX', 500); // Max size of thumbnail, in pixel
 define('THUMB_MIN', 100); // Min size of thumbnail, in pixel
 define('THUMB_DEFAULT', 200); // Default size of thumbnail, in pixel
