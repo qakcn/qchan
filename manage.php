@@ -1,4 +1,13 @@
 <?php
+session_start();
+
+function microtime_float()
+{
+    list($usec, $sec) = explode(" ", microtime());
+    return ((float)$usec + (float)$sec);
+}
+
+$time_start = microtime_float();
 /**
  * This is a simple manage page for Qchan
  */
@@ -18,6 +27,30 @@ if(function_exists('date_default_timezone_set'))
 	date_default_timezone_set(TIMEZONE);
 	
 $page=isset($_GET['page'])?$_GET['page']:1;
+
+function get_files($path) {
+	$hash = md5($path);
+	if(isset($_SESSION[$hash])) {
+		return $_SESSION[$hash];
+	}else {
+		$files = array();
+		$dh = opendir($path);
+		while (($file = readdir($dh)) !== false) {
+			if($file != '.' && $file != '..') {
+				$filepath = "$path/$file";
+   			$files[$file] = filemtime($filepath);
+   		}
+		}
+		closedir($dh);
+		arsort($files);
+		$filem=array();$i=0;
+		foreach($files as $key => $value) {
+			$filem[$i++] = $key;
+		}
+		$_SESSION[$hash]=$filem;
+		return $filem;
+	}
+}
 ?>
 <!doctype html>
 <html>
@@ -133,19 +166,23 @@ foreach($years as $year){
 ?><li>&nbsp;&nbsp;<a target="_blank" href="manage.php?clearwork=clear">Clear Working</a></li></ul>
 <?php if(isset($_GET['year']) and isset($_GET['month']) and $_GET['year'] != '' and $_GET['month'] != '') { ?>
 <table><tbody><tr><?php
-$files = explode("\n", shell_exec('ls -1t ./'.UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month']));
-for($i=1, $j=($page-1)*192;$i<=192 && $j<count($files);$i++, $j++){
-	$file=$files[$j];
-	if($file == '.' || $file == '..' || $file == '') {$i--;continue;}
-	echo '<td><p><a target="_blank" href="' . UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . rawurlencode($file) . '">';
-	if(file_exists(THUMB_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $file))
-		echo '<img class="scrollLoading" src="site-img/px.gif" data-url="' . THUMB_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . rawurlencode($file) . '"></a></p>';
-	else		
-		echo '<img class="scrollLoading" src="site-img/px.gif" data-url="' . UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . rawurlencode($file) . '"><br>' . MANAGE_NO_THUMB . '</a></p>';
-	echo '<a target="_blank" href="manage.php?year=' . $_GET['year'] . '&month=' . $_GET['month'] . '&delete=' . rawurlencode($file) . '">' . MANAGE_DELETE . '</a></p></td>';
-	if($i % 6 == 0) echo '</tr><tr>';
+$files = get_files('./'.UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month']);
+for($i = ($page - 1) * 192; $i < $page * 192 && $i < count($files); $i++){
+	$file=$files[$i];
+	if(file_exists(UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $file)) {
+		echo '<td><p><a target="_blank" href="' . UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . rawurlencode($file) . '">';
+		if(file_exists(THUMB_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $file)) {
+			echo '<img class="scrollLoading" src="site-img/px.gif" data-url="' . THUMB_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . rawurlencode($file) . '"></a></p>';
+		}else {
+			echo '<img class="scrollLoading" src="site-img/px.gif" data-url="' . UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . rawurlencode($file) . '"><br>' . MANAGE_NO_THUMB . '</a></p>';
+		}
+		echo '<a target="_blank" href="manage.php?year=' . $_GET['year'] . '&month=' . $_GET['month'] . '&delete=' . rawurlencode($file) . '">' . MANAGE_DELETE . '</a></p></td>';
+	}else {
+		echo '<td>DELETED!</td>';
+	}
+	if($i % 6 == 5) echo '</tr><tr>';
 }
-while(($i-1) % 6 != 0) {	echo "<td></td>";$i++;}
+while($i % 6 != 0) {	echo "<td></td>";$i++;}
 ?></tr></tbody>
 <?php
 	echo '<tbody><tr><td><a href="javascript:void(0)" id="prevpage">上一页</a></td><td colspan="4">第<span id="page">'.$page.'</span>页/共<span id="maxpage">'.ceil(count($files)/192).'</span>页</td><td><a href="javascript:void(0)" id="nextpage">下一页</a></td></tr></tbody>';
@@ -154,6 +191,7 @@ while(($i-1) % 6 != 0) {	echo "<td></td>";$i++;}
 <?php
 	}
 }
+echo '<p>exec in sec ' . (microtime_float()-$time_start) . '</p>';
 ?>
 
 </body>
