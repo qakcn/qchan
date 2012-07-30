@@ -380,6 +380,7 @@ function url_handler($thumb_size, $is_thumb, $addr) {
 	}
 }
 
+// Grab though GFW handler
 function grab_handler($addr) {
 	list($uploads_dir,$thumbs_dir) = setup_dir();
 
