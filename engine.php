@@ -236,6 +236,7 @@ function save_upload_files($files, $thumb_size, $is_thumb){
 	return $err;
 }
 
+// Format the result list
 function result_format($files,$type) {
 	$thumbfmt=<<<THUMBFMT
 <div class="preview">
