@@ -95,6 +95,23 @@ function the_upload_error($code){
 	}
 }
 
+// Check if file is duplicate
+function is_file_duplicate($tmpfile) {
+	if(DUPLICATE_FILE_CHECK) {
+		list($uploads_dir,$thumbs_dir) = setup_dir();
+		$checksum = md5(file_get_contents($tmpfile));
+		if(file_exists(UPLOAD_DIR . '/hash/' . $checksum)) {
+			$file = file_get_contents(UPLOAD_DIR . '/hash/' .$checksum);
+			list($uploadpath, $thumbpath, $name) = explode(',', $file);
+			return array('upload'=>$uploadpath, 'thumb' => $thumbpath=='false'?false:$thumbpath, 'name'=>$name);
+		}else {
+			return false;
+		}
+	}else {
+		return false;
+	}
+}
+
 // Generate Thumbnail image
 function make_thumb($uploads_dir, $thumbs_dir, $name, $size, $isthumb){
 	if(!$isthumb) return false;
@@ -166,6 +183,8 @@ function setup_dir() {
 	$uploads_dir=UPLOAD_DIR . '/' . $year .'/'. $month;
 	if(!file_exists(UPLOAD_DIR . '/working'))
 		mkdir(UPLOAD_DIR . '/working');
+	if(!file_exists(UPLOAD_DIR . '/hash'))
+		mkdir(UPLOAD_DIR . '/hash');
 	if(!file_exists(THUMB_DIR))
 		mkdir(THUMB_DIR);
 	if(!file_exists(THUMB_DIR . '/' . $year))
@@ -215,17 +234,26 @@ function save_upload_files($files, $thumb_size, $is_thumb){
 				$err[$key]['error']=UPLOAD_ERR_FORM_SIZE;	
 				continue;
 			}
-			$name = rename_if_exists($name, $uploads_dir);
-			
-			// Save file
-			if(!move_uploaded_file($tmp_name, "$uploads_dir/$name")) {
-				$err[$key]['name']=$name;
-				$err[$key]['error']=9;
-			}else{
+			if($duplicate = is_file_duplicate($tmp_name)) {
+				$err[$key]['thumb']=$duplicate['thumb'];
+				$err[$key]['name']=$duplicate['name'];
 				$err[$key]['error']=UPLOAD_ERR_OK;
-				$err[$key]['thumb']=make_thumb($uploads_dir,$thumbs_dir,$name,$thumb_size, $is_thumb);
-				$err[$key]['name']=$name;
-				$err[$key]['path']=$uploads_dir;
+				$err[$key]['path']=$duplicate['upload'];
+			}else {
+				$name = rename_if_exists($name, $uploads_dir);
+			
+				$checksum = md5(file_get_contents($tmp_name));
+				// Save file
+				if(!move_uploaded_file($tmp_name, "$uploads_dir/$name")) {
+					$err[$key]['name']=$name;
+					$err[$key]['error']=9;
+				}else{
+					$err[$key]['error']=UPLOAD_ERR_OK;
+					$err[$key]['thumb']=make_thumb($uploads_dir,$thumbs_dir,$name,$thumb_size, $is_thumb);
+					$err[$key]['name']=$name;
+					$err[$key]['path']=$uploads_dir;
+					file_put_contents(UPLOAD_DIR . '/hash/' . $checksum, $err[$key]['path'].','.($err[$key]['thumb']?$err[$key]['thumb']:'false').','.$err[$key]['name']);
+				}
 			}
 		}else {
 			// Return error code
@@ -331,6 +359,8 @@ function url_handler($thumb_size, $is_thumb, $addr) {
 		$temp = UPLOAD_DIR . '/working/' . $name . time();
 		if(!file_put_contents($temp, $content)) {
 			echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname"><em>'.$specurl.'</em></div><div class="errormsg">'.ERR_UPLOAD_CANT_WRITE.'(01)</div>';
+		}elseif($duplicate = is_file_duplicate($temp)) {
+			result_format(array(array('error'=>UPLOAD_ERR_OK,'thumb'=>$duplicate['thumb'],'path'=>$duplicate['upload'],'name'=>$duplicate['name'])),'urlresult');
 		}elseif(filesize($temp)>the_size_limit()) {
 			unlink($temp);
 			echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname"><em>'.$specurl.'</em></div><div class="errormsg">'.ERR_UPLOAD_FORM_SIZE.'(02)</div>';
@@ -370,8 +400,10 @@ function url_handler($thumb_size, $is_thumb, $addr) {
 					unlink($temp);
 					echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname"><em>'.$specurl.'</em></div><div class="errormsg">'.ERR_UPLOAD_CANT_WRITE.'(02)</div>';
 				}elseif(!$wrongtype) {
+					$checksum=md5(file_get_contents($temp));
 					unlink($temp);
 					$thumb=make_thumb($uploads_dir,$thumbs_dir,$name,$thumb_size, $is_thumb);
+					file_put_contents(UPLOAD_DIR . '/hash/' . $checksum, $uploads_dir.','.($thumb?$thumb:'false').','.$name);
 					result_format(array(array('error'=>UPLOAD_ERR_OK,'thumb'=>$thumb,'path'=>$uploads_dir,'name'=>$name)),'urlresult');
 				}
 			}
@@ -418,6 +450,8 @@ function dragdrop_handler($thumb_size, $is_thumb, $name, $file) {
 	$temp = UPLOAD_DIR . '/working/' . $name . time();
 	if(!file_put_contents($temp, $content)) {
 		echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname">'.UI_ERROR_NAME.'<em>'.$namec.'</em></div><div class="errormsg">'.ERR_UPLOAD_CANT_WRITE.'(01)</div>';
+	}elseif($duplicate = is_file_duplicate($temp)) {
+			result_format(array(array('error'=>UPLOAD_ERR_OK,'thumb'=>$duplicate['thumb'],'path'=>$duplicate['upload'],'name'=>$duplicate['name'])),'dropresult');
 	}elseif(filesize($temp)>the_size_limit()) {
 		unlink($temp);
 		echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname">'.UI_ERROR_NAME.'<em>'.$namec.'</em></div><div class="errormsg">'.ERR_UPLOAD_FORM_SIZE.'(02)</div>';
@@ -457,8 +491,10 @@ function dragdrop_handler($thumb_size, $is_thumb, $name, $file) {
 				unlink($temp);
 				echo '<li class="imgfail"><div class="errortitle">'.UI_ERROR_TITLE.'</div><div class="errorname">'.UI_ERROR_NAME.'<em>'.$namec.'</em></div><div class="errormsg">'.ERR_UPLOAD_CANT_WRITE.'(02)</div>';
 			}elseif(!$wrongtype) {
+				$checksum=md5(file_get_contents($temp));
 				unlink($temp);
 				$thumb=make_thumb($uploads_dir,$thumbs_dir,$name,$thumb_size, $is_thumb);
+				file_put_contents(UPLOAD_DIR . '/hash/' . $checksum, $uploads_dir.','.($thumb?$thumb:'false').','.$name);
 				result_format(array(array('error'=>UPLOAD_ERR_OK,'thumb'=>$thumb,'path'=>$uploads_dir,'name'=>$name)),'dropresult');
 			}
 		}

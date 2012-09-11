@@ -130,6 +130,8 @@ if((!isset($_COOKIE['login']) or $_COOKIE['login'] != ADMIN_NAME) and (!isset($_
 	}
 }elseif(isset($_GET['delete']) and $_GET['delete'] != '') {
 	$delsuc=true;
+	$checksum=md5(file_get_contents(UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $_GET['delete']));
+	$delsuc &= unlink(UPLOAD_DIR . '/hash/' . $checksum);
 	if(file_exists(THUMB_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $_GET['delete']))
 		$delsuc &= unlink(THUMB_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $_GET['delete']);
 	if(file_exists(UPLOAD_DIR . '/' . $_GET['year'] . '/' . $_GET['month'] . '/' . $_GET['delete']))
@@ -146,7 +148,7 @@ if((!isset($_COOKIE['login']) or $_COOKIE['login'] != ADMIN_NAME) and (!isset($_
 $years = scandir(UPLOAD_DIR);
 
 foreach($years as $year){
-	if($year != '.' && $year != '..' && $year != 'working') {
+	if($year != '.' && $year != '..' && $year != 'working' && $year != 'hash') {
 		if(!isset($_GET['year']) || $_GET['year']!=$year) {$style='style="display:none;"';$thisyear='';}
 		else {$thisyear='thisyear';$style='';}
 		echo '<li><span class="ex_year '.$thisyear.'">'.$year.'</span>';
