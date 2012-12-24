@@ -39,4 +39,6 @@ define('THUMB_DIR', 'thumbs');
 // Where do you visit your site. For example, 'http://www.example.com/' is '/', 'http://www.example.com/qchan/' is '/qchan/', 'http://www.example.com/q/qchan/' is '/q/qchan/'
 define('VISIT_ROOT', '/qchan/');
 
+// Set duplicate file check, leave this to 'false' if your site hosts on a filesystem that allowed file quantities limit is not very high. Such filesystem is FAT/FAT32, ext2/3, ext4 without extents. If you don't know what this means, you should not change this to 'true'.
+define('DUPLICATE_FILE_CHECK', false);
 ?>
