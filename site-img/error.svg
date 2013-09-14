@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+         "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+	<rect x="0" y="0" width="100" height="100" fill="#f8f8f8" />
+	<g transform="rotate(45,50,50)" fill="crimson">
+		<rect x="35.5" y="6.5" width="29" height="87" />
+		<rect x="6.5" y="35.5" width="87" height="29" />
+	</g>
+</svg>

@@ -1,0 +1,37 @@
+{
+	"Qchan Image Hosting":
+	"Qchan图床",
+
+	"Upload":
+	"上传",
+
+	"Language":
+	"语言",
+
+	"Select display language":
+	"选择显示语言",
+
+	"Upload files":
+	"上传文件",
+
+	"Drag and drop files here":
+	"拖放文件到此处",
+
+	"Normal":
+	"普通上传",
+
+	"URL":
+	"URL上传",
+
+	"Start Upload":
+	"开始上传",
+
+	"Close":
+	"关闭",
+
+	"Select Files":
+	"选择文件",
+
+	"Please put URLs here, one URL per line, with leading 'http://'":
+	"请在此输入URL（包含“http://”），每行一个"
+}
