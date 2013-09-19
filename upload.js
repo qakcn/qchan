@@ -1,16 +1,19 @@
+/* global variants */
 var queueid=0,
 queue = new Array(),
 working = 0,
 msgqueue = new Array();
 
+/* Handler for URL upload */
 function url_upload_handler() {
 	var urls = url_list.value.split('\n');
 	for (var url,i=0;i<urls.length;i++) {
-		url = urls[i];
+		url = urls[i].trim();
 		var work = {
 			type: 'url',
 			path: url,
-			statu: 'prepared'
+			status: 'prepared',
+			retry: 0
 		};
 		if(!isempty(url)) {
 			if (isurl(url)) {
@@ -18,7 +21,7 @@ function url_upload_handler() {
 				show_thumbnail(work);
 				upload(work);
 			}else {
-				work.statu = 'error'
+				work.status = 'failed'
 				work.err = 'illegal_url';
 				show_error(work);
 			}
@@ -26,21 +29,22 @@ function url_upload_handler() {
 	}
 }
 
+/* Handler for file upload */
 function file_upload_handler(files) {
 	for(var file,i=0;i<files.length;i++) {
 		file=files[i];
 		work = {
 			type: 'file',
 			path: file.name,
-			statu: 'prepared',
+			status: 'prepared',
 			fileobj: file
 		};
 		if(!/image\/(jpeg|png|gif|svg\+xml)/.test(file.type)) {
-			work.statu = 'error';
+			work.status = 'failed';
 			work.err = 'wrong_type';
 			show_error(work);
 		}else if(file.size > prop.size_limit) {
-			work.statu = 'error';
+			work.status = 'failed';
 			work.err = 'size_limit';
 			show_error(work);
 		}else {
@@ -51,19 +55,22 @@ function file_upload_handler(files) {
 	}
 }
 
+/* Submit from */
 function normal_upload_handler() {
 	normal_form.submit();
 }
 
+/* Start upload or put in the queue */
 function upload(work) {
-	if (working<3) {
+	if (working < prop.upload_count) {
 		select_upload(work);
 	} else {
-		work.statu = 'waiting';
+		work.status = 'waiting';
 		queue.push(work);
 	}
 }
 
+/* Upload next item in the queue */
 function upload_next() {
 	working--;
 	if(queue.length>0) {
@@ -72,8 +79,21 @@ function upload_next() {
 	}
 }
 
+function retry_upload(work) {
+	working--;
+	work.retry++;
+	if(work.retry < 3) {
+		upload(work);
+	}else {
+		work.status = 'failed';
+		work.err = 'fail_retry';
+		show_error(work);
+	}
+}
+
+/* Choose upload method */
 function select_upload(work) {
-	work.statu = 'uploading';
+	work.status = 'uploading';
 	switch (work.type) {
 		case 'url':
 			url_upload(work);
@@ -85,187 +105,142 @@ function select_upload(work) {
 	working++;
 }
 
+/* Upload URL item */
 function url_upload(work) {
+	var self = document.getElementById('q'+work.qid);
+	if(!self) {
+		var callself = function(){url_upload(work);};
+		setTimeout(callself,100);
+		return false;
+	}
+
+	var xhr = new XMLHttpRequest();
 	
+	xhr.open('POST', 'api.php?type=url&'+(new Date()).getTime(), true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	var sendData = 'qid='+work.qid+'&url='+encodeURIComponent(work.path);
+	
+	xhr.addEventListener('readystatechange', function(e){
+		if(xhr.readyState == 4) {
+			if(xhr.status == 200) {
+				eval('var res = '+xhr.responseText);
+				after_upload(res);
+				upload_next();
+			}else if(xhr.status == 504) {
+				retry_upload(work);
+			}
+		}
+	},false);
+
+	xhr.upload.addEventListener('progress',function(e){
+		if(e.lengthComputable) {
+			var percentage = e.loaded/e.total;
+			self.progress(percentage);
+		}
+	},false);
+	xhr.upload.addEventListener('load',function(e){
+		self.progress(1);
+	},false);
+	
+	xhr.send(sendData);
 }
 
+/* Upload file item */
 function file_upload(work) {
+	var self = document.getElementById('q'+work.qid);
+	if(!self) {
+		var callself = function(){file_upload(work);};
+		setTimeout(callself,100);
+		return false;
+	}
+	var xhr = new XMLHttpRequest();
+	var fd = new FormData();
 	
+	xhr.open('POST', 'api.php?type=file&'+(new Date()).getTime(), true);
+	//xhr.setRequestHeader("Content-type", "multipart/form-data");
+	
+	xhr.addEventListener('readystatechange', function(e){
+		if(xhr.readyState == 4) {
+			if(xhr.status == 200) {
+				eval('var res = '+xhr.responseText);
+				after_upload(res);
+				upload_next();
+			}
+		}
+	},false);
+	
+	xhr.upload.addEventListener('progress',function(e){
+		if(e.lengthComputable) {
+			var percentage = e.loaded/e.total;
+			self.progress(percentage);
+		}
+	},false);
+	xhr.upload.addEventListener('load',function(e){
+		self.progress(1);
+	},false);
+	
+	fd.append('qid',work.qid);
+	fd.append('files[]',work.fileobj);
+	
+	xhr.send(fd);
 }
 
+/* Check if valid URL */
 function isurl(theurl) {
-	return /^\s*https?:\/\//.test(theurl);
+	return /^\s*https?:\/\/.+$/.test(theurl);
 }
 
+/* Check if empty URL */
 function isempty(theurl) {
 	return (/^\s*$/.test(theurl) || theurl=='');
 }
 
-function show_error(work) {
-	var errli = document.createElement('li');
-	addClass(errli,'error');
-	addClass(errli,'hide');
-	addClass(errli,'tiny');
-	errli.innerHTML = '<h1>'+ui_msg.statu.error+ '</h1>'
-	var path = work.path.length > 30 ? work.path.slice(0,30)+'...' : work.path;
-	switch(work.err) {
-		case 'illegal_url':
-			errli.innerHTML += '<p><em>\''+path+'\'</em>'+ui_msg.err.illegal_url+'</p>';
-			break;
-		case 'fail_load':
-			errli.innerHTML += '<p><em>\''+path+'\'</em>'+ui_msg.err.fail_load+'</p>';
-			break;
-		case 'size_limit':
-			errli.innerHTML += '<p><em>\''+path+'\'</em>'+ui_msg.err.size_limit+'</p>';
-			break;
-		case 'wrong_type':
-			errli.innerHTML += '<p><em>\''+path+'\'</em>'+ui_msg.err.wrong_type+'</p>';
-			break;
+function after_upload(res) {
+	var qli = document.getElementById('q'+res.qid);
+	var qimg = qli.children[0];
+	var qprg = qimg.children[0];
+	var qsel = qprg.children[0];
+	if(!qli) {
+		var callself = function(){after_upload(res);};
+		setTimeout(callself,100);
+		return false;
 	}
-	msg_show(errli);
-}
-
-function show_thumbnail(work) {
-	var thmli = document.createElement('li');
-	var thmprg = document.createElement('div');
-	var thmimg = document.createElement('div');
-	var thmsel = document.createElement('div');
-	var thmi = document.createElement('img');
-	addClass(thmprg,'progress');
-	addClass(thmimg,'img');
-	addClass(thmsel,'select');
-	thmli.id = 'q'+work.qid;
-	thmsel.innerHTML = '<p>'+ui_msg.info.selected+'</p>';
-	if(work.type=='url') {
-		thmi.src = work.path;
-		show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi);
-	}else if(work.type=='file') {
-		var fr;
-		if(fr = new FileReader ) {
-			fr.onload = (function(work,thmli,thmimg,thmprg,thmsel,thmi){
-				return function(e) {
-					thmi.src = e.target.result;
-					thmi.onload = (function(work,thmli,thmimg,thmprg,thmsel) {
-						return function(e) {
-							show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,this);
-						}
-					})(work,thmli,thmimg,thmprg,thmsel);
-				}
-			})(work,thmli,thmimg,thmprg,thmsel,thmi);
-			fr.readAsDataURL(work.fileobj);
-		}
-	}
-}
-
-function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
-	var width = thmi.naturalWidth;
-	var height = thmi.naturalHeight;
-	if(width==0 || height==0) {
-		work.err='fail_load';
-		show_error(work);
-		width = height = 200;
-		thmimg.style.backgroundImage = 'url(site-img/error.svg)';
-	}else if(height>200) {
-		width = width * 200/height;
-		height = 200;
-		thmimg.style.backgroundImage = 'url('+thmi.src+')';
-	}else {
-		thmimg.style.backgroundImage = 'url('+thmi.src+')';
-	}
-	thmimg.style.backgroundSize = width+'px '+height+'px';
-	thmli.style.width = thmimg.style.width = thmprg.style.width = width+'px';
-	thmli.style.height = thmimg.style.height = thmprg.style.height = height+'px';
-	thmli.style.marginTop = thmli.marginBottom = (200 - height) / 2+'px';
-	thmsel.style.paddingTop = (height - 30)+'px';
-	thmli.appendChild(thmimg);
-	thmimg.appendChild(thmprg);
-	thmprg.appendChild(thmsel);
-	thmli.work = work;
-	thmli.oncontextmenu = toggleinfo();
-	thmli.onclick = toggleinfo();
-	thmli.progress = function(percent){
-		var pos = thmprg.style.width.slice(0,-2) * percent;
-		var anipos = function(px,thmprg){
-			var nowpos = thmprg.style.backgroundPosition.slice (0,-9);
-			nowpos = nowpos*1+2;
-			thmprg.style.backgroundPosition = nowpos+'px center';
-			if(nowpos<px) {
-				var callself = function(){anipos(px,thmprg)};
-				setTimeout(callself, 1);
-			}
-		}
-		anipos(pos,thmprg);
-	};
-	result_zone.insertBefore(thmli, result_zone.lastElementChild);
-}
-
-function toggleinfo(mode) {
-	return function(e) {
-		e.preventDefault();
-		if(e.type=='click') {
-			var selected = document.getElementsByClassName('selected');
-			var selectedcnt = selected.length;
-			var ishide = hasClass(info_zone,'hide');
-			while(selected.length>0) {
-				var everyli=selected[0];
-				var thisselected = (thisselected || everyli==this);
-				removeClass(everyli,'selected');
-				hide(everyli.children[0].children[0].children[0]);
-			}
-			if(selectedcnt>1 || !thisselected || ishide) {
-				addClass(this,'selected');
-				show(this.children[0].children[0].children[0]);
-			}
-		}else if(e.type=='contextmenu'){
-			if(hasClass(this,'selected')) {
-				removeClass(this,'selected');
-				hide(this.children[0].children[0].children[0]);
+	switch (res.status) {
+		case 'success':
+			qli.work.status = 'success';
+			qli.work.name = res.name;
+			qli.work.path = res.path;
+			qli.work.thumb = res.thumb;
+			if(res.thumb=='none') {
+				qimg.style.backgroundImage = 'url("'+res.path+'")';
 			}else {
-				addClass(this,'selected');
-				show(this.children[0].children[0].children[0]);
+				qimg.style.backgroundImage = 'url("'+res.thumb+'")';
 			}
-		}
-		changeinfo();
+			break;
+		case 'error':
+			qli.work.status = 'error';
+			qli.work.err = res.err;
+			qli.work.name = res.name;
+			qli.work.path = res.path;
+			qli.work.thumb = res.thumb;
+			if(res.thumb=='none') {
+				qimg.style.backgroundImage = 'url("'+res.path+'")';
+			}else {
+				qimg.style.backgroundImage = 'url("'+res.thumb+'")';
+			}
+			break;
+		case 'failed':
+				qli.work.status = 'failed';
+				qli.work.err = res.err;
+				qimg.style.backgroundImage = 'url(site-img/error.svg)';
+				qimg.style.backgroundSize = '200px 200px';
+				qimg.style.width = qprg.style.width = qli.style.width = '200px';
+				qimg.style.height = qprg.style.height = qli.style.height = '200px';
+				qli.style.marginTop = qli.marginBottom = '0';
+				qsel.style.paddingTop = '170px';
+				show_error(qli.work);
+			break;
 	}
-}
-
-function changeinfo() {
-	var ishide = hasClass(info_zone,'hide');
-	var selected = document.getElementsByClassName('selected');
-	ishide ? '' : (selected.length>0 ? hide_info_zone(true) : hide_info_zone(false));
-	var namep = document.createElement('h1');
-	var statup = document.createElement('p');
-	if(selected.length==1) {
-		var work = selected[0].work;
-		switch(work.statu) {
-			case 'prepared':
-				namep.innerHTML = work.path;
-				statup.innerHTML = ui_msg.statu.prepared;
-				break;
-			case 'waiting':
-				namep.innerHTML = work.path;
-				statup.innerHTML = ui_msg.statu.waiting;
-				break
-			case 'error':
-				namep.innerHTML = work.path;
-				statup.innerHTML = ui_msg.statu.error;
-				break
-			case 'uploading':
-				namep.innerHTML = work.path;
-				statup.innerHTML = ui_msg.statu.uploading;
-				break;
-			case 'success':
-				namep.innerHTML = work.filename;
-				statup.innerHTML = ui_msg.statu.success;
-				break;
-		}
-	}else if(selected.length>1) {
-		namep.innerHTML = selected.length + ui_msg.info.files_selected;
-		for(var work,i=0;i<selected.length;i++) {
-			work = selected[i].work;
-		}
-	}
-	info_zone.appendChild(namep);
-	info_zone.appendChild(statup);
-	selected.length>0 ? (ishide ? show_info_zone() : setTimeout(show_info_zone, 210)) : '';
+	changeinfo(true);
 }

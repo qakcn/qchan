@@ -104,7 +104,7 @@ section#main {
 	transition: margin-bottom 0.2s ease-out;
 }
 section#main.showinfo {
-	margin-bottom: 200px;
+	margin-bottom: 220px;
 }
 
 /* Show on load */
@@ -167,7 +167,7 @@ ul#message_zone {
 	list-style: none;
 }
 ul#message_zone.showinfo {
-	bottom: 200px;
+	bottom: 220px;
 }
 ul#message_zone li {
 	width: 260px;
@@ -236,6 +236,7 @@ div#method_change a {
 	width: 150px;
 	text-align: center;
 	background-color: #f8f8f8;
+	color: #333;
 	cursor: default;
 }
 div#method_change a.noact {
@@ -243,6 +244,34 @@ div#method_change a.noact {
 }
 div#method_change a.noact:hover {
 	background-color: #ddd;
+}
+div#file_review {
+	height: 200px;
+	overflow: auto;
+	margin: 10px 0;
+}
+div#file_review p {
+	color: #666;
+	font-size: 16px;
+	line-height: 120%;
+	padding: 5px 0;
+	counter-increment: filecount;
+	white-space: nowrap;
+}
+div#file_review p:nth-child(2n) {
+	background-color: #ddd;
+}
+div#file_review p::before {
+	content: counter(filecount);
+	color: white;
+	padding:5px;
+	margin: 5px;
+}
+div#file_review p:nth-child(2n)::before {
+	background-color: #666;
+}
+div#file_review p:nth-child(2n+1)::before{
+	background-color: #333;
 }
 /* Hide on start */
 div#url_zone {
@@ -313,7 +342,7 @@ button#submit:active, button#file_select:active {
 
 aside#info_zone {
 	padding: 10px;
-	height: 180px;
+	height: 200px;
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -323,7 +352,44 @@ aside#info_zone {
 	color: white;
 	transition: height 0.2s ease-out, padding 0.2s ease-out;
 }
+aside#info_zone h1 {
+	font-size: 30px;
+	margin: 5px 0;
+}
+aside#info_zone p {
+	font-size: 16px;
+	margin: 5px 0;
+}
+aside#info_zone h1,aside#info_zone p {
+	transition: margin 0.2s ease-out;
+}
 aside#info_zone.hide {
 	padding: 0 10px;
 	height: 0;
+}
+aside#info_zone .new:nth-child(1) {
+	margin-left: 100%;
+}
+aside#info_zone .new:nth-child(2) {
+	margin-left: 70%;
+}
+aside#info_zone .new:nth-child(3) {
+	margin-left: 40%;
+}
+aside#info_zone p.result_info input {
+	width: 600px;
+	border: 2px solid slateblue;
+	background-color: #ddd;
+	padding: 2px;
+	color: #666;
+	outline: none;
+	font-family: monoscape;
+	text-align: right;
+}
+aside#info_zone p.result_info input:hover {
+	background-color: #eee;
+}
+aside#info_zone p.result_info input:focus {
+	background-color: #f8f8f8;
+	border: 2px solid tomato;
 }

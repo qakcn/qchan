@@ -20,6 +20,12 @@ if(isset($_GET['err']) && $_GET['err']!='') {
 }else if(is_mobile()) {
 	load_mobile();
 }else {
-	load_normal();
+	if(isset($_POST['normal']) && $_POST['normal'] == 'upload') {
+		$results = file_handler();
+		load_normal($results);
+	}else {
+		load_normal();
+	}
+	
 }
 ?>
