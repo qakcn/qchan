@@ -457,7 +457,7 @@ function single_format(work) {
 	}
 	output+='<input type="text" id="bbc-'+work.qid+'" value="[img]'+work.path+'[/img]" onclick="this.select()" readonly><label for="bbc-'+work.qid+'">'+ui_msg.info.bbcode+'</label><br>';
 	if(work.thumb!='none') {
-		output+='<input type="text" id="bbcthm-'+work.qid+'" value="[url='+work.path+'][img]'+work.thumb+'[/img][/url]" onclick="this.select()"><label for="bbcthm-'+work.qid+'" readonly>'+ui_msg.info.bbcode_with_thumb+'</label>';
+		output+='<input type="text" id="bbcthm-'+work.qid+'" value="[url='+work.path+'][img]'+work.thumb+'[/img][/url]" onclick="this.select()" readonly><label for="bbcthm-'+work.qid+'">'+ui_msg.info.bbcode_with_thumb+'</label>';
 	}
 	return output;
 }

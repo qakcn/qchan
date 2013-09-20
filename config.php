@@ -17,4 +17,5 @@ define('UPLOAD_DIR', 'uploads');
 define('THUMB_DIR', 'thumbs');
 
 define('DUPLICATE_FILE_CHECK', true);
+//define('CDN_LIST', 'img1.tuchuang.org,img2.tuchuang.org,img3.tuchuang.org,img4.tuchuang.org,img5.tuchuang.org,img1.picbed.org,img2.picbed.org,img3.picbed.org,img4.picbed.org,img5.picbed.org');
 ?>
