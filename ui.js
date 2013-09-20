@@ -290,6 +290,7 @@ function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
 	thmli.style.height = thmimg.style.height = thmprg.style.height = height+'px';
 	thmli.style.marginTop = thmli.marginBottom = (200 - height) / 2+'px';
 	thmsel.style.paddingTop = (height - 30)+'px';
+	thmprg.style.backgroundPosition = '0px center';
 	thmli.appendChild(thmimg);
 	thmimg.appendChild(thmprg);
 	thmprg.appendChild(thmsel);
@@ -304,9 +305,9 @@ function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
 
 function progress(thmprg) {
 	return function(percent) {
-		var pos = thmprg.style.width.slice(0,-2) * percent;
+		var pos = thmprg.style.width.match(/([\.\d]+)px/).pop() * percent;
 		var anipos = function(px,thmprg){
-			var nowpos = thmprg.style.backgroundPosition.slice (0,-9);
+			var nowpos = thmprg.style.backgroundPosition.match(/([\d\.]+)px.*/).pop();
 			nowpos = nowpos*1+pos/50;
 			thmprg.style.backgroundPosition = nowpos+'px center';
 			if(nowpos<px) {

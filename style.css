@@ -145,7 +145,6 @@ ul#result_zone li{
 }
 ul#result_zone div.progress{
 	background-image: url(site-img/mask.svg);
-	background-position: 0px center;
 }
 ul#result_zone div.select{
 	border: 5px solid slateblue;
