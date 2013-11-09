@@ -433,17 +433,25 @@ function changeinfo() {
 		}
 	}else if(selected.length>1) {
 		namep.innerHTML = selected.length + ui_msg.info.files_selected;
-		var allstatus = 'success',infoall = '';
+		var works = new Array();
 		for(var work,i=0;i<selected.length;i++) {
 			work = selected[i].work;
-			if(work.status!='success') {
-				allstatus = 'not_all_success';
-			}else {
-				(work);
+			if(work.status=='success') {
+				works.push(work);
 			}
-			
 		}
-
+		if(works.length == 0) {
+			statusp.innerHTML = ui_msg.status.all_failed;
+		}else if(works.length == selected.length) {
+			statusp.innerHTML = ui_msg.status.all_success;
+			addClass(infop, 'result_info');
+			multi_format(works,infop);
+		}else if(works.length < selected.length) {
+			statusp.innerHTML = ui_msg.status.part_success;
+			addClass(infop, 'result_info');
+			multi_format(works,infop);
+		}
+		
 	}
 	info_zone.appendChild(namep);
 	info_zone.appendChild(statusp);
@@ -451,24 +459,109 @@ function changeinfo() {
 }
 
 function single_format(work) {
-	var output='<input type="text" id="orig-'+work.qid+'" value="'+work.path+'" onclick="this.select()" readonly><label for="orig-'+work.qid+'">'+ui_msg.info.orig+'</label><br>'+
+	var output = '<input type="text" id="orig-'+work.qid+'" value="'+work.path+'" onclick="this.select()" readonly><label for="orig-'+work.qid+'">'+ui_msg.info.orig+'</label><br>'+
 	'<input type="text" id="html-'+work.qid+'" value="&lt;img src=&quot;'+work.path+'&quot;&gt;" onclick="this.select()" readonly><label for="html-'+work.qid+'">'+ui_msg.info.html+'</label><br>';
-	if(work.thumb!='none') {
-		output+='<input type="text" id="htmlthm-'+work.qid+'" value="&lt;a href=&quot;'+work.path+'&quot;&gt;&lt;img src=&quot;'+work.thumb+'&quot;&gt;&lt;/a&gt;" onclick="this.select()" readonly><label for="htmlthm-'+work.qid+'">'+ui_msg.info.html_with_thumb+'</label><br>';
+	if(work.thumb != 'none') {
+		output += '<input type="text" id="htmlthm-'+work.qid+'" value="&lt;a href=&quot;'+work.path+'&quot; title=$quot;'+ui_msg.info.thumb_tips+'$quot;&gt;&lt;img src=&quot;'+work.thumb+'&quot;&gt;&lt;/a&gt;" onclick="this.select()" readonly><label for="htmlthm-'+work.qid+'">'+ui_msg.info.html_with_thumb+'</label><br>';
 	}
-	output+='<input type="text" id="bbc-'+work.qid+'" value="[img]'+work.path+'[/img]" onclick="this.select()" readonly><label for="bbc-'+work.qid+'">'+ui_msg.info.bbcode+'</label><br>';
-	if(work.thumb!='none') {
-		output+='<input type="text" id="bbcthm-'+work.qid+'" value="[url='+work.path+'][img]'+work.thumb+'[/img][/url]" onclick="this.select()" readonly><label for="bbcthm-'+work.qid+'">'+ui_msg.info.bbcode_with_thumb+'</label>';
+	output += '<input type="text" id="bbc-'+work.qid+'" value="[img]'+work.path+'[/img]" onclick="this.select()" readonly><label for="bbc-'+work.qid+'">'+ui_msg.info.bbcode+'</label><br>';
+	if(work.thumb != 'none') {
+		output += '<input type="text" id="bbcthm-'+work.qid+'" value="[url='+work.path+'][img]'+work.thumb+'[/img][/url]" onclick="this.select()" readonly><label for="bbcthm-'+work.qid+'">'+ui_msg.info.bbcode_with_thumb+'</label>';
 	}
 	return output;
 }
 
-function multi_format(work, type) {
-	switch (type) {
-		case 'orig':
-		case 'html':
-		case 'htmlthm':
-		case 'bbc':
-		case 'bbcthm':
+function multi_format(works,infop) {
+	var result_area = document.createElement('textarea');
+	result_area.onclick = function(){this.select()};
+	result_area.torig = result_area.thtml = result_area.thtmlthm = result_area.tbbcode = '', tbbcodethm = '';
+	var nothm_cnt = 0;
+	for(var work,i=0;i<works.length;i++) {
+		work = works[i];
+		result_area.torig += work.path + '\n';
+		result_area.thtml += '<img src="'+work.path+'">' + '\n';
+		result_area.tbbcode += '[img]'+work.path+'[/img]' + '\n';
+		if(work.thumb!='none') {
+			result_area.thtmlthm += '<a href="'+work.path+'" title="'+ui_msg.info.thumb_tips+'"><img src="'+work.thumb+'"></a>' + '\n';
+			result_area.tbbcodethm += '[url='+work.path+'][img]'+work.thumb+'[/img][/url]' + '\n';
+		}else {
+			nothm_cnt++;
+			result_area.thtmlthm += '<img src="'+work.path+'">' + '\n';
+			result_area.tbbcodethm += '[img]'+work.path+'[/img]' + '\n';
+		}
+	}
+	result_area.value = result_area.torig;
+	result_area.readOnly = true;
+	var lorig = document.createElement('label');
+	var lhtml = document.createElement('label');
+	var lbbcode = document.createElement('label');
+	lorig.innerHTML = ui_msg.info.orig;
+	lhtml.innerHTML = ui_msg.info.html;
+	lbbcode.innerHTML = ui_msg.info.bbcode;
+	result_area.selectedl = lorig;
+	addClass(lorig, 'actived');
+	addClass(lorig, 'multi');
+	addClass(lhtml, 'multi');
+	addClass(lbbcode, 'multi');
+	lorig.onclick = (function(ra) {
+		return function() {
+			removeClass(result_area.selectedl, 'actived');
+			result_area.selectedl=this;
+			addClass(this, 'actived');
+			result_area.value = result_area.torig;
+		}
+	})(result_area);
+	lhtml.onclick = (function(ra) {
+		return function() {
+			removeClass(result_area.selectedl, 'actived');
+			result_area.selectedl=this;
+			addClass(this, 'actived');
+			result_area.value = result_area.thtml;
+		}
+	})(result_area);
+	lbbcode.onclick = (function(ra) {
+		return function() {
+			removeClass(result_area.selectedl, 'actived');
+			result_area.selectedl=this;
+			addClass(this, 'actived');
+			result_area.value = result_area.tbbcode;
+		}
+	})(result_area);
+	if(nothm_cnt == works.length) {
+		result_area.thtmlthm = undefined;
+		result_area.tbbcodethm = undefined;
+	}else {
+		var lhtmlthm = document.createElement('label');
+		var lbbcodethm = document.createElement('label');
+		lhtmlthm.innerHTML = ui_msg.info.html_with_thumb;
+		lbbcodethm.innerHTML = ui_msg.info.bbcode_with_thumb;
+		addClass(lhtmlthm, 'multi');
+		addClass(lbbcodethm, 'multi');
+		lhtmlthm.onclick = (function(ra) {
+			return function() {
+				removeClass(result_area.selectedl, 'actived');
+				result_area.selectedl=this;
+				addClass(this, 'actived');
+				result_area.value = result_area.thtmlthm;
+			}
+		})(result_area);
+		lbbcodethm.onclick = (function(ra) {
+			return function() {
+				removeClass(result_area.selectedl, 'actived');
+				result_area.selectedl=this;
+				addClass(this, 'actived');
+				result_area.value = result_area.tbbcodethm;
+			}
+		})(result_area);
+	}
+	infop.appendChild(result_area);
+	infop.appendChild(lorig);
+	infop.appendChild(lhtml);
+	if(nothm_cnt < works.length) {
+	infop.appendChild(lhtmlthm);
+	}
+	infop.appendChild(lbbcode);
+	if(nothm_cnt < works.length) {
+		infop.appendChild(lbbcodethm);
 	}
 }

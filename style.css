@@ -134,7 +134,6 @@ a#add:hover {
 /* Result Zone */
 ul#result_zone {
 	list-style: none;
-	margin-right:300px;
 }
 ul#result_zone li{
 	display: inline-block;
@@ -375,20 +374,50 @@ aside#info_zone .new:nth-child(2) {
 aside#info_zone .new:nth-child(3) {
 	margin-left: 40%;
 }
-aside#info_zone p.result_info input {
+aside#info_zone p.result_info input,aside#info_zone p.result_info textarea {
 	width: 600px;
-	border: 2px solid slateblue;
+	border: 2px solid #ddd;
 	background-color: #ddd;
 	padding: 2px;
 	color: #666;
 	outline: none;
 	font-family: monoscape;
 	text-align: right;
+	line-height: 120%;
 }
-aside#info_zone p.result_info input:hover {
+aside#info_zone p.result_info input {
+	border-color: slateblue;
+}
+aside#info_zone p.result_info textarea {
+	height: 117px;
+	text-align: left;
+	float: left;
+	resize: none;
+	overflow: auto;
+	white-space: nowrap;
+}
+aside#info_zone p.result_info label.multi {
+	display: block;
+	padding: 2px;
+	padding-left: 612px;
+	width: 300px;
+	height: 21px;
+}
+aside#info_zone p.result_info label.multi:hover {
+	background-color: mediumslateblue;
+}
+aside#info_zone p.result_info label.multi.actived,aside#info_zone p.result_info label.multi.actived:hover {
+	background-color: #ddd;
+	color: #333;
+}
+
+aside#info_zone p.result_info label.multi.actived:hover {
+	
+}
+aside#info_zone p.result_info input:hover,aside#info_zone p.result_info textarea:hover {
 	background-color: #eee;
 }
-aside#info_zone p.result_info input:focus {
+aside#info_zone p.result_info input:focus,aside#info_zone p.result_info textarea:focus {
 	background-color: #f8f8f8;
 	border: 2px solid tomato;
 }

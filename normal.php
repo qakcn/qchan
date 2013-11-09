@@ -71,26 +71,26 @@ FORMAT;
 		ui_msg = {
 			err: {
 				illegal_url: '<?=__(' is not an acceptable URL.') ?>',
-				fail_load: '<?=__(' cannot be loaded now. Waiting server response.') ?>',
+				fail_load: '<?=__(' cannot load preview now. Waiting server response.') ?>',
 				wrong_type: '<?=__(' is unsupported file type.') ?>',
 				size_limit: '<?=__(' reaches the size limitation.') ?>',
 				no_file: '<?=__(' cannot be retrieved by server now. Check if URL is invalid.') ?>',
 				write_prohibited: '<?=__(' cannot write to server disk.') ?>',
-				fail_duplicate: '<?=__(' cannot perform duplicate check ') ?>',
+				fail_duplicate: '<?=__(' cannot perform duplicate check.') ?>',
 				php_upload_size_limit: '<?=__(' reaches size limit set in php.ini.') ?>',
 				part_upload: '<?=__(' only part of were uploaded.') ?>',
-				no_tmp: '<?=__(' there is no temporary directory.') ?>',
+				no_tmp: '<?=__(' there is no temporary directory on server.') ?>',
 				fail_retry: '<?=__(' tried several times and all failed.') ?>'
 			},
 			err_detail: {
 				no_file: '<?=__('File cannot be retrieved by server now. Perhaps remote server is unreachable, or file does not exist any more, or you just make a little mistake.') ?>',
-				size_limit: '<?=__('Reaches file size limitation. Ask webmaster to check "post_max_size" and "upload_max_filesize" in php.ini, and "SIZE_LIMIT" in Qchan config.php.') ?>',
-				fail_load: '<?=__('The file thumbnail cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.') ?>',
-				write_prohibited: '<?=__('File cannot write to upload directory. Ask webmaster to check permissions.') ?>',
+				size_limit: '<?=__('Reaches file size limitation.') ?>',
+				fail_load: '<?=__('The file preview cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.') ?>',
+				write_prohibited: '<?=__('File cannot write to upload directory on server. Ask webmaster to check permissions.') ?>',
 				wrong_type: '<?=__('File type not support now. Communicate with author for more help.') ?>',
 				fail_duplicate: '<?=__('Duplicate check is failed.') ?>',
-				php_upload_size_limit: '<?=__('') ?>',
-				part_upload: '<?=__('Only parts of the file were uploaded. You can etry it.') ?>',
+				php_upload_size_limit: '<?=__('Reaches file size limitation in php.ini.') ?>',
+				part_upload: '<?=__('Only parts of the file were uploaded. You can retry it.') ?>',
 				no_tmp: '<?=__('Temporary directory on the server does not exist. Ask webmaster to check.') ?>',
 				fail_retry: '<?=__('Try to upload several times and all of those were failed.') ?>'
 			},
@@ -100,16 +100,20 @@ FORMAT;
 				uploading: '<?=__('Uploading') ?>',
 				success: '<?=__('Uploaded successfully') ?>',
 				error: '<?=__('Something wrong') ?>',
-				failed: '<?=__('Failed to upload') ?>'
+				failed: '<?=__('Failed to upload') ?>',
+				all_success: '<?=__('All selected files were uploaded successfully') ?>',
+				part_success: '<?=__('Not all selected files were uploaded successfully, only uploaded ones showed below') ?>',
+				all_failed: '<?=__('All selected files were failed to upload') ?>',
 			},
 			info: {
 				selected: '<?=__('Selected') ?>',
-				files_selected: '<?=__(' files selected.') ?>',
+				files_selected: '<?=__(' Files Selected') ?>',
 				orig: '<?=__('Original File') ?>',
 				html: '<?=__('HTML Code') ?>',
 				html_with_thumb: '<?=__('HTML Code with thumbnail') ?>',
 				bbcode: '<?=__('BBCode') ?>',
-				bbcode_with_thumb: '<?=__('BBCode with thumbnail') ?>'
+				bbcode_with_thumb: '<?=__('BBCode with thumbnail') ?>',
+				thumb_tips: '<?=__('Click to view large version') ?>'
 			}
 		};
 		prop = {

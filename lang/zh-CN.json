@@ -1,0 +1,151 @@
+{
+	"Qchan Image Hosting":
+	"Qchan图床",
+
+	"Upload":
+	"上传",
+
+	"Language":
+	"语言",
+
+	"Select display language":
+	"选择显示语言",
+
+	"Upload files":
+	"上传文件",
+
+	"Drag and drop files here":
+	"拖放文件到此处",
+
+	"Normal":
+	"普通上传",
+
+	"URL":
+	"URL上传",
+
+	"Start Upload":
+	"开始上传",
+
+	"Close":
+	"关闭",
+
+	"Select Files":
+	"选择文件",
+
+	"Please put URLs here, one URL per line, with leading 'http://'":
+	"请在此输入URL（包含“http://”），每行一个",
+	
+	" is not an acceptable URL.":
+	"不是合法的URL。",
+
+	" cannot load preview now. Waiting server response.":
+	"无法加载预览，等待服务器响应。",
+
+	" is unsupported file type.":
+	"文件格式不支持",
+
+	" reaches the size limitation.":
+	"超出文件大小限制",
+
+	" cannot be retrieved by server now. Check if URL is invalid.":
+	"无法被服务器获取，请检查URL是否正确。",
+
+	" cannot write to server disk.":
+	"无法存储到服务器。",
+
+	" cannot perform duplicate check.":
+	"无法进行重复文件检查。",
+
+	" reaches size limit set in php.ini.":
+	"超出php.ini中设置的大小限制。",
+
+	" only part of were uploaded.":
+	"只有部分被上传。",
+
+	" there is no temporary directory on server.":
+	"服务器没有临时目录",
+
+	" tried several times and all failed.":
+	"多次重试均失败。",
+
+	"File cannot be retrieved by server now. Perhaps remote server is unreachable, or file does not exist any more, or you just make a little mistake.":
+	"文件无法被服务器获取，可能远程服务器无法访问，或者文件不再存在，或者你输入的URL有错误。",
+
+	"Reaches file size limitation.":
+	"超过文件大小限制。",
+
+	"The file preview cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.":
+	"文件预览无法加载，可能文件不存在，或者远程服务器无法访问，或者你输入的URL有错误。",
+
+	"File cannot write to upload directory on server. Ask webmaster to check permissions.":
+	"文件无法写入服务器的上传目录，请联系网站管理员检查权限设置。",
+
+	"File type not support now. Communicate with author for more help.":
+	"文件格式当前无法支持，请联系程序作者获取帮助。",
+
+	"Duplicate check is failed.":
+	"无法进行重复文件检查。",
+
+	"Reaches file size limitation in php.ini.":
+	"超过php.ini中设定的文件大小限制",
+
+	"Only parts of the file were uploaded. You can retry it.":
+	"文件只有部分被上传，请重新上传。",
+
+	"Temporary directory on the server does not exist. Ask webmaster to check.":
+	"服务器上不存在临时目录，请联系网站管理员检查。",
+
+	"Try to upload several times and all of those were failed.":
+	"多次尝试上传但均告失败。",
+
+	"Preparing for uploading":
+	"准备上传",
+
+	"Waiting for uploading":
+	"等待上传",
+
+	"Uploading":
+	"上传中",
+
+	"Uploaded successfully":
+	"上传成功",
+
+	"Something wrong":
+	"发生错误",
+
+	"Failed to upload":
+	"上传失败",
+
+	"All selected files were uploaded successfully":
+	"所选文件均成功上传",
+
+	"Not all selected files were uploaded successfully, only uploaded ones showed below":
+	"所选部分文件没有成功上传，仅成功上传的会在下方显示",
+
+	"All selected files were failed to upload":
+	"所选文件均上传失败",
+
+	"Selected":
+	"已选择",
+
+	" Files Selected":
+	"个文件被选择。",
+
+	"Original File":
+	"原始文件地址",
+
+	"HTML Code":
+	"HTML代码",
+
+	"HTML Code with thumbnail":
+	"带有缩略图的HTML代码",
+
+	"BBCode":
+	"BBCode代码",
+
+	"BBCode with thumbnail":
+	"带有缩略图的BBCode代码",
+
+	"Click to view large version":
+	"点击显示原始图片"
+}

@@ -30,8 +30,13 @@ function get_locale() {
 
 function get_available_langs() {
 	$langfiles = scandir('lang');
-	array_shift($langfiles);array_shift($langfiles);
-	return $langfiles;
+	$out = array();
+	foreach ($langfiles as $key => $langfile) {
+		if(preg_match('/.+\.json$/', $langfile)) {
+			array_push($out, substr($langfile,0,-5));
+		}
+	}
+	return $out;
 }
 
 function get_lang_name($locale) {
@@ -256,7 +261,7 @@ function load_lang() {
 	$langfiles = get_available_langs();
 	while($langfile = array_pop($langfiles)) {
 		if($langfile==$locale || $langfile==substr($locale,0,2)) {
-			return json_decode(file_get_contents('lang/' . $langfile),true);
+			return json_decode(file_get_contents('lang/' . $langfile . '.json'),true);
 		}else if(substr_compare($langfile,$locale,0,2)==0) {
 			$remember = $langfile;
 		}
