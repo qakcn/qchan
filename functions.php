@@ -286,7 +286,6 @@ function load_mobile($type='phone') {
 
 function load_normal($results=false) {
 	require 'normal.php';
-
 }
 
 function get_url($cdn=false){
@@ -641,7 +640,7 @@ function file_mime_type($file) {
 
 // Escape special character
 function escape_special_char($name) {
-	return str_replace(array('#','?','=','&','/','\\',';','<','>','[',']'), '_', $name);
+	return str_replace(array('#','?','=','&','/','\\',';','<','>','[',']','%','@'), '_', $name);
 }
 
 function make_thumb($name, $path, $thumbs_dir) {

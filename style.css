@@ -294,7 +294,7 @@ textarea#url_list {
 	line-height: 120%;
 	outline: none;
 	overflow: auto;
-	white-space: nowrap;
+	white-space: pre;
 }
 textarea#url_list:hover {
 	background-color: #eee;
@@ -394,7 +394,7 @@ aside#info_zone p.result_info textarea {
 	float: left;
 	resize: none;
 	overflow: auto;
-	white-space: nowrap;
+	white-space: pre;
 }
 aside#info_zone p.result_info label.multi {
 	display: block;

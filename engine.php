@@ -2,10 +2,12 @@
 
 /* Deny direct visit */
 if (!defined('INDEX_RUN') && !defined('API_RUN')) {
+	header('HTTP/1.1 403 Forbidden');
 	exit('This file must be loaded in flow.');
 }
 
 define('QCHAN_VER', '1.0');
+date_default_timezone_set('UTC');
 
 /* Load Configurations or start installation */
 if(file_exists('config.php')) {

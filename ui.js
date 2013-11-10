@@ -153,7 +153,6 @@ function hide_info_zone() {
 	removeClass(main,'showinfo');
 	removeClass(message_zone,'showinfo');
 	info_zone.innerHTML = '';
-	
 }
 
 /* show a message in the message zone */
@@ -288,7 +287,7 @@ function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
 	thmimg.style.backgroundSize = width+'px '+height+'px';
 	thmli.style.width = thmimg.style.width = thmprg.style.width = width+'px';
 	thmli.style.height = thmimg.style.height = thmprg.style.height = height+'px';
-	thmli.style.marginTop = thmli.marginBottom = (200 - height) / 2+'px';
+	thmli.style.marginTop = (205 - height)+'px';
 	thmsel.style.paddingTop = (height - 30)+'px';
 	thmprg.style.backgroundPosition = '0px center';
 	thmli.appendChild(thmimg);

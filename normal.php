@@ -2,6 +2,7 @@
 
 /* Deny direct visit */
 if(!defined('INDEX_RUN')) {
+	header('HTTP/1.1 403 Forbidden');
 	exit('This file must be loaded in flow.');
 }
 
@@ -121,6 +122,24 @@ FORMAT;
 			upload_count: <?=get_upload_count() ?>
 		}
 	</script>
+	
+	<!--[if lt IE9]> 
+	<script>
+		(function() {
+		if (! 
+		/*@cc_on!@*/
+		0) return;
+		var e = "abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');
+		var i= e.length;
+		while (i=i-1){
+			document.createElement(e[i])
+		} 
+		})();
+	</script>
+	<![endif]-->
+	<style>
+		article,aside,dialog,footer,header,section,footer,nav,figure,menu{display:block;}
+	</style>
 </head>
 
 <body>

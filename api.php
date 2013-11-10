@@ -4,6 +4,7 @@ define('API_RUN',true);
 require 'engine.php';
 
 if(!isset($_SERVER['HTTP_REFERER']) && !isset($_GET['apikey'])) {
+	header('HTTP/1.1 403 Forbidden');
 	exit('API cannot be direct accessed!');
 }
 if(check_apikey()) {
@@ -18,6 +19,7 @@ if(check_apikey()) {
 	header('Content-Type: application/json');
 	echo json_encode($result);
 }else {
+	header('HTTP/1.1 403 Forbidden');
 	exit('API KEY ERROR');
 }
 ?>
