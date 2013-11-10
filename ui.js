@@ -473,7 +473,7 @@ function single_format(work) {
 function multi_format(works,infop) {
 	var result_area = document.createElement('textarea');
 	result_area.onclick = function(){this.select()};
-	result_area.torig = result_area.thtml = result_area.thtmlthm = result_area.tbbcode = '', tbbcodethm = '';
+	result_area.torig = result_area.thtml = result_area.thtmlthm = result_area.tbbcode = result_area.tbbcodethm = '';
 	var nothm_cnt = 0;
 	for(var work,i=0;i<works.length;i++) {
 		work = works[i];

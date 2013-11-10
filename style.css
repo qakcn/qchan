@@ -134,6 +134,9 @@ a#add:hover {
 /* Result Zone */
 ul#result_zone {
 	list-style: none;
+	background-image: url(site-img/tip.png);
+	background-repeat: no-repeat;
+	background-position: bottom right;
 }
 ul#result_zone li{
 	display: inline-block;
@@ -293,8 +296,6 @@ textarea#url_list {
 	font-size: 20px;
 	line-height: 120%;
 	outline: none;
-	overflow: auto;
-	white-space: pre;
 }
 textarea#url_list:hover {
 	background-color: #eee;
@@ -393,8 +394,7 @@ aside#info_zone p.result_info textarea {
 	text-align: left;
 	float: left;
 	resize: none;
-	overflow: auto;
-	white-space: pre;
+
 }
 aside#info_zone p.result_info label.multi {
 	display: block;
