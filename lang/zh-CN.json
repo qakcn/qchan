@@ -42,10 +42,10 @@
 	"无法加载预览，等待服务器响应。",
 
 	" is unsupported file type.":
-	"文件格式不支持",
+	"文件格式不支持。",
 
 	" reaches the size limitation.":
-	"超出文件大小限制",
+	"超出文件大小限制。",
 
 	" cannot be retrieved by server now. Check if URL is invalid.":
 	"无法被服务器获取，请检查URL是否正确。",
@@ -63,7 +63,7 @@
 	"只有部分被上传。",
 
 	" there is no temporary directory on server.":
-	"服务器没有临时目录",
+	"服务器没有临时目录。",
 
 	" tried several times and all failed.":
 	"多次重试均失败。",
@@ -123,13 +123,13 @@
 	"所选部分文件没有成功上传，仅成功上传的会在下方显示",
 
 	"All selected files were failed to upload":
-	"所选文件均上传失败",
+	"所选文件未成功上传",
 
 	"Selected":
 	"已选择",
 
-	" Files Selected":
-	"个文件被选择。",
+	" File(s) Selected":
+	"个文件被选择",
 
 	"Original File":
 	"原始文件地址",

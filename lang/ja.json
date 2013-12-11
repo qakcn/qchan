@@ -6,11 +6,146 @@
 	"アップロード",
 
 	"Language":
-	"语言",
+	"言語",
+
+	"Select display language":
+	"表示言語を選択してください",
 
 	"Upload files":
-	"上传文件",
+	"ファイルをアップロード",
 
 	"Drag and drop files here":
-	"拖放文件到此处"
+	"ここにファイルをドラッグ＆ドロップ",
+
+	"Normal":
+	"ノーマルアップロード",
+
+	"URL":
+	"URLアップロード",
+
+	"Start Upload":
+	"アップロード開始",
+
+	"Close":
+	"終了",
+
+	"Select Files":
+	"ファイルを選択してください",
+
+	"Please put URLs here, one URL per line, with leading 'http://'":
+	"URL（&quot;http://&quot;を含む）は、1行に1つずつ入力してください",
+	
+	" is not an acceptable URL.":
+	"有効なURLではありません。",
+
+	" cannot load preview now. Waiting server response.":
+	"プレビューをロードできません、サーバーの応答を待って。",
+
+	" is unsupported file type.":
+	"ファイル形式はサポートされていません。",
+
+	" reaches the size limitation.":
+	"ファイルサイズの制限を超え。",
+
+	" cannot be retrieved by server now. Check if URL is invalid.":
+	"サーバーが取得できない、URLが正しいことを確認してください。",
+
+	" cannot write to server disk.":
+	"サーバに格納することはできません。",
+
+	" cannot perform duplicate check.":
+	"重複したファイルを確認することができません。",
+
+	" reaches size limit set in php.ini.":
+	"php.iniで設定したサイズの上限を超えています。",
+
+	" only part of were uploaded.":
+	"部分的にしかアップロードされました。",
+
+	" there is no temporary directory on server.":
+	"テンポラリディレクトリが存在しません。",
+
+	" tried several times and all failed.":
+	"複数の再試行が失敗した。",
+
+	"File cannot be retrieved by server now. Perhaps remote server is unreachable, or file does not exist any more, or you just make a little mistake.":
+	"文件无法被服务器获取，可能远程服务器无法访问，或者文件不再存在，或者你输入的URL有错误。",
+
+	"Reaches file size limitation.":
+	"ファイルサイズの上限を超えました。",
+
+	"The file preview cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.":
+	"文件预览无法加载，可能文件不存在，或者远程服务器无法访问，或者你输入的URL有错误。",
+
+	"File cannot write to upload directory on server. Ask webmaster to check permissions.":
+	"文件无法写入服务器的上传目录，请联系网站管理员检查权限设置。",
+
+	"File type not support now. Communicate with author for more help.":
+	"文件格式当前无法支持，请联系程序作者获取帮助。",
+
+	"Duplicate check is failed.":
+	"无法进行重复文件检查。",
+
+	"Reaches file size limitation in php.ini.":
+	"超过php.ini中设定的文件大小限制",
+
+	"Only parts of the file were uploaded. You can retry it.":
+	"文件只有部分被上传，请重新上传。",
+
+	"Temporary directory on the server does not exist. Ask webmaster to check.":
+	"服务器上不存在临时目录，请联系网站管理员检查。",
+
+	"Try to upload several times and all of those were failed.":
+	"多次尝试上传但均告失败。",
+
+	"Preparing for uploading":
+	"アップロードする準備ができ",
+
+	"Waiting for uploading":
+	"アップロードを待っている",
+
+	"Uploading":
+	"アップロード中",
+
+	"Uploaded successfully":
+	"アップロードを成功した",
+
+	"Something wrong":
+	"エラーが発生しました",
+
+	"Failed to upload":
+	"上传失败",
+
+	"All selected files were uploaded successfully":
+	"アップロードに成功しました",
+
+	"Not all selected files were uploaded successfully, only uploaded ones showed below":
+	"所选部分文件没有成功上传，仅成功上传的会在下方显示",
+
+	"All selected files were failed to upload":
+	"アップロードに失敗しました",
+
+	"Selected":
+	"選択した",
+
+	" File(s) Selected":
+	"ファイルを選択した",
+
+	"Original File":
+	"元のファイルのアドレス",
+
+	"HTML Code":
+	"HTMLコード",
+
+	"HTML Code with thumbnail":
+	"サムネイルとHTMLコード",
+
+	"BBCode":
+	"BBCode",
+
+	"BBCode with thumbnail":
+	"サムネイルとBBCode",
+
+	"Click to view large version":
+	"元の画像を見せるために、クリックして"
 }

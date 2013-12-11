@@ -108,7 +108,7 @@ FORMAT;
 			},
 			info: {
 				selected: '<?=__('Selected') ?>',
-				files_selected: '<?=__(' Files Selected') ?>',
+				files_selected: '<?=__(' File(s) Selected') ?>',
 				orig: '<?=__('Original File') ?>',
 				html: '<?=__('HTML Code') ?>',
 				html_with_thumb: '<?=__('HTML Code with thumbnail') ?>',
