@@ -15,6 +15,11 @@ body {
 	background-color: #f8f8f8;
 }
 
+/* Fuck IE */
+img {
+	border: none;
+}
+
 /**********************
  *       Header       *
  **********************/
@@ -34,17 +39,17 @@ ul#header_wrap {
 }
 ul#header_wrap > li {
 	float: left;
-	width: 150px;
+	width: 200px;
 	height: 30px;
 	text-align: center;
 	font-size: 25px;
 	padding: 25px 0;
 	cursor: default;
 }
-ul#header_wrap > li#upload:hover {
+ul#header_wrap > li:not(#logo):hover {
 	background-color: seagreen;
 }
-ul#header_wrap > li#upload:active {
+ul#header_wrap > li:not(#logo):active {
 	background-color: mediumseagreen;
 }
 /* Logo size 200x80 */
@@ -55,28 +60,28 @@ ul#header_wrap > li#logo {
 }
 ul#header_wrap > li#logo img {
 	height:80px;
-	border: none;
 }
 
 /* Language select */
 ul#header_wrap > li#lang_set {
 	float: right;
 }
-li#lang_set:hover {
-	background-color: dodgerblue;
-}
+
 /* Language select dropdown menu */
 li#lang_set ul {
+	width: 300px;
+	margin-left: -120px;
 	list-style: none;
 	display: none;
-	width: 300px;
-	margin-left: -170px;
 	background-color: dodgerblue;
 	font-size: 16px;
 	padding: 10px;
 }
 li#lang_set:hover ul {
 	display: block;
+}
+li#lang_set:hover {
+	background-color: dodgerblue !important;
 }
 li#lang_set ul li {
 	padding: 10px;
@@ -234,7 +239,7 @@ div#method_change a {
 	display: inline-block;
 	margin-left: 20px;
 	padding: 5px;
-	width: 150px;
+	width: 250px;
 	text-align: center;
 	background-color: #f8f8f8;
 	color: #333;
@@ -421,3 +426,7 @@ aside#info_zone p.result_info input:focus,aside#info_zone p.result_info textarea
 	background-color: #f8f8f8;
 	border: 2px solid tomato;
 }
+
+#main_footer {position: fixed; bottom: 0; right: 0; left: 0;  font-size: 14px; background-color: dimgray; color: white; text-align: right; padding: 10px;}
+#main_footer a {color: powderblue; text-decoration: none;}
+#main_footer a:hover {text-decoration: underline;}

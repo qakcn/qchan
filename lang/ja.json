@@ -147,5 +147,56 @@
 	"サムネイルとBBCode",
 
 	"Click to view large version":
-	"元の画像を見せるために、クリックして"
+	"元の画像を見せるために、クリックして",
+
+	"Management":
+	"管理",
+
+	"Please Login":
+	"ログインください",
+
+	"Admin Name":
+	"管理人ID",
+
+	"Password":
+	"パスワード",
+
+	"Login":
+	"ログイン",
+
+	"Admin Name is empty!":
+	"管理人IDは空です！",
+
+	"Password is empty!":
+	"パスワードは空です！",
+
+	"Admin Name is incorrect!":
+	"管理人IDは誤ったです！",
+
+	"Password is incorrect!":
+	"パスワードは誤ったです！",
+
+	"This site is powered by Qchan, a light-weight image hosting program. Version: ":
+	"本站由轻量级图床程序Qchan强力驱动。版本：",
+
+	"Agreement":
+	"使用条款",
+
+	"Help":
+	"使用帮助",
+
+	"Privacy":
+	"隐私政策",
+
+	"Report Abuse":
+	"报告滥用",
+
+	"Report abuse use such as piracy, pornography, extreme violence, religious discrimination and racism, etc.":
+	"报告滥用情况，比如盗版、色情、极端暴力、宗教歧视和种族歧视等。",
+
+	"Report%20Abuse%20Use":
+	"报告滥用",
+
+	"List%20image%20address%20here%20for%20report.":
+	"将涉及滥用的图片地址列在此处。"
 }

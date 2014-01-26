@@ -138,7 +138,8 @@ FORMAT;
 	</script>
 	<![endif]-->
 	<style>
-		article,aside,dialog,footer,header,section,footer,nav,figure,menu{display:block;}
+		article,aside,dialog,footer,header,section,footer,nav,figure,menu {display:block;}
+		ul#result_zone {background-image: url(lang/tip.<?=get_locale() ?>.png);}
 	</style>
 </head>
 
@@ -151,7 +152,7 @@ FORMAT;
 		<!-- Click to upload -->
 		<li id="upload" title="<?=__('Upload files') ?>"><?=__('Upload') ?></li>
 		<!-- Language select -->
-		<li id="lang_set" title="<?=__('Select display language') ?>"><?=__('Language') ?><ul><?=get_langlist() ?><div class="clear"></div></ul></li>
+		<li id="lang_set" title="<?=__('Select display language') ?>"><img src="site-img/WorldMap.svg" width="36" height="18">&nbsp;<?=__('Language') ?><ul><?=get_langlist() ?><div class="clear"></div></ul></li>
 	</ul>
 </header>
 
@@ -166,8 +167,7 @@ FORMAT;
 	<ul id="message_zone">
 	</ul>
 <?php
-if($results) {
-}else {
+if(!$results) {
 ?>
 	<!-- Button and message in center -->
 	<div id="first_load">
@@ -214,7 +214,10 @@ if($results) {
 </aside>
 
 <!-- Footer -->
-<footer>
+<footer id="main_footer">
+<p><?=COPYRIGHT ?></p>
+<p><?=__('This site is powered by Qchan, a light-weight image hosting program. Version: ') . QCHAN_VER ?>, <a target="_blank" href="http://github.com/qakcn/qchan">http://github.com/qakcn/qchan</a></p>
+<p><a href="agreement.html" target="_blank"><?=__('Agreement') ?></a>&nbsp;|&nbsp;<a href="javascript:void(0);" target="_blank" id="help"><?=__('Help') ?></a>&nbsp;|&nbsp;<a href="privacy.html" target="_blank"><?=__('Privacy') ?></a>&nbsp;|&nbsp;<a href="mailto:<?=ADMIN_EMAIL ?>?subject=<?=__('Report%20Abuse%20Use') ?>&body=<?=__('List%20image%20address%20here%20for%20report.') ?>" title="<?=__('Report abuse use such as piracy, pornography, extreme violence, religious discrimination and racism, etc.') ?>"><?=__('Report Abuse') ?></a></p>
 </footer>
 
 <script type="application/javascript" src="ui.js"></script>

@@ -147,5 +147,56 @@
 	"带有缩略图的BBCode代码",
 
 	"Click to view large version":
-	"点击显示原始图片"
+	"点击显示原始图片",
+
+	"Management":
+	"管理",
+
+	"Please Login":
+	"请登录",
+
+	"Admin Name":
+	"登录名",
+
+	"Password":
+	"密码",
+
+	"Login":
+	"登录",
+
+	"Admin Name is empty!":
+	"登录名为空！",
+
+	"Password is empty!":
+	"密码为空！",
+
+	"Admin Name is incorrect!":
+	"登录名不正确！",
+
+	"Password is incorrect!":
+	"密码不正确！",
+
+	"This site is powered by Qchan, a light-weight image hosting program. Version: ":
+	"本站由轻量级图床程序Qchan强力驱动。版本：",
+
+	"Agreement":
+	"使用条款",
+
+	"Help":
+	"使用帮助",
+
+	"Privacy":
+	"隐私政策",
+
+	"Report Abuse":
+	"报告滥用",
+
+	"Report abuse use such as piracy, pornography, extreme violence, religious discrimination and racism, etc.":
+	"报告滥用情况，比如盗版、色情、极端暴力、宗教歧视和种族歧视等。",
+
+	"Report%20Abuse%20Use":
+	"报告滥用",
+
+	"List%20image%20address%20here%20for%20report.":
+	"将涉及滥用的图片地址列在此处。"
 }

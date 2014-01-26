@@ -270,7 +270,7 @@ function load_lang() {
 }
 
 function is_mobile() {
-	global $ismobile;
+	$ismobile = new Mobile_Detect;
 	if(!isset($_GET['mobile']) && $ismobile->isMobile() && !$ismobile->isTablet() || isset($_GET['mobile']) && $_GET['mobile']!='no') {
 		return true;
 	}else {
@@ -280,12 +280,12 @@ function is_mobile() {
 
 function load_mobile($type='phone') {
 	if($type=='phone') {
-		require 'phone.php';
+		require 'ui.phone.php';
 	}
 }
 
 function load_normal($results=false) {
-	require 'normal.php';
+	require 'ui.normal.php';
 }
 
 function get_url($cdn=false){
