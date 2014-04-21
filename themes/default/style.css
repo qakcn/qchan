@@ -4,6 +4,7 @@
 	margin: 0;
 	font-family: "文泉驿微米黑","微软雅黑",verdana, arial, helvetica, sans-serif;
 }
+article,aside,dialog,footer,header,section,footer,nav,figure,menu {display:block;}
 
 /* Global style */
 .clear {
@@ -23,8 +24,9 @@ img {
 /**********************
  *       Header       *
  **********************/
-header#main_header {
+#main_header {
 	background-color: mediumseagreen;
+	box-shadow: 0 2px 2px 0 gray;
 	color:white;
 	position: fixed;
 	top: 0;
@@ -34,10 +36,10 @@ header#main_header {
 	z-index: 10000;
 }
 /* Header container */
-ul#header_wrap {
+#header_wrap {
 	list-style: none;
 }
-ul#header_wrap > li {
+#header_wrap > li {
 	float: left;
 	width: 200px;
 	height: 30px;
@@ -46,29 +48,30 @@ ul#header_wrap > li {
 	padding: 25px 0;
 	cursor: default;
 }
-ul#header_wrap > li:not(#logo):hover {
+#header_wrap > li:not(#logo):hover {
 	background-color: seagreen;
 }
-ul#header_wrap > li:not(#logo):active {
+#header_wrap > li:not(#logo):active {
 	background-color: mediumseagreen;
 }
 /* Logo size 200x80 */
-ul#header_wrap > li#logo {
+#header_wrap > #logo {
 	width: 200px;
 	padding: 0;
 	height: 80px;
 }
-ul#header_wrap > li#logo img {
+#header_wrap > #logo img {
 	height:80px;
+	vertical-align: top;
 }
 
 /* Language select */
-ul#header_wrap > li#lang_set {
+#header_wrap > #lang_set {
 	float: right;
 }
 
 /* Language select dropdown menu */
-li#lang_set ul {
+#lang_set ul {
 	width: 300px;
 	margin-left: -120px;
 	list-style: none;
@@ -77,43 +80,43 @@ li#lang_set ul {
 	font-size: 16px;
 	padding: 10px;
 }
-li#lang_set:hover ul {
+#lang_set:hover ul {
 	display: block;
 }
-li#lang_set:hover {
+#lang_set:hover {
 	background-color: dodgerblue !important;
 }
-li#lang_set ul li {
+#lang_set ul li {
 	padding: 10px;
 	float: left;
 }
-li#lang_set ul li a {
+#lang_set ul li a {
 	color: white;
 	text-decoration: none;
 }
-li#lang_set ul li a:hover {
+#lang_set ul li a:hover {
 	text-decoration: underline;
 }
 
 /**********************
  *    Main section    *
  **********************/
-section#main {
+#main {
 	padding: 10px;
 	position: absolute;
 	top: 80px;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	bottom: 74px;
 	overflow: auto;
 	transition: margin-bottom 0.2s ease-out;
 }
-section#main.showinfo {
+#main.showinfo {
 	margin-bottom: 220px;
 }
 
 /* Show on load */
-div#first_load {
+#first_load {
 	color: #aaa;
 	text-align: center;
 	display: -moz-box;
@@ -124,40 +127,39 @@ div#first_load {
 	width: 100%;
 }
 /* Big add button */
-a#add {
+#add {
 	width: 300px;
 	height: 200px;
-	background-image: url(site-img/add.svg);
+	background-image: url(images/add.svg);
 	border: none;
 	display: inline-block;
 	text-decoration: none;
 }
-a#add:hover {
+#add:hover {
 	background-position: 0 -200px;
 }
 
 /* Result Zone */
-ul#result_zone {
+#result_zone {
 	list-style: none;
-	background-image: url(site-img/tip.png);
 	background-repeat: no-repeat;
 	background-position: bottom right;
 }
-ul#result_zone li{
+#result_zone li{
 	display: inline-block;
 	float: left;
 	margin: 5px;
-	background-image: url(site-img/transparent.svg);
+	background-image: url(images/transparent.svg);
 	background-position: center center;
 }
-ul#result_zone div.progress{
-	background-image: url(site-img/mask.svg);
+#result_zone div.progress{
+	background-image: url(images/mask.svg);
 }
-ul#result_zone div.select{
+#result_zone div.select{
 	border: 5px solid slateblue;
 	display: none;
 }
-ul#result_zone div.select p{
+#result_zone div.select p{
 	background-color: slateblue;
 	color:white;
 	font-size: 16px;
@@ -166,16 +168,16 @@ ul#result_zone div.select p{
 }
 
 /* Message Zone */
-ul#message_zone {
+#message_zone {
 	position: fixed;
 	right: 0;
 	bottom: 0;
 	list-style: none;
 }
-ul#message_zone.showinfo {
+#message_zone.showinfo {
 	bottom: 220px;
 }
-ul#message_zone li {
+#message_zone li {
 	width: 260px;
 	height: 80px;
 	margin: 10px;
@@ -186,15 +188,15 @@ ul#message_zone li {
 	overflow: hidden;
 	transition: opacity 0.4s ease-out;
 }
-ul#message_zone li.error {
+#message_zone li.error {
 	color: crimson;
 	border-color: crimson;
 	background-color: lavenderblush;
 }
-ul#message_zone li.hide {
+#message_zone li.hide {
 	opacity: 0;
 }
-ul#message_zone li.tiny {
+#message_zone li.tiny {
 	height: 0;
 	padding: 0;
 	margin: 0;
@@ -203,7 +205,7 @@ ul#message_zone li.tiny {
 
 /* Pop-up for upload */
 /* Pop-up container */
-div#upload_popup {
+#upload_popup {
 	position: fixed;
 	top: 80px;
 	bottom: 0;
@@ -213,13 +215,13 @@ div#upload_popup {
 	display: none;
 	z-index: 9999;
 }
-div#pop_window {
+#pop_window {
 	margin: 20px auto;
 	width: 600px;
 	background-color: #f8f8f8;
 }
 /* Title bar */
-div#pop_window header {
+#pop_window header {
 	height: 30px;
 	background-color: mediumseagreen;
 	padding: 20px;
@@ -227,15 +229,15 @@ div#pop_window header {
 	font-size: 25px;
 }
 /* Work zone */
-div#pop_window div.zone {
+#pop_window div.zone {
 	height: 250px;
 	padding: 25px;
 }
 /* Tab */
-div#method_change {
+#method_change {
 	background-color: mediumseagreen;
 }
-div#method_change a {
+#method_change a {
 	display: inline-block;
 	margin-left: 20px;
 	padding: 5px;
@@ -245,18 +247,18 @@ div#method_change a {
 	color: #333;
 	cursor: default;
 }
-div#method_change a.noact {
+#method_change a.noact {
 	background-color: #aaa;
 }
-div#method_change a.noact:hover {
+#method_change a.noact:hover {
 	background-color: #ddd;
 }
-div#file_review {
+#file_review {
 	height: 200px;
 	overflow: auto;
 	margin: 10px 0;
 }
-div#file_review p {
+#file_review p {
 	color: #666;
 	font-size: 16px;
 	line-height: 120%;
@@ -264,32 +266,32 @@ div#file_review p {
 	counter-increment: filecount;
 	white-space: nowrap;
 }
-div#file_review p:nth-child(2n) {
+#file_review p:nth-child(2n) {
 	background-color: #ddd;
 }
-div#file_review p::before {
+#file_review p::before {
 	content: counter(filecount);
 	color: white;
 	padding:5px;
 	margin: 5px;
 }
-div#file_review p:nth-child(2n)::before {
+#file_review p:nth-child(2n)::before {
 	background-color: #666;
 }
-div#file_review p:nth-child(2n+1)::before{
+#file_review p:nth-child(2n+1)::before{
 	background-color: #333;
 }
 /* Hide on start */
-div#url_zone {
+#url_zone {
 	display: none;
 }
 /* Hide file input */
-input#file_list {
+#file_list {
 	visibility: hidden;
 	width: 0px;
 }
 /* URL textarea */
-textarea#url_list {
+#url_list {
 	width: 536px;
 	height: 236px;
 	padding: 5px;
@@ -302,49 +304,49 @@ textarea#url_list {
 	line-height: 120%;
 	outline: none;
 }
-textarea#url_list:hover {
+#url_list:hover {
 	background-color: #eee;
 }
-textarea#url_list:focus {
+#url_list:focus {
 	background-color: #f8f8f8;
 	border: 2px solid cornflowerblue;
 }
 
 /* Submit and Close button zone */
-div#submit_zone {
+#submit_zone {
 	background-color: #f8f8f8;
 	padding: 10px;
 	text-align: right;
 }
 
 /* Buttons */
-div#pop_window button {
+#pop_window button {
 	border: none;
 	padding: 10px;
 	width: 200px;
 	color: white;
 	font-size: 20px;
 }
-button#closepop {
+#closepop {
 	background-color: palevioletred;
 }
-button#closepop:hover {
+#closepop:hover {
 	background-color: mediumvioletred;
 }
-button#closepop:active {
+#closepop:active {
 	background-color: palevioletred;
 }
-button#submit, button#file_select {
+#submit, #file_select {
 	background-color: cornflowerblue;
 }
-button#submit:hover, button#file_select:hover {
+#submit:hover, #file_select:hover {
 	background-color: royalblue;
 }
-button#submit:active, button#file_select:active {
+#submit:active, #file_select:active {
 	background-color: cornflowerblue;
 }
 
-aside#info_zone {
+#info_zone {
 	padding: 10px;
 	height: 200px;
 	position: fixed;
@@ -356,31 +358,31 @@ aside#info_zone {
 	color: white;
 	transition: height 0.2s ease-out, padding 0.2s ease-out;
 }
-aside#info_zone h1 {
+#info_zone h1 {
 	font-size: 30px;
 	margin: 5px 0;
 }
-aside#info_zone p {
+#info_zone p {
 	font-size: 16px;
 	margin: 5px 0;
 }
-aside#info_zone h1,aside#info_zone p {
+#info_zone h1,#info_zone p {
 	transition: margin 0.2s ease-out;
 }
-aside#info_zone.hide {
+#info_zone.hide {
 	padding: 0 10px;
 	height: 0;
 }
-aside#info_zone .new:nth-child(1) {
+#info_zone .new:nth-child(1) {
 	margin-left: 100%;
 }
-aside#info_zone .new:nth-child(2) {
+#info_zone .new:nth-child(2) {
 	margin-left: 70%;
 }
-aside#info_zone .new:nth-child(3) {
+#info_zone .new:nth-child(3) {
 	margin-left: 40%;
 }
-aside#info_zone p.result_info input,aside#info_zone p.result_info textarea {
+#info_zone p.result_info input,#info_zone p.result_info textarea {
 	width: 600px;
 	border: 2px solid #ddd;
 	background-color: #ddd;
@@ -391,42 +393,57 @@ aside#info_zone p.result_info input,aside#info_zone p.result_info textarea {
 	text-align: right;
 	line-height: 120%;
 }
-aside#info_zone p.result_info input {
+#info_zone p.result_info input {
 	border-color: slateblue;
 }
-aside#info_zone p.result_info textarea {
+#info_zone p.result_info textarea {
 	height: 117px;
 	text-align: left;
 	float: left;
 	resize: none;
 
 }
-aside#info_zone p.result_info label.multi {
+#info_zone p.result_info label.multi {
 	display: block;
 	padding: 2px;
 	padding-left: 612px;
 	width: 300px;
 	height: 21px;
 }
-aside#info_zone p.result_info label.multi:hover {
+#info_zone p.result_info label.multi:hover {
 	background-color: mediumslateblue;
 }
-aside#info_zone p.result_info label.multi.actived,aside#info_zone p.result_info label.multi.actived:hover {
+#info_zone p.result_info label.multi.actived,#info_zone p.result_info label.multi.actived:hover {
 	background-color: #ddd;
 	color: #333;
 }
 
-aside#info_zone p.result_info label.multi.actived:hover {
+#info_zone p.result_info label.multi.actived:hover {
 	
 }
-aside#info_zone p.result_info input:hover,aside#info_zone p.result_info textarea:hover {
+#info_zone p.result_info input:hover,#info_zone p.result_info textarea:hover {
 	background-color: #eee;
 }
-aside#info_zone p.result_info input:focus,aside#info_zone p.result_info textarea:focus {
+#info_zone p.result_info input:focus,#info_zone p.result_info textarea:focus {
 	background-color: #f8f8f8;
 	border: 2px solid tomato;
 }
 
-#main_footer {position: fixed; bottom: 0; right: 0; left: 0;  font-size: 14px; background-color: dimgray; color: white; text-align: right; padding: 10px;}
-#main_footer a {color: powderblue; text-decoration: none;}
-#main_footer a:hover {text-decoration: underline;}
+#main_footer {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	font-size: 14px;
+	background-color: dimgray;
+	color: white;
+	text-align: right;
+	padding: 10px;
+}
+#main_footer a {
+	color: powderblue;
+	text-decoration: none;
+}
+#main_footer a:hover {
+	text-decoration: underline;
+}

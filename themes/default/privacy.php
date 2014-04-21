@@ -1,44 +1,14 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	
-	<title>隐私政策</title> <!-- Change This -->
-	
-	<link rel="stylesheet" type="text/css" href="style.css">
-	
-	<!--[if lt IE9]> 
-	<script>
-		(function() {
-		if (! 
-		/*@cc_on!@*/
-		0) return;
-		var e = "abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');
-		var i= e.length;
-		while (i=i-1){
-			document.createElement(e[i])
-		} 
-		})();
-	</script>
-	<![endif]-->
-	<style>
-		article,aside,dialog,footer,header,section,footer,nav,figure,menu {display:block;}
-		h1{font-size: 30px; background-color: dimgray; color: white; padding: 10px;}
-		h2{font-size: 25px; margin-left: 10px;}
-		h3{font-size: 20px; margin-left: 20px;}
-		p{font-size: 16px; margin-left: 30px;}
-		h1,h2,h3,p{margin-top: 5px;}
-	</style>
-</head>
+<?php
 
-<body>
-<!-- Header -->
-<header id="main_header">
-	<ul id="header_wrap">
-		<!-- Logo -->
-		<li id="logo"><a href="index.php"><img src="site-img/logo.png" alt="Logo"></a></li>
-</header>
+/* Deny direct visit */
+if(!defined('INDEX_RUN')) {
+	header('HTTP/1.1 403 Forbidden');
+	exit('This file must be loaded in flow.');
+}
+
+?>
+
+<?php load_header(); ?>
 
 <!-- Main section -->
 <section id="main">
@@ -58,6 +28,5 @@
 	<h2>四、隐私问题的报告</h2>
 	<p>如果用户在使用本网站的过程中发现其他用户上传的文件对自己的隐私造成了侵犯，请联系网站的管理员报告。为了防止误删文件，请于报告中提供详细的证据，在管理员核实后将会对文件进行删除。</p>
 </section>
-</body>
 
-</html>
+<?php load_footer(); ?>
