@@ -8,6 +8,8 @@ if(!main) {
 	view_image = document.getElementById('view_image');
 }
 
+scrollLoading();
+
 delete_image.onclick = function(){
 	
 }
@@ -18,6 +20,26 @@ view_image.onclick = function(){
 		window.open(work.path);
 	}
 };
+
+main.addEventListener('scroll',scrollLoading);
+
+function scrollLoading(){
+	var scrollmax,unloadimgs;
+	if(main.scrollTopMax) {
+		scrollmax = main.scrollTopMax
+	}else {
+		scrollmax = main.scrollHeight - main.clientHeight;
+	}
+	unloadimgs = document.getElementsByClassName('scroll-load');
+	unloadimgs = Array.prototype.slice.call(unloadimgs);
+	for(var i=0;i<unloadimgs.length;i++) {
+		var thisimg = unloadimgs[i];
+		if(thisimg.offsetTop - main.scrollTop < main.clientHeight - 20 && thisimg.offsetTop > main.scrollTop - 180) {
+			thisimg.children[0].style.backgroundImage = 'url("' + thisimg.dataset.thumb + '")';
+			removeClass(thisimg,'scroll-load');
+		}
+	}
+}
 
 /* show an element through CSS display */
 function show(elm) {
@@ -94,6 +116,11 @@ function progress(thmprg) {
 		}
 		anipos(pos,thmprg);
 	}
+}
+
+function openimage() {
+		window.open(this.work.path);
+		return false;
 }
 
 /* Show info zone when selecting files*/

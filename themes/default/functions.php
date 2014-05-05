@@ -13,7 +13,7 @@ FORMAT;
 			$width = 200;
 			$height = 200;
 		}
-		$output .= sprintf($format, $id++, $width, $height, (200-$height)/2, $result['path'], $result['thumb'], $result['path'], $width, $height, $width, $height, $width, $height, $width, $height-30);
+		$output .= sprintf($format, $id++, $width, $height, (205-$height), $result['path'], $result['thumb'], $result['path'], $width, $height, $width, $height, $width, $height, $width, $height-30);
 	}
 $output.=<<<SCRIPT
 <script type="application/javascript">

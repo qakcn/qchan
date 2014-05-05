@@ -75,7 +75,7 @@ function get_upload_count(){
 
 // Escape special character
 function escape_special_char($name) {
-	return str_replace(array('#','?','=','&','/','\\',';','<','>','[',']','%','@'), '_', $name);
+	return str_replace(array('#','?','=','&','/','\\',';','<','>','[',']','%','@','-'), '_', $name);
 }
 
 

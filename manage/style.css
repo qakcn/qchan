@@ -294,10 +294,10 @@ img {
 	height: 0;
 }
 #info_zone .new:nth-child(1) {
-	margin-left: 70%;
+	margin-left: 100%;
 }
 #info_zone .new:nth-child(2) {
-	margin-left: 40%;
+	margin-left: 70%;
 }
 #buttonp button {
 	border: none;

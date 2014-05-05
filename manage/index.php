@@ -2,6 +2,8 @@
 
 define('MANAGE_RUN',true);
 
+session_start();
+
 /* Load Functions */
 require '../engine.php';
 

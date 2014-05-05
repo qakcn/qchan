@@ -112,7 +112,7 @@ img {
 	transition: margin-bottom 0.2s ease-out;
 }
 #main.showinfo {
-	margin-bottom: 220px;
+	margin-bottom: 146px;
 }
 
 /* Show on load */
@@ -171,11 +171,11 @@ img {
 #message_zone {
 	position: fixed;
 	right: 0;
-	bottom: 0;
+	bottom: 74px;
 	list-style: none;
 }
 #message_zone.showinfo {
-	bottom: 220px;
+	bottom: 146px;
 }
 #message_zone li {
 	width: 260px;

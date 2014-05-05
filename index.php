@@ -20,6 +20,8 @@ if(isset($_GET['err']) && $_GET['err']!='') {
 }else {
 	if(isset($_POST['normal']) && $_POST['normal'] == 'upload') {
 		$results = file_handler();
+	}else {
+		$results=null;
 	}
 	isset($_GET['page']) ? '' : $_GET['page']='main';
 	load_theme($results);
