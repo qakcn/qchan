@@ -25,6 +25,7 @@ function setup_dir() {
 	return array($uploads_dir,$thumbs_dir);
 }
 
+//Handle the URL uploading
 function url_handler() {
 	list($uploads_dir,$thumbs_dir) = setup_dir();
 	
@@ -119,6 +120,7 @@ function url_handler() {
 	return $result;
 }
 
+//Handle the file uploading
 function file_handler() {
 	list($uploads_dir,$thumbs_dir) = setup_dir();
 	$files = $_FILES['files'];
@@ -245,6 +247,7 @@ function rename_if_exists($name, $dir) {
 	return $name;
 }
 
+//Get remote file size
 function remote_filesize($url){  
 	$url = parse_url($url); 
 	if($fp = @fsockopen($url['host'],empty($url['port'])?80:$url['port'],$error)){
@@ -290,6 +293,7 @@ function file_mime_type($file) {
 	return false;
 }
 
+//Generate thumbnail image
 function make_thumb($name, $path, $thumbs_dir) {
 	$height = 200;
 	$width = 1000;
@@ -316,8 +320,6 @@ function make_thumb($name, $path, $thumbs_dir) {
 		default:
 			$notype = true;
 	}
-
-	
 	
 	if($height_orig <= $height && $width_orig <= $width) {
 		$return['width'] = $width_orig;
@@ -343,16 +345,22 @@ function make_thumb($name, $path, $thumbs_dir) {
 			}
 		}
 
+		// Make transparent for gif
+		if($type == IMAGETYPE_GIF) {
+			$transparent_index = imagecolortransparent($image);
+			if($transparent_index != -1) {
+				$bgcolor = imagecolorsforindex($image, $transparent_index);
+			}else {
+				$bgcolor = array('red' => 0, 'green' => 0, 'blue' => 0);
+			}
+			$bgcolor = imagecolorallocate($image_p, $bgcolor['red'], $bgcolor['green'], $bgcolor['blue']);
+			$bgcolor_index = imagecolortransparent($image_p, $bgcolor);
+			imagefill($image_p, 0, 0, $bgcolor_index);
+		}
+
 		// Resize image
 		if(!imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig)) {
 			return $return;
-		}
-		
-		// Make transparent for gif
-		if($type == IMAGETYPE_GIF) {
-			if(!($bgcolor = imagecolorallocate($image_p,0,0,0) && $imagecolortransparent($image_p, $bgcolor))) {
-				return $return;
-			}
 		}
 		
 		if(!$writef($image_p, ABSPATH."/$thumbs_dir/$name")) {

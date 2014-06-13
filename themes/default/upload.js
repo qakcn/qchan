@@ -124,7 +124,7 @@ function url_upload(work) {
 	xhr.addEventListener('readystatechange', function(e){
 		if(xhr.readyState == 4) {
 			if(xhr.status == 200) {
-				eval('var res = '+xhr.responseText);
+				var res=JSON.parse(xhr.responseText);
 				after_upload(res);
 				upload_next();
 			}else if(xhr.status == 504) {

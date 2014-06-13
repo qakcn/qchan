@@ -10,14 +10,13 @@ require ABSPATH.'/manage/functions.php';
 $logerror=-1;
 if($logged=is_login()) {
 	set_login();
-	$filem=get_files();
-}else if(isset($_POST['submit']) && $logged=check_login($logerror)) {
-	set_login();
-	$filem=get_files();
 }else {
-	$filem=false;
+	$result = array('error'=>'not_login');
 }
 
-
-
+if(isset($_GET['action']) && $_GET['action']=='delete') {
+	$works = json_decode($HTTP_RAW_POST_DATA,true);
+	$result=delete_files($works);
+}
+echo json_encode($result);
 ?>

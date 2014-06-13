@@ -32,17 +32,13 @@ if(!n%d) {
 }
 n%d.onclick = toggleinfo();
 n%d.oncontextmenu = toggleinfo();
-n%d.work = {
-	name: '%s',
-	path: '%s',
-	thumb: '%s',
-	status: 'success',
-	qid: 'n%d'
-};
+n%d.work = %s;
 FORMAT;
 	$output = '';
 	foreach($results as $result) {
-		$output .= sprintf($format, $id, $id, $id, $id, $id, $id, $result['name'], $result['path'], $result['thumb'], $id++);
+		$work = json_encode(array('name'=>$result['name'], 'path'=>$result['path'], 'thumb'=>$result['thumb'], 'status'=>'success', 'qid'=>'n'.$id));
+		$output .= sprintf($format, $id, $id, $id, $id, $id, $id, $work);
+		$id++;
 	}
 	return $output;
 }

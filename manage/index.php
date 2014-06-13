@@ -20,6 +20,13 @@ if($logged=is_login()) {
 	$filem=false;
 }
 
+	$allpage = ceil(count($filem)/200);
+	if(isset($_GET['page']) && is_numeric($_GET['page'])) {
+		$page = floor($_GET['page']);
+	}else {
+		$page = 1;
+	}
+
 /* Management UI */
 ?>
 <!DOCTYPE HTML>
@@ -62,17 +69,6 @@ if($logged=is_login()) {
 				part_upload: '<?=__('Only parts of the file were uploaded. You can retry it.') ?>',
 				no_tmp: '<?=__('Temporary directory on the server does not exist. Ask webmaster to check.') ?>',
 				fail_retry: '<?=__('Try to upload several times and all of those were failed.') ?>'
-			},
-			status: {
-				prepare: '<?=__('Preparing for uploading') ?>',
-				waiting: '<?=__('Waiting for uploading') ?>',
-				uploading: '<?=__('Uploading') ?>',
-				success: '<?=__('Uploaded successfully') ?>',
-				error: '<?=__('Something wrong') ?>',
-				failed: '<?=__('Failed to upload') ?>',
-				all_success: '<?=__('All selected files were uploaded successfully') ?>',
-				part_success: '<?=__('Not all selected files were uploaded successfully, only uploaded ones showed below') ?>',
-				all_failed: '<?=__('All selected files were failed to upload') ?>',
 			},
 			info: {
 				selected: '<?=__('Selected') ?>',
@@ -130,7 +126,7 @@ if($logged) {
 ?>
 	<ul id="dirlist"><?php list_dir(); ?></ul>
 	<ul id="result_zone">
-		<?=format_filelist($filem) ?>
+		<?=format_filelist($filem,$page) ?>
 		<div class="clear"></div>
 	</ul>
 	
@@ -165,6 +161,24 @@ switch($logerror) {
 	</div>
 <?php } ?>
 </section>
+<?php if(isset($_GET['year']) && isset($_GET['month'])) { ?>
+<aside id="page_zone">
+	<button id="prev_page" <?=$page==1?'disabled':'' ?>><?=__('Previous') ?></button>
+	<?=__('Page: ') ?>
+	<select id="page_select" data-url="?year=<?=$_GET['year'] ?>&month=<?=$_GET['month'] ?>&page=">
+	<?php
+		for ($i=1;$i<=$allpage;$i++) {
+			if($page == $i) {
+				echo '<option value="'.$i.'" selected>'.$i.'</option>';
+			}else {
+				echo '<option value="'.$i.'">'.$i.'</option>';
+			}
+		}
+	?>
+	</select>
+	<button id="next_page" <?=$page==$allpage?'disabled':'' ?>><?=__('Next') ?></button>
+</aside>
+<?php } ?>
 
 <!-- File info section -->
 <aside id="info_zone" class="hide">
@@ -174,7 +188,7 @@ switch($logerror) {
 
 <script type="application/javascript" src="ui.js"></script>
 <script type="application/javascript">
-<?=format_script($filem) ?>
+<?=format_script($filem,$page) ?>
 </script>
 
 <!-- Footer -->

@@ -3,16 +3,67 @@ if(!main) {
 	var main = document.getElementById('main'),
 	result_zone = document.getElementById('result_zone'),
 	message_zone = document.getElementById('message_zone'),
-	info_zone = document.getElementById('info_zone');
-	delete_image = document.getElementById('delete_image');
-	view_image = document.getElementById('view_image');
+	info_zone = document.getElementById('info_zone'),
+	delete_image = document.getElementById('delete_image'),
+	view_image = document.getElementById('view_image'),
+	next_page = document.getElementById('next_page'),
+	prev_page = document.getElementById('prev_page'),
+	page_select = document.getElementById('page_select');
 }
 
 scrollLoading();
 
+next_page.onclick = function(){
+	window.location.href = page_select.dataset.url+(parseInt(page_select.value)+1);
+};
+page_select.onchange = function(){
+	window.location.href = page_select.dataset.url+page_select.value;
+};
+prev_page.onclick = function(){
+	window.location.href = page_select.dataset.url+(parseInt(page_select.value)-1);
+};
+
 delete_image.onclick = function(){
+	var files=document.getElementsByClassName('selected');
+	files=Array.prototype.slice.call(files);
 	
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open('POST', 'api.php?action=delete&'+(new Date()).getTime(), true);
+	//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	var sendData = '';
+	
+	var works=new Array;
+	for(var i=0;i<files.length; i++) {
+		works[i] = files[i].work;
+	}
+	
+	var sendData = JSON.stringify(works);
+	
+	xhr.addEventListener('readystatechange', function(e){
+		if(xhr.readyState == 4) {
+			if(xhr.status == 200) {
+				var res=JSON.parse(xhr.responseText);
+				for(id in res) {
+					if(res[id] == 'deleted' || res[id] == 'thumbdelfail') {
+						remove(document.getElementById(id));
+					}
+				}
+			}
+		}
+	},false);
+/*
+	xhr.upload.addEventListener('progress',function(e){
+
+	},false);
+	xhr.upload.addEventListener('load',function(e){
+
+	},false);
+	*/
+	xhr.send(sendData);
 }
+
 view_image.onclick = function(){
 	var selected = document.getElementsByClassName('selected');
 	for(var i=0;i<selected.length;i++) {

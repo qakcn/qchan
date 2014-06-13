@@ -122,7 +122,7 @@ function format_filelist($filem,$page=1) {
 <li class="scroll-load" id="n%d" draggable="true" style="width: %dpx; height: %dpx; margin-top: %dpx;" data-path="%s" data-thumb="%s"><div class="img" style="background-image: url(&quot;images/none.svg&quot;); background-size: %dpx %dpx; width: %dpx; height: %dpx;"><div><div class="select" style="padding-top: %dpx;"><p>%s</p></div></div></div></li>
 FORMAT;
 	$output='';
-	for($i=0+($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
+	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
 		$filepath=UPLOAD_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$thumbpath=THUMB_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$status='select';
@@ -152,24 +152,38 @@ if(!n%d) {
 n%d.onclick = toggleinfo();
 n%d.ondblclick = openimage;
 n%d.oncontextmenu = toggleinfo();
-n%d.work = {
-	name: '%s',
-	path: '%s',
-	thumb: '%s',
-	qid: 'n%d'
-};
+n%d.work = %s;
 
 FORMAT;
 	$output = '';
-	for($i=0+($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
+	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
 		$filepath=UPLOAD_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$thumbpath=THUMB_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		if(!file_exists(ABSPATH.'/'.$filepath)) {
 			continue;
 		}
-		$output .= sprintf($format, $i, $i, $i, $i, $i, $i, $i, $filem[$i], '../'.$filepath, '../'.$thumbpath, $i);
+		$work = json_encode(array('name'=>$filem[$i], 'path'=>'../'.$filepath, 'thumb' => '../'.$thumbpath, 'qid' => 'n'.$i));
+		$output .= sprintf($format, $i, $i, $i, $i, $i, $i, $i, $work);
 	}
 	return $output;
+}
+
+function delete_files($works) {
+	$result = array();
+	foreach($works as $work) {
+		$su = file_exists($work['path']) && unlink($work['path']);
+		$st = file_exists($work['thumb']) && unlink($work['thumb']);
+		if($su && $st) {
+			$result[$work['qid']]='deleted';
+		}else if($su && !$st) {
+			$result[$work['qid']]='thumbdelfail';
+		}else if(!$su && $st) {
+			$result[$work['qid']]='origdelfail';
+		}else {
+			$result[$work['qid']]='failed';
+		}
+	}
+	return $result;
 }
 
 ?>
