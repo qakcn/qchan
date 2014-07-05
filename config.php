@@ -1,14 +1,14 @@
 <?php
 
 // Set display language
-define('UI_LANG','zh-CN');
+define('UI_LANG','en');
 define('UI_THEME','default');
 
 // Site information
-define('SITE_TITLE', '家族图床');
-define('SITE_DESCRIPTION', '免费图床');
+define('SITE_TITLE', 'Qchan Image Host');
+define('SITE_DESCRIPTION', 'Upload & Share');
 define('SITE_KEYWORDS', 'images, photos, image hosting, photo hosting, free image hosting');
-define('ADMIN_EMAIL', 'qakcnyn@gmail.com');
+define('ADMIN_EMAIL', 'admin@example.com');
 
 define('SIZE_LIMIT', '4M');
 define('UPLOAD_DIR', 'uploads');
