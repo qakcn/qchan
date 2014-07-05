@@ -19,6 +19,8 @@ if(!defined('INDEX_RUN')) {
 	<title><?=SITE_TITLE . ' - ' . __('Qchan Image Hosting') ?></title>
 	
 	<link rel="stylesheet" type="text/css" href="<?=get_url().theme_path() ?>style.css">
+	<link rel="icon" type="image/png" href="<?=get_url() ?>site-img/favicon.png">
+	
 	<script type="application/javascript">
 		/* Message for UI */
 		ui_msg = {

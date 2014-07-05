@@ -109,6 +109,8 @@ document.ondrop = function(e) {
 	}
 };
 
+lastselected=null;
+
 /* show an element through CSS display */
 function show(elm) {
 	elm.style.display = 'block';
@@ -319,30 +321,46 @@ function progress(thmprg) {
 }
 
 /* Show info zone when selecting files*/
-function toggleinfo(mode) {
+function toggleinfo() {
 	return function(e) {
 		e.preventDefault();
 		if(e.type=='click') {
-			var selected = document.getElementsByClassName('selected');
-			var selectedcnt = selected.length;
-			var ishide = hasClass(info_zone,'hide');
-			while(selected.length>0) {
-				var everyli=selected[0];
-				var thisselected = (thisselected || everyli==this);
-				removeClass(everyli,'selected');
-				hide(everyli.children[0].children[0].children[0]);
-			}
-			if(selectedcnt>1 || !thisselected || ishide) {
-				addClass(this,'selected');
-				show(this.children[0].children[0].children[0]);
+			if(e.shiftKey && lastselected) {
+				var start=lastselected.id.slice(1);
+				var end=this.id.slice(1);
+				if(-start>-end) {
+					start = lastselected;
+					end = this;
+				}else {
+					start = this;
+					end = lastselected;
+				}
+				for(var i=start;i != end.nextElementSibling;i=i.nextElementSibling) {
+					addClass(i,'selected');
+				}
+				lastselected = this;
+			}else {
+				var selected = document.getElementsByClassName('selected');
+				var selectedcnt = selected.length;
+				var ishide = hasClass(info_zone,'hide');
+				while(selected.length>0) {
+					var everyli=selected[0];
+					var thisselected = (thisselected || everyli==this);
+					lastselected=null;
+					removeClass(everyli,'selected');
+				}
+				if(selectedcnt>1 || !thisselected || ishide) {
+					lastselected=this;
+					addClass(this,'selected');
+				}
 			}
 		}else if(e.type=='contextmenu'){
 			if(hasClass(this,'selected')) {
+				lastselected=null;
 				removeClass(this,'selected');
-				hide(this.children[0].children[0].children[0]);
 			}else {
+				lastselected=this;
 				addClass(this,'selected');
-				show(this.children[0].children[0].children[0]);
 			}
 		}
 		changeinfo();

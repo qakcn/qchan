@@ -214,6 +214,7 @@ img {
 	margin: 5px;
 	background-image: url(images/transparent.svg);
 	background-position: center center;
+	box-shadow: 5px 5px 5px 2px silver;
 }
 #result_zone div.progress{
 	background-image: url(images/mask.svg);
@@ -221,6 +222,9 @@ img {
 #result_zone div.select{
 	border: 5px solid slateblue;
 	display: none;
+}
+#result_zone .selected div.select{
+	display: block;
 }
 #result_zone div.select p{
 	background-color: slateblue;

@@ -41,6 +41,7 @@ if($logged=is_login()) {
 	<title><?=SITE_TITLE . ' - ' . __('Qchan Image Hosting') ?></title>
 	
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="icon" type="image/png" href="<?=get_url() ?>../site-img/favicon.png">
 	
 	<script type="application/javascript">
 		/* Message for UI */
