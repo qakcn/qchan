@@ -22,4 +22,3 @@ if(check_apikey()) {
 	header('HTTP/1.1 403 Forbidden');
 	exit('API KEY ERROR');
 }
-?>

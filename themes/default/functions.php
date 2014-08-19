@@ -42,4 +42,3 @@ FORMAT;
 	}
 	return $output;
 }
-?>

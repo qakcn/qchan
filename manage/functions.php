@@ -186,4 +186,3 @@ function delete_files($works) {
 	return $result;
 }
 
-?>

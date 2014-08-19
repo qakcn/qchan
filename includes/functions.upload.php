@@ -33,7 +33,7 @@ function url_handler() {
 	$name = escape_special_char(basename($url));
 	
 	$result = array('qid'=>$_POST['qid']);
-	$host = get_url(true);
+	$host = get_cdn();
 	
 	if(remote_filesize($url) > get_size_limit()) {
 		$result['status'] = 'failed';
@@ -88,6 +88,7 @@ function url_handler() {
 					$result['status'] = 'failed';
 					$result['err'] = 'write_prohibited';
 				}else {
+					watermark($path);
 					$thumb = make_thumb($name, $path, $thumbs_dir);
 					if($duplicate = duplicate_hash($name, $path, $thumb)) {
 						$result['status'] = 'success';
@@ -129,7 +130,7 @@ function file_handler() {
 	foreach($files['error'] as $key => $error) {
 		$result = isset($_POST['qid']) ? array('qid'=>$_POST['qid']) : array();
 		$name =  escape_special_char($files['name'][$key]);
-		$host = get_url(true);
+		$host = get_cdn();
 
 		if($error==UPLOAD_ERR_OK) {
 			if($files['size'][$key] > get_size_limit()) {
@@ -171,6 +172,7 @@ function file_handler() {
 							$result['status'] = 'failed';
 							$result['err'] = 'wrong_type';
 					}
+					
 					if(!isset($result['status']) || !$result['status'] == 'failed') {
 						$name = rename_if_exists($name, $uploads_dir);
 						$path = "$uploads_dir/$name";
@@ -178,6 +180,7 @@ function file_handler() {
 							$result['status'] = 'failed';
 							$result['err'] = 'write_prohibited';
 						}else {
+							watermark($path);
 							$thumb = make_thumb($name, $path, $thumbs_dir);
 							if($duplicate = duplicate_hash($name, $path, $thumb)) {
 								$result['status'] = 'success';
@@ -373,4 +376,28 @@ function make_thumb($name, $path, $thumbs_dir) {
 	return $return;
 }
 
-?>
+function watermark($file) {
+	if(WATERMARK) {
+		$imgInfo=getimagesize(ABSPATH.'/'.$file);
+		list($width, $height, $type) = $imgInfo;
+		if($type == IMAGETYPE_JPEG) {
+			$readf="imagecreatefromjpeg";
+			$writef="imagejpeg";
+		}else if($type == IMAGETYPE_PNG) {
+			$readf="imagecreatefrompng";
+			$writef="imagepng";
+		}
+		
+		list($x, $y) = explode(',', WATERMARK_POS);
+		list($min_width, $min_height) = explode('x', WATERMARK_MIN_SIZE);
+		
+		if($width >= $min_width && $height >= $min_height) {
+			if($x < 0) $x = $width + $x;
+			if($y < 0) $y = $height + $y;
+			$image = $readf(ABSPATH.'/'.$file);
+			$mark = imagecreatefrompng(ABSPATH . '/site-img/watermark.png');
+			imagecopy($image, $mark, $x, $y, 0, 0, imagesx($mark), imagesy($mark));
+			$writef($image, ABSPATH.'/'.$file);
+		}
+	}
+}

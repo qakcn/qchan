@@ -6,16 +6,14 @@ function theme_path() {
 
 function load_theme($results=null) {
 	require_once ABSPATH.'/'.theme_path().'functions.php';
-	switch($_GET['page']) {
-		case 'main':
-			require_once ABSPATH.'/'.theme_path().'main.php';
-			break;
-		case 'privacy':
-			require_once ABSPATH.'/'.theme_path().'privacy.php';
-			break;
-		case 'agreement':
-			require_once ABSPATH.'/'.theme_path().'agreement.php';
-			break;
+	if (isset($_GET['page'])) {
+		if(file_exists(ABSPATH . '/' . theme_path().'page-'.$_GET['page'].'.php')) {
+			require_once ABSPATH . '/' . theme_path().'page-'.$_GET['page'].'.php';
+		}else {
+			return_404();
+		}
+	}else {
+		require_once ABSPATH . '/' . theme_path().'main.php';
 	}
 }
 
@@ -27,4 +25,3 @@ function load_footer() {
 	require_once ABSPATH.'/'.theme_path().'footer.php';
 }
 
-?>

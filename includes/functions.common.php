@@ -1,26 +1,119 @@
 <?php
 
-function get_user_setting($configname) {
-	if(isset($_POST[$configname])) {
-		return $_POST[$configname];
-	}else {
-		return defined($configname) ? constant($configname) : false;
-	}
+function return_404() {
+	header('HTTP/1.0 404 Not Found');
+	header('Content-Type: image/jpeg');
+	echo file_get_contents(ABSPATH.'/site-img/404.jpg');
 }
 
+function return_403() {
+	header('HTTP/1.0 403 Forbidden');
+	header('Content-Type: image/jpeg');
+	echo file_get_contents(ABSPATH.'/strue,false,false,trueite-img/404.jpg');
+}
 
-
-function get_url($cdn=false){
-	if($cdn && defined('CDN_LIST')) {
-		$cdnlist = explode(',',CDN_LIST);
-		$rand_key = array_rand($cdnlist);
-		return 'http://' . $cdnlist[$rand_key] . '/';
-	}else {
-		if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') {
-			return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'https://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==443 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
-		}else {
-			return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'http://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==80 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
+function get_cdn() {
+	if(!CDN_ENABLED) {
+		return get_url();
+	}
+	$cdns = array();
+	$cdnlist = explode(',', CDN_LIST);
+	$cdnhttps = explode(',', CDN_HTTPS);
+	$cdnports_http = explode(',', CDN_PORTS_HTTP);
+	$cdnports_https = explode(',', CDN_PORTS_HTTPS);
+	
+	if(count($cdnhttps) == 1) {
+		while ($cdnsrv=array_shift($cdnlist)) {
+			array_push($cdns, array('server'=>$cdnsrv, 'https'=> $cdnhttps[0], 'port_http' => '', 'port_https' => ''));
 		}
+	}else if(count($cdnhttps)!=count($cdnlist)) {
+		while ($cdnsrv=array_shift($cdnlist)) {
+			array_push($cdns, array('server'=>$cdnsrv, 'https'=> 'both', 'port_http' => '', 'port_https' => ''));
+		}
+	}else {
+		while ($cdnsrv=array_shift($cdnlist)) {
+			$cdnsrvhttps = array_shift($cdnhttps);
+			array_push($cdns, array('server'=>$cdnsrv, 'https'=> $cdnsrvhttps, 'port_http' => '', 'port_https' => ''));
+		}
+	}
+	
+	if(count($cdnports_http) == 1) {
+		for($i = 0; $i < count($cdns); $i++) {
+			if($cdnports_http[0] == '' || ($cdns[$i]['https']=='both' ||  $cdns[$i]['https']=='forceoff' ||  $cdns[$i]['https']=='off') && $cdnports_http[0] == '80') {
+				continue;
+			}else {
+				$cdns[$i]['port_http'] = ':' . $cdnsrvport;
+			}
+		}
+	}else if(count($cdnports_http)==count($cdns)) {
+		for($i = 0; $i < count($cdns); $i++) {
+			$cdnsrvport = array_shift($cdnports_http);
+			if($cdnsrvport == '' || ($cdns[$i]['https']=='both' ||  $cdns[$i]['https']=='forceoff' ||  $cdns[$i]['https']=='off') && $cdnsrvport == '80') {
+				continue;
+			}else {
+				$cdns[$i]['port_http'] = ':' . $cdnsrvport;
+			}
+		}
+	}
+	
+	if(count($cdnports_https) == 1) {
+		for($i = 0; $i < count($cdns); $i++) {
+			if($cdnports_https[0] == '' || ($cdns[$i]['https']=='both' ||  $cdns[$i]['https']=='forceon' ||  $cdns[$i]['https']=='on') && $cdnports_https[0] == '443') {
+				continue;
+			}else {
+				$cdns[$i]['port_https'] = ':' . $cdnsrvport;
+			}
+		}
+	}else if(count($cdnports_https)==count($cdns)) {
+		for($i = 0; $i < count($cdns); $i++) {
+			$cdnsrvport = array_shift($cdnports_https);
+			if($cdnsrvport == '' || ($cdns[$i]['https']=='both' ||  $cdns[$i]['https']=='forceon' ||  $cdns[$i]['https']=='on') && $cdnsrvport == '443') {
+				continue;
+			}else {
+				$cdns[$i]['port_https'] = ':' . $cdnsrvport;
+			}
+		}
+	}
+	
+	while(true) {
+		$rand_key = array_rand($cdns);
+		if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') {
+			switch($cdns[$rand_key]['https']) {
+				case 'both':
+				case 'on':
+				case 'forceon':
+					$schema = 'https';
+					$port = $cdns[$rand_key]['port_https'];
+					break 2;
+				case 'forceoff':
+					$schema = 'http';
+					$port = $cdns[$rand_key]['port_http'];
+					break 2;
+			}
+		}else {
+			switch($cdns[$rand_key]['https']) {
+				case 'both':
+				case 'off':
+				case 'forceoff':
+					$schema = 'http';
+					$port = $cdns[$rand_key]['port_http'];
+					break 2;
+				case 'forceon':
+					$schema = 'https';
+					$port = $cdns[$rand_key]['port_https'];
+					break 2;
+			}
+		}
+	}
+
+	return $schema.'://' . $cdns[$rand_key]['server'] . $port . '/';
+}
+
+function get_url() {
+	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') {
+		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'https://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==443 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
+	}else {
+		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'http://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==80 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
 	}
 }
 
@@ -64,7 +157,7 @@ function return_bytes($val) {
 function get_size_limit() {
 	$postsize = return_bytes(ini_get('post_max_size'));
 	$filesize = return_bytes(ini_get('upload_max_filesize'));
-	$siteset = return_bytes(defined(SIZE_LIMIT) ? SIZE_LIMIT : '1T');
+	$siteset = return_bytes(SIZE_LIMIT);
 	
 	return min($postsize, $filesize, $siteset);
 }
@@ -78,71 +171,10 @@ function escape_special_char($name) {
 	return str_replace(array('#', '?', '=', '&', '/', '\\', ';', '<', '>', '[', ']', '%', '@', '-', '`', '(', ')'), '_', $name);
 }
 
-// Check if file is duplicate
-function is_duplicate($file) {
-	if(defined('DUPLICATE_FILE_CHECK') && DUPLICATE_FILE_CHECK && false) {
-		$hash = hash_file('sha256', $file);
-		$wd = ABSPATH.'/'.UPLOAD_DIR . '/hash';
-		for($i=0;$i<5;$i++) {
-			$wd .= '/' . substr($hash, $i*2+0, 2);
-		}
-		$wd .= '/' . substr($hash, 10, 2);
-		if(file_exists($wd)) {
-			$re = file_get_contents($wd);
-			if(preg_match('/^'.$hash.';(.+?);(.+?);(.+?)$/',$re,$match)) {
-				$name = $match[1];
-				$path = $match[2];
-				$thumb = $match[3];
-				
-				if($thumb!='none') {
-					list($width, $height) = getimagesize($thumb);
-				}else {
-					$width = 200;
-					$height = 1000;
-					list($width_orig, $height_orig) = getimagesize($path);
-					if($height_orig <= $height && $width_orig <= $width) {
-						$width = $width_orig;
-						$height = $height_orig;
-					}else{
-						$ratio_orig = $width_orig/$height_orig;
-						if ($width/$height > $ratio_orig) {
-							$width = $height*$ratio_orig;
-						}else {
-							$height = $width/$ratio_orig;
-						}
-					}
-				}
-				return array('name' => $name, 'path' => $path, 'thumb' => $thumb, 'width' => $width, 'height' => $height);
-			}else {
-				return false;
-			}
-		}else {
-			return false;
-		}
-	}else {
-		return false;
-	}
+function is_duplicate() {
+	return false;
 }
 
-// Generate hash file for duplicate check
-function duplicate_hash($name, $path, $thumb) {
-	if(defined('DUPLICATE_FILE_CHECK') && DUPLICATE_FILE_CHECK && false) {
-		$hash = hash_file('sha256', ABSPATH.'/'.$path);
-		$wd = ABSPATH.'/'.UPLOAD_DIR . '/hash';
-		for($i=0;$i<5;$i++) {
-			$wd .= '/' . substr($hash, $i*2+0, 2);
-			if(!file_exists($wd)) {
-				mkdir($wd);
-			}
-		}
-		$wd .= '/' . substr($hash, 10, 2);
-		if(file_put_contents($wd, $hash . ';' . $name . ';' . $path . ';' . ($thumb['generated'] ? $thumb['path'] : 'none') . "\n", FILE_APPEND | LOCK_EX) !== false) {
-			return true;
-		}else {
-			return false;
-		}
-	}else {
-		return true;
-	}
+function duplicate_hash() {
+	return true;
 }
-?>

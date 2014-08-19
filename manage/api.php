@@ -19,4 +19,3 @@ if(isset($_GET['action']) && $_GET['action']=='delete') {
 	$result=delete_files($works);
 }
 echo json_encode($result);
-?>

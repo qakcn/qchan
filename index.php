@@ -23,7 +23,5 @@ if(isset($_GET['err']) && $_GET['err']!='') {
 	}else {
 		$results=null;
 	}
-	isset($_GET['page']) ? '' : $_GET['page']='main';
 	load_theme($results);
 }
-?>

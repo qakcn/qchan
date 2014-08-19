@@ -479,7 +479,7 @@ function single_format(work) {
 	var output = '<input type="text" id="orig-'+work.qid+'" value="'+work.path+'" onclick="this.select()" readonly><label for="orig-'+work.qid+'">'+ui_msg.info.orig+'</label><br>'+
 	'<input type="text" id="html-'+work.qid+'" value="&lt;img src=&quot;'+work.path+'&quot;&gt;" onclick="this.select()" readonly><label for="html-'+work.qid+'">'+ui_msg.info.html+'</label><br>';
 	if(work.thumb != 'none') {
-		output += '<input type="text" id="htmlthm-'+work.qid+'" value="&lt;a href=&quot;'+work.path+'&quot; title=$quot;'+ui_msg.info.thumb_tips+'$quot;&gt;&lt;img src=&quot;'+work.thumb+'&quot;&gt;&lt;/a&gt;" onclick="this.select()" readonly><label for="htmlthm-'+work.qid+'">'+ui_msg.info.html_with_thumb+'</label><br>';
+		output += '<input type="text" id="htmlthm-'+work.qid+'" value="&lt;a href=&quot;'+work.path+'&quot; title=&quot;'+ui_msg.info.thumb_tips+'&quot;&gt;&lt;img src=&quot;'+work.thumb+'&quot;&gt;&lt;/a&gt;" onclick="this.select()" readonly><label for="htmlthm-'+work.qid+'">'+ui_msg.info.html_with_thumb+'</label><br>';
 	}
 	output += '<input type="text" id="bbc-'+work.qid+'" value="[img]'+work.path+'[/img]" onclick="this.select()" readonly><label for="bbc-'+work.qid+'">'+ui_msg.info.bbcode+'</label><br>';
 	if(work.thumb != 'none') {
