@@ -1,0 +1,61 @@
+{
+	"Qchan Image Hosting":
+	"Qchan图床",
+
+	"Language":
+	"语言",
+
+	"Select display language":
+	"选择显示语言",
+
+	"Selected":
+	"已选择",
+
+	" Files Selected":
+	"个文件被选择",
+
+	"Management":
+	"管理",
+
+	"Please Login":
+	"请登录",
+
+	"Admin Name":
+	"登录名",
+
+	"Password":
+	"密码",
+
+	"Login":
+	"登录",
+
+	"Admin Name is empty!":
+	"登录名为空！",
+
+	"Password is empty!":
+	"密码为空！",
+
+	"Admin Name is incorrect!":
+	"登录名不正确！",
+
+	"Password is incorrect!":
+	"密码不正确！",
+
+	"This site is powered by <a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>":
+	"本站由轻量级图床程序<a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>强力驱动",
+
+	"Previous":
+	"上一页",
+
+	"Next":
+	"下一页",
+
+	"Page: ":
+	"页码：",
+
+	"Delete":
+	"删除",
+
+	"View":
+	"预览"
+}

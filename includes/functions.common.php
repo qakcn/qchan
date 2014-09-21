@@ -110,6 +110,9 @@ function get_cdn() {
 }
 
 function get_url() {
+	if($_SERVER['SERVER_NAME'] == 'localhost') {
+		$_SERVER['SERVER_NAME'] = $_SERVER['SERVER_ADDR'];
+	}
 	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') {
 		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'https://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==443 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
 	}else {
@@ -118,24 +121,7 @@ function get_url() {
 }
 
 function check_apikey() {
-	if(isset($_SERVER['HTTP_REFERER']) && preg_match('/'.str_replace('.', '\.', $_SERVER['SERVER_NAME']).'/', $_SERVER['HTTP_REFERER'])) {
-		return true;
-	}else if(isset($_GET['apikey']) && preg_match('/[0-9a-f]{64}/',$_GET['apikey'])) {
-		if(file_exists('apikey/' . $_GET['apikey'] . '.php')) {
-			require 'apikey/' . $_GET['apikey'] . '.php';
-			if($apikey['type']=='web' && preg_match('/'.str_replace('.', '\.', $apikey['referer']).'/', $_SERVER['HTTP_REFERER'])) {
-				return true;
-			}else if($apikey['type']=='app') {
-				return true;
-			}else {
-				return false;
-			}
-		}else {
-			return false;
-		}
-	}else {
-		return false;
-	}
+	return true;
 }
 
 function return_bytes($val) {

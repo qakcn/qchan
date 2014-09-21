@@ -7,11 +7,12 @@ if(!defined('INDEX_RUN')) {
 }
 
 ?>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,minimum-scale=1,user-scalable=no"
 	
 	<meta name="Keywords" content="<?=SITE_KEYWORDS ?>">
 	<meta name="Description" content="<?=SITE_DESCRIPTION ?>">
@@ -22,62 +23,16 @@ if(!defined('INDEX_RUN')) {
 	<link rel="icon" type="image/png" href="<?=get_url() ?>site-img/favicon.png">
 	
 	<script type="application/javascript">
-		/* Message for UI */
-		ui_msg = {
-			err: {
-				illegal_url: '<?=__(' is not an acceptable URL.') ?>',
-				fail_load: '<?=__(' cannot load preview now. Waiting server response.') ?>',
-				wrong_type: '<?=__(' is unsupported file type.') ?>',
-				size_limit: '<?=__(' reaches the size limitation.') ?>',
-				no_file: '<?=__(' cannot be retrieved by server now. Check if URL is invalid.') ?>',
-				write_prohibited: '<?=__(' cannot write to server disk.') ?>',
-				fail_duplicate: '<?=__(' cannot perform duplicate check.') ?>',
-				php_upload_size_limit: '<?=__(' reaches size limit set in php.ini.') ?>',
-				part_upload: '<?=__(' only part of were uploaded.') ?>',
-				no_tmp: '<?=__(' there is no temporary directory on server.') ?>',
-				fail_retry: '<?=__(' tried several times and all failed.') ?>'
-			},
-			err_detail: {
-				no_file: '<?=__('File cannot be retrieved by server now. Perhaps remote server is unreachable, or file does not exist any more, or you just make a little mistake.') ?>',
-				size_limit: '<?=__('Reaches file size limitation.') ?>',
-				fail_load: '<?=__('The file preview cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.') ?>',
-				write_prohibited: '<?=__('File cannot write to upload directory on server. Ask webmaster to check permissions.') ?>',
-				wrong_type: '<?=__('File type not support now. Communicate with author for more help.') ?>',
-				fail_duplicate: '<?=__('Duplicate check is failed.') ?>',
-				php_upload_size_limit: '<?=__('Reaches file size limitation in php.ini.') ?>',
-				part_upload: '<?=__('Only parts of the file were uploaded. You can retry it.') ?>',
-				no_tmp: '<?=__('Temporary directory on the server does not exist. Ask webmaster to check.') ?>',
-				fail_retry: '<?=__('Try to upload several times and all of those were failed.') ?>'
-			},
-			status: {
-				prepare: '<?=__('Preparing for uploading') ?>',
-				waiting: '<?=__('Waiting for uploading') ?>',
-				uploading: '<?=__('Uploading') ?>',
-				success: '<?=__('Uploaded successfully') ?>',
-				error: '<?=__('Something wrong') ?>',
-				failed: '<?=__('Failed to upload') ?>',
-				all_success: '<?=__('All selected files were uploaded successfully') ?>',
-				part_success: '<?=__('Not all selected files were uploaded successfully, only uploaded ones showed below') ?>',
-				all_failed: '<?=__('All selected files were failed to upload') ?>',
-			},
-			info: {
-				selected: '<?=__('Selected') ?>',
-				files_selected: '<?=__(' File(s) Selected') ?>',
-				orig: '<?=__('Original File') ?>',
-				html: '<?=__('HTML Code') ?>',
-				html_with_thumb: '<?=__('HTML Code with thumbnail') ?>',
-				bbcode: '<?=__('BBCode') ?>',
-				bbcode_with_thumb: '<?=__('BBCode with thumbnail') ?>',
-				thumb_tips: '<?=__('Click to view large version') ?>'
-			}
-		};
+		ui_msg = <?=format_message() ?>;
+		// Some parameters
 		prop = {
 			size_limit: <?=get_size_limit() ?>,
-			upload_count: <?=get_upload_count() ?>
-		}
+			upload_count: <?=get_upload_count() ?>,
+			error_image: '<?=theme_path() ?>/images/error.svg'
+		};
 	</script>
 	
-	<!--[if lt IE9]> 
+	<!--[if lt IE 9]> 
 	<script>
 		(function() {
 		if (! 
@@ -91,20 +46,22 @@ if(!defined('INDEX_RUN')) {
 		})();
 	</script>
 	<![endif]-->
+	
 	<style>
-		#result_zone {background-image: url(lang/tip.<?=get_locale() ?>.png);}
+		#result_zone {background-image: url('<?=theme_path() ?>images/tip.<?=get_locale(true) ?>.png');}
 	</style>
 </head>
 
 <body>
-<!-- Header -->
 <header id="main_header">
-	<ul id="header_wrap">
-		<!-- Logo -->
-		<li id="logo"><a href="<?=get_url() ?>" title="<?=SITE_TITLE ?>"><img src="<?=get_url() ?>site-img/logo.png" alt="Logo"></a></li>
-		<!-- Click to upload -->
-		<li id="upload" title="<?=__('Upload files') ?>"><?=__('Upload') ?></li>
-		<!-- Language select -->
-		<li id="lang_set" title="<?=__('Select display language') ?>"><img src="<?=get_url().theme_path() ?>images/WorldMap.svg" width="36" height="18">&nbsp;<?=__('Language') ?><ul><?=get_langlist() ?><div class="clear"></div></ul></li>
-	</ul>
+	<div id="logo"></div>
+	<?php if(!is_page()) { ?>
+	<div id="upload_button_wrap">
+		<button class="affirmative" id="upload_button" title="<?=__('Upload files') ?>"><span id="add_mark">&#10133;</span><span id="close_mark">&#10060;</span><span class="hide_mobile">&nbsp;<?=__('Upload') ?></span></button>
+	</div>
+	<?php } ?>
+	<div id="lang_sel">
+		<img src="<?=get_url().theme_path() ?>images/WorldMap.svg"><span class="hide_mobile"><?=__('Language') ?></span>
+		<ul><?=get_langlist() ?></ul>
+	</div>
 </header>

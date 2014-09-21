@@ -9,6 +9,11 @@ define('SITE_TITLE', 'Qchan Image Host');
 define('SITE_DESCRIPTION', 'Upload & Share');
 define('SITE_KEYWORDS', 'images, photos, image hosting, photo hosting, free image hosting');
 define('ADMIN_EMAIL', 'admin@example.com');
+// Main site is set for parent site
+define('MAIN_SITE', false);
+define('MAIN_SITE_NAME', '');
+define('MAIN_SITE_LOGO', '');
+define('MAIN_SITE_URL', '');
 
 // Upload settings
 define('SIZE_LIMIT', '4M');
@@ -30,6 +35,6 @@ define('CDN_PORTS_HTTPS', ''); // familiar to above, but only work on HTTPS
 define('COPYRIGHT', 'Every uploaded image must licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.');
 
 // Watermark settings
-define('WATERMARK', true);
+define('WATERMARK', false);
 define('WATERMARK_MIN_SIZE', '200x200'); // Only mark images those are larger than
 define('WATERMARK_POS', '10,10'); //Watermark position coordinates, positive refer to left-top of image, negative refer to right-bottom

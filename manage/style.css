@@ -4,11 +4,7 @@
 	margin: 0;
 	font-family: "文泉驿微米黑","微软雅黑",verdana, arial, helvetica, sans-serif;
 }
-
-/* Global style */
-.clear {
-	clear: both;
-}
+article,aside,dialog,footer,header,section,footer,nav,figure,menu {display:block;}
 
 /* Page background-color */
 body {
@@ -20,262 +16,274 @@ img {
 	border: none;
 }
 
+button {
+	border: none;
+	padding: 0.5em;
+	min-width: 4em;
+	color: white;
+	font-size: 1.3em;
+	line-height: 100%;
+	background-color: #aaa;
+	user-select: none;
+}
+button:hover {
+	background-color: #888;
+}
+button:active {
+	background-color: #aaa;
+}
+button.affirmative {
+	background-color: cornflowerblue;
+}
+button.affirmative:hover {
+	background-color: royalblue;
+}
+button.affirmative:active {
+	background-color: cornflowerblue;
+}
+button.negative {
+	background-color: palevioletred;
+}
+button.negative:hover {
+	background-color: mediumvioletred;
+}
+button.negative:active {
+	background-color: palevioletred;
+}
+
+
+/*-*=*-*=*-*=*-*=*-*=*-*=*-*=*-*
+ *        Common Styles        *
+ *=*-*=*-*=*-*=*-*=*-*=*-*=*-*=*/
 /**********************
  *       Header       *
  **********************/
 #main_header {
 	background-color: mediumseagreen;
-	box-shadow: 0 2px 2px 0 gray;
 	color:white;
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 80px;
 	z-index: 10000;
+	height: 5em;
 }
-/* Header container */
-#header_wrap {
-	list-style: none;
-}
-#header_wrap > li {
+#main_header div {
 	float: left;
-	width: 200px;
-	height: 30px;
-	text-align: center;
-	font-size: 25px;
-	padding: 25px 0;
-	cursor: default;
 }
-#header_wrap > li:not(#logo):hover {
-	background-color: seagreen;
+#logo{
+	height: 5em;
+	width: 15em;
+	background-image: url(../../site-img/logo.png);
+	background-size: 100%;
 }
-#header_wrap > li:not(#logo):active {
-	background-color: mediumseagreen;
+#upload_button #close_mark {
+	display: none;
 }
-/* Logo size 200x80 */
-#header_wrap > #logo {
-	width: 200px;
-	padding: 0;
-	height: 80px;
-}
-#header_wrap > #logo img {
-	height:80px;
-}
-
-/* Language select */
-#header_wrap > #lang_set {
+div#lang_sel {
 	float: right;
+	height: 1.5em;
+	padding: 1.75em;
+	text-align: center;
 }
-
-/* Language select dropdown menu */
-#lang_set ul {
-	width: 300px;
-	margin-left: -120px;
+#lang_sel img {
+	height: 1.5em;
+	width: 3em;
+}
+#lang_sel span {
+	font-size: 1.5em;
+}
+#lang_sel ul {
 	list-style: none;
+	position: absolute;
+	top: 5em;
+	right: 0;
 	display: none;
 	background-color: dodgerblue;
-	font-size: 16px;
-	padding: 10px;
+	padding: 1em;
+	max-width: 20em;
 }
-#lang_set:hover ul {
+#lang_sel ul li {
+	float: left;
+	padding: 0.5em;
+}
+#lang_sel ul li a:hover {
+	text-decoration: underline;
+}
+#lang_sel:hover {
+	background-color: dodgerblue;
+}
+#lang_sel:hover ul {
 	display: block;
 }
-#lang_set:hover {
-	background-color: dodgerblue !important;
-}
-#lang_set ul li {
-	padding: 10px;
-	float: left;
-}
-#lang_set ul li a {
+
+#lang_sel ul li a {
 	color: white;
 	text-decoration: none;
 }
-#lang_set ul li a:hover {
-	text-decoration: underline;
-}
 
-/**********************
- *    Main section    *
- **********************/
 #main {
-	padding: 10px;
+	padding: 1em;
 	position: absolute;
-	top: 80px;
+	top: 5em;
 	left: 0;
 	right: 0;
-	bottom: 0;
-	margin-bottom: 38px;
+	bottom: 2.56em;
 	overflow: auto;
-	transition: margin-bottom 0.2s ease-out;
+	transition: bottom 0.2s ease-out;
 }
-#main.showinfo {
-	margin-bottom: 120px;
+#main.show {
+	bottom: 7.25em;
 }
-
-/* Show on load */
 #first_load {
-	margin-top: 50px;
 	color: #aaa;
 	text-align: center;
 	display: -moz-box;
 	-moz-box-pack: center;
 	-moz-box-align: center;
 	-moz-box-orient: vertical;
-	font-size: 25px;
+	font-size: 1.5em;
+	line-height: 120%;
 	width: 100%;
 }
-
+#first_load button{
+	font-size: 0.87em;
+}
 #login_form p {
-	margin-top: 5px;
+	margin-top: 0.2em;
 	color: #666;
 }
-#login_form label {
-	display: inline-block;
-	width: 150px;
-	text-align: right;
-	font-size: 20px;
-	color: #aaa;
-}
-#login_form input[type=password],#login_form input[type=text] {
+#login_form input {
 	border: none;
 	border-bottom: 2px solid #aaa;
 	background-color: transparent;
-	width: 250px;
-	padding: 2px;
-	font-size: 20px;
+	width: 8em;
+	padding: 0.2em;
+	font-size: 1em;
 	color: #666;
 }
-#login_form input[type=submit] {
-	padding: 10px;
-	width: 200px;
-	background-color: cornflowerblue;
-	border: none;
-	color: white;
-	font-size: 20px;
-}
-#login_form input[type=submit]:hover {
-	background-color: royalblue;
-}
 
-/* List for uploads directory */
 #dirlist,#dirlist ul {
 	list-style:none;
-	font-size: 16px;
 }
 #dirlist {
 	float: left;
 	overflow: auto;
-	top: 10px;
-	bottom: 10px;
+	top: 1em;
+	bottom: 1em;
 	position: absolute;
-	width: 150px;
-}
-#dirlist > li {
-	width: 100px;
+	width: 8em;
+	vertical-align: top;
 	text-align: center;
-	background-color: darkgray;
-	padding: 10px;
-	margin: 2px;
-	line-height: 150%;
-
 }
-#dirlist > li:hover,#dirlist > li.chosen {
+#dirlist li.year {
+	width: 7em;
+	background-color: darkgray;
+	padding: 0.5em;
+	margin: 0.125em auto;
+	line-height: 150%;
+}
+#dirlist li.year:hover,#dirlist li.year.chosen {
 	background-color: palevioletred;
 }
-#dirlist > li ul li a {
+#dirlist li.month a {
 	text-decoration: none;
 	color: black;
 	display: block;
-	padding: 5px;
-	margin: 2px;
+	padding: 0.3125em;
+	margin: 0.125em;
 	background-color: lightgrey;
 	display: none
 }
-#dirlist > li ul li.chosen a,#dirlist > li ul li a:hover {
+#dirlist li.month.chosen a,#dirlist li.month a:hover {
 	background-color:dodgerblue;
 	display:block;
 }
-#dirlist > li:hover ul li a {
+#dirlist li.year:hover li.month a {
 	display:block;
 }
 
-
-
 /* Result Zone */
 #result_zone {
-	margin-left:150px; 
+	margin-left: 9em;
 	list-style: none;
+	background-repeat: no-repeat;
+	background-position: bottom right;
 }
 #result_zone li{
 	display: inline-block;
-	float: left;
+	vertical-align: top;
 	margin: 5px;
+	position: relative;
 	background-image: url(images/transparent.svg);
 	background-position: center center;
 	box-shadow: 5px 5px 5px 2px silver;
 }
+#result_zone div.img {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
 #result_zone div.progress{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	background-image: url(images/mask.svg);
 }
 #result_zone div.select{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	border: 5px solid slateblue;
+	border-bottom: none;
 	display: none;
 }
 #result_zone .selected div.select{
 	display: block;
 }
 #result_zone div.select p{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	background-color: slateblue;
 	color:white;
-	font-size: 16px;
-	height: 20px;
+	padding: 0.2em;
 	text-align: right;
 }
-
-/* Message Zone */
-#message_zone {
+#main_footer {
+	background-color: #666;
+	color:white;
 	position: fixed;
-	right: 0;
+	font-size: 0.875em;
+	height: 1.28em;
 	bottom: 0;
-	list-style: none;
+	left: 0;
+	right: 0;
+	z-index: 9998;
+	text-align: right;
+	padding: 0.8em;
 }
-#message_zone.showinfo {
-	bottom: 220px;
+#main_footer a {
+	color: powderblue;
+	text-decoration: none;
 }
-#message_zone li {
-	width: 260px;
-	height: 80px;
-	margin: 10px;
-	padding: 10px;
-	font-size: 16px;
-	border-width: 1px;
-	border-style: solid;
-	overflow: hidden;
-	transition: opacity 0.4s ease-out;
-}
-#message_zone li.error {
-	color: crimson;
-	border-color: crimson;
-	background-color: lavenderblush;
-}
-#message_zone li.hide {
-	opacity: 0;
-}
-#message_zone li.tiny {
-	height: 0;
-	padding: 0;
-	margin: 0;
-	border-width: 0;
+#main_footer a:hover {
+	text-decoration: underline;
 }
 
 #page_zone {
 	position: fixed;
-	top: 80px;
-	right: 20px;
+	top: 5em;
+	right: 1em;
 	background-color: #666;
-	padding: 10px;
+	padding: 0.625em;
 	color: white;
 	opacity: 0.8;
 }
@@ -284,94 +292,102 @@ img {
 }
 #page_zone button{
 	border: none;
-	padding: 10px;
-	width: 100px;
+	padding: 0.625em;
+	width: 6.25em;
 	color: white;
 	background-color: chocolate;
 }
 #page_zone select {
 	border: none;
-	width: 50px;
-	height: 20px;
+	width: 3.125em;
+	height: 1.25em;
 	color: white;
 	background-color: chocolate;
 }
+#page_select {
+	font-size: 1.2em;
+}
 
 #info_zone {
-	padding: 10px;
-	height: 100px;
+	padding: 0.625em;
+	height: 6em;
 	position: fixed;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 9998;
+	z-index: 9999;
 	background-color: slateblue;
 	color: white;
 	transition: height 0.2s ease-out, padding 0.2s ease-out;
 }
 #info_zone h1 {
-	font-size: 30px;
-	margin: 5px 0;
+	font-size: 2em;
+	margin: 0.15em 0;
 }
 #info_zone p {
-	font-size: 16px;
-	margin: 5px 0;
-}
-#info_zone h1,#info_zone p {
-	transition: margin 0.2s ease-out;
+	margin: 0.3em 0;
+	white-space: nowrap;
 }
 #info_zone.hide {
-	padding: 0 10px;
+	padding: 0 0.625em;
 	height: 0;
 }
-#info_zone .new:nth-child(1) {
-	margin-left: 100%;
+
+/*-*=*-*=*-*=*-*=*-*=*-*=*-*=*-*
+ *   Style for phone and pad   *
+ *=*-*=*-*=*-*=*-*=*-*=*-*=*-*=*/
+/* Style for phone and pad */
+@media screen and (max-width: 960px) {
+/**********************
+ *       Header       *
+ **********************/
+.hide_mobile {
+	display:none;
 }
-#info_zone .new:nth-child(2) {
-	margin-left: 70%;
+#main_header {
+	height: 3em;
+	position: absolute;
 }
-#buttonp button {
-	border: none;
-	padding: 10px;
-	width: 200px;
-	color: white;
-	font-size: 20px;
-	margin-right: 10px;
+#main_header div {
+	height: 3em;
 }
-#delete_image {
-	background-color: palevioletred;
+#logo{
+	height: 3em;
+	width: 9em;
+	background-image: url(../../site-img/logo_m.png);
 }
-#delete_image:hover {
-	background-color: mediumvioletred;
+div#lang_sel {
+	height: 1.5em;
+	padding: 0.75em 0.25em;
 }
-#delete_image:active {
-	background-color: palevioletred;
+#lang_sel ul {
+	max-width: none;
+	left: 0;
+	top: 3em;
+	padding: 0;
 }
-#view_image {
-	background-color: cornflowerblue;
+#lang_sel ul li {
+	float: none;
+	padding: 0;
+	border-bottom: 1px solid #ddd;
+	font-size: 1.2em;
+	line-height: 120%;
 }
-#view_image:hover {
-	background-color: royalblue;
+#lang_sel ul li a {
+	padding: 0.6em 0;
+	display: block;
+	width: 100%;
 }
-#view_image:active {
-	background-color: cornflowerblue;
+#lang_sel ul li a:hover {
+		text-decoration: none;
+	}
+
+#main {
+	top: 3em;
+	bottom: 2.56em;
+}
+#result_zone {
+	text-align: center;
 }
 
-#main_footer {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	font-size: 14px;
-	background-color: dimgray;
-	color: white;
-	text-align: right;
-	padding: 10px;
-}
-#main_footer a {
-	color: powderblue;
-	text-decoration: none;
-}
-#main_footer a:hover {
-	text-decoration: underline;
 }

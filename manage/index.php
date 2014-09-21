@@ -38,57 +38,17 @@ if($logged=is_login()) {
 	<meta name="Keywords" content="<?=SITE_KEYWORDS ?>">
 	<meta name="Description" content="<?=SITE_DESCRIPTION ?>">
 	
-	<title><?=SITE_TITLE . ' - ' . __('Qchan Image Hosting') ?></title>
+	<title><?=__('Management') ?> - <?=SITE_TITLE ?> - <?=__('Qchan Image Hosting') ?></title>
 	
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="icon" type="image/png" href="<?=get_url() ?>../site-img/favicon.png">
 	
 	<script type="application/javascript">
 		/* Message for UI */
-		ui_msg = {
-			err: {
-				illegal_url: '<?=__(' is not an acceptable URL.') ?>',
-				fail_load: '<?=__(' cannot load preview now. Waiting server response.') ?>',
-				wrong_type: '<?=__(' is unsupported file type.') ?>',
-				size_limit: '<?=__(' reaches the size limitation.') ?>',
-				no_file: '<?=__(' cannot be retrieved by server now. Check if URL is invalid.') ?>',
-				write_prohibited: '<?=__(' cannot write to server disk.') ?>',
-				fail_duplicate: '<?=__(' cannot perform duplicate check.') ?>',
-				php_upload_size_limit: '<?=__(' reaches size limit set in php.ini.') ?>',
-				part_upload: '<?=__(' only part of were uploaded.') ?>',
-				no_tmp: '<?=__(' there is no temporary directory on server.') ?>',
-				fail_retry: '<?=__(' tried several times and all failed.') ?>'
-			},
-			err_detail: {
-				no_file: '<?=__('File cannot be retrieved by server now. Perhaps remote server is unreachable, or file does not exist any more, or you just make a little mistake.') ?>',
-				size_limit: '<?=__('Reaches file size limitation.') ?>',
-				fail_load: '<?=__('The file preview cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.') ?>',
-				write_prohibited: '<?=__('File cannot write to upload directory on server. Ask webmaster to check permissions.') ?>',
-				wrong_type: '<?=__('File type not support now. Communicate with author for more help.') ?>',
-				fail_duplicate: '<?=__('Duplicate check is failed.') ?>',
-				php_upload_size_limit: '<?=__('Reaches file size limitation in php.ini.') ?>',
-				part_upload: '<?=__('Only parts of the file were uploaded. You can retry it.') ?>',
-				no_tmp: '<?=__('Temporary directory on the server does not exist. Ask webmaster to check.') ?>',
-				fail_retry: '<?=__('Try to upload several times and all of those were failed.') ?>'
-			},
-			info: {
-				selected: '<?=__('Selected') ?>',
-				files_selected: '<?=__(' File(s) Selected') ?>',
-				orig: '<?=__('Original File') ?>',
-				html: '<?=__('HTML Code') ?>',
-				html_with_thumb: '<?=__('HTML Code with thumbnail') ?>',
-				bbcode: '<?=__('BBCode') ?>',
-				bbcode_with_thumb: '<?=__('BBCode with thumbnail') ?>',
-				thumb_tips: '<?=__('Click to view large version') ?>'
-			}
-		};
-		prop = {
-			size_limit: <?=get_size_limit() ?>,
-			upload_count: <?=get_upload_count() ?>
-		}
+		files_selected = '<?=__(' Files Selected') ?>';
 	</script>
 	
-	<!--[if lt IE9]> 
+	<!--[if lt IE　9]> 
 	<script>
 		(function() {
 		if (! 
@@ -102,23 +62,16 @@ if($logged=is_login()) {
 		})();
 	</script>
 	<![endif]-->
-	<style>
-
-	
-	</style>
 </head>
 
 <body>
 <!-- Header -->
 <header id="main_header">
-	<ul id="header_wrap">
-		<!-- Logo -->
-		<li id="logo"><a href="<?=get_url() ?>../" title="<?=SITE_TITLE ?>"><img src="../site-img/logo.png" alt="Logo"></a></li>
-		<!-- Click to upload -->
-		<li class="menu"><?=__('Management') ?><ul></ul></li>
-		<!-- Language select -->
-		<li class="menu" id="lang_set" title="<?=__('Select display language') ?>"><img src="images/WorldMap.svg" width="36" height="18">&nbsp;<?=__('Language') ?><ul><?=get_langlist() ?><div class="clear"></div></ul></li>
-	</ul>
+	<div id="logo"></div>
+	<div id="lang_sel">
+		<img src="images/WorldMap.svg"><span class="hide_mobile"><?=__('Language') ?></span>
+		<ul><?=get_langlist() ?></ul>
+	</div>
 </header>
 
 <section id="main">
@@ -128,19 +81,16 @@ if($logged) {
 	<ul id="dirlist"><?php list_dir(); ?></ul>
 	<ul id="result_zone">
 		<?=format_filelist($filem,$page) ?>
-		<div class="clear"></div>
 	</ul>
 	
-	<ul id="message_zone">
-	</ul>
 <?php
 }else {
 ?>
 	<div id="first_load">
 		<form id="login_form" method="post">
 			<p><?=__('Please Login') ?></p>
-			<p><label for="login" <?=$logerror%2==1 ? 'style="color:red;"' : '' ?>><?=__('Admin Name') ?></label><input type="text" id="login" name="login" <?=$logerror%2!=1&&isset($_POST['login']) ? ('value="'.$_POST['login'].'"') : '' ?> <?=$logerror%2==1 ? 'style="border-color:red;"' : '' ?>></p>
-			<p><label for="password" <?=$logerror%2==0 ? 'style="color:red;"' : '' ?>><?=__('Password') ?></label><input type="password" id="password" name="password" <?=$logerror%2==0 ? 'style="border-color:red;"' : '' ?>></p>
+			<p><input placeholder="<?=__('Admin Name') ?>" type="text" id="login" name="login" <?=$logerror%2!=1&&isset($_POST['login']) ? ('value="'.$_POST['login'].'"') : '' ?> <?=$logerror%2==1 ? 'style="border-color:red;"' : '' ?>></p>
+			<p><input placeholder="<?=__('Password') ?>" type="password" id="password" name="password" <?=$logerror%2==0 ? 'style="border-color:red;"' : '' ?>></p>
 <?php
 switch($logerror) {
 	case 1:
@@ -157,12 +107,12 @@ switch($logerror) {
 		break;
 }
 ?>
-			<p><input type="submit" name="submit" value="<?=__('Login') ?>"></p>
+			<p><button type="submit" name="submit" class="affirmative"><?=__('Login') ?></button></p>
 		</form>
 	</div>
 <?php } ?>
 </section>
-<?php if(isset($_GET['year']) && isset($_GET['month'])) { ?>
+<?php if(isset($_GET['year']) && isset($_GET['month']) && $logged) { ?>
 <aside id="page_zone">
 	<button id="prev_page" <?=$page==1?'disabled':'' ?>><?=__('Previous') ?></button>
 	<?=__('Page: ') ?>
@@ -184,17 +134,18 @@ switch($logerror) {
 <!-- File info section -->
 <aside id="info_zone" class="hide">
 	<h1 id="namep"></h1>
-	<p id="buttonp"><button id="delete_image"><?=__('Delete') ?></button><button id="view_image"><?=__('View') ?></button></p>
+	<p id="buttonp"><button id="delete" class="negative"><?=__('Delete') ?></button><button id="view" class="affirmative"><?=__('View') ?></button></p>
 </aside>
 
-<script type="application/javascript" src="ui.js"></script>
+<script type="application/javascript" src="js/zepto.min.js"></script>
+<script type="application/javascript" src="js/ui.js"></script>
 <script type="application/javascript">
 <?=format_script($filem,$page) ?>
 </script>
 
 <!-- Footer -->
 <footer id="main_footer">
-<p><?=__('This site is powered by Qchan, a light-weight image hosting program. Version: ') . QCHAN_VER ?>, <a target="_blank" href="http://github.com/qakcn/qchan">http://github.com/qakcn/qchan</a></p>
+<p><?=__('This site is powered by <a target="_blank" href="http://github.com/qakcn/qchan">Qchan %s</a>', QCHAN_VER) ?></p>
 </footer>
 
 </body>

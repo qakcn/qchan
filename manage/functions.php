@@ -32,17 +32,17 @@ function list_dir(){
 	foreach($years as $year) {
 		if($year != '.' && $year != '..' && $year != 'working' && $year != 'hash') {
 			if(isset($_GET['year']) && $_GET['year']==$year) {
-				echo '<li class="chosen">' . $year . '<ul>';
+				echo '<li class="year chosen">' . $year . '<ul>';
 			}else {
-				echo '<li>' . $year . '<ul>';
+				echo '<li class="year">' . $year . '<ul>';
 			}
 			$months=scandir(ABSPATH.'/'.UPLOAD_DIR.'/'.$year);
 			foreach($months as $month) {
 				if($month != '.' && $month != '..') {
 					if(isset($_GET['year']) && isset($_GET['month']) && $_GET['year']==$year && $_GET['month']==$month) {
-						echo '<li class="chosen"><a href="?year=' . $year . '&month=' . $month . '">' . $month . '</a></li>';
+						echo '<li class="month chosen"><a href="?year=' . $year . '&month=' . $month . '">' . $month . '</a></li>';
 					}else {
-						echo '<li><a href="?year=' . $year . '&month=' . $month . '">' . $month . '</a></li>';
+						echo '<li class="month"><a href="?year=' . $year . '&month=' . $month . '">' . $month . '</a></li>';
 					}
 				}
 			}
@@ -86,6 +86,7 @@ function get_files() {
 }
 
 function get_image_size($file){
+    $geterror=false;
 	if(file_mime_type($file)=='image/svg+xml') {
 		$svg=file_get_contents($file);
 		if(preg_match('/<svg.+width="(\d+\.?\d*)(em|ex|px|in|cm|mm|pt|pc|%)?".+height="(\d+\.?\d*)(em|ex|px|in|cm|mm|pt|pc|%)?"/',$svg,$matches)) {
@@ -99,7 +100,12 @@ function get_image_size($file){
 			$height=200;
 		}
 	}else {
-		list($width, $height,,) = getimagesize($file);
+	    if(!$imgInfo = @getimagesize($file)) {
+	        list($width, $height) = array(200,200);
+	        $geterror=true;
+	    }else {
+		    list($width, $height,,) = $imgInfo;
+		}
 	}
 	$ratio=$width/$height;
 	if($height>200) {
@@ -110,7 +116,7 @@ function get_image_size($file){
 		$height=1000/$ratio;
 		$width=1000;
 	}
-	return array($width, $height);
+	return array($width, $height, $geterror);
 }
 
 function format_filelist($filem,$page=1) {
@@ -119,7 +125,7 @@ function format_filelist($filem,$page=1) {
 	$year=$_GET['year'];
 	$month=$_GET['month'];
 	$format = <<<FORMAT
-<li class="scroll-load" id="n%d" draggable="true" style="width: %dpx; height: %dpx; margin-top: %dpx;" data-path="%s" data-thumb="%s"><div class="img" style="background-image: url(&quot;images/none.svg&quot;); background-size: %dpx %dpx; width: %dpx; height: %dpx;"><div><div class="select" style="padding-top: %dpx;"><p>%s</p></div></div></div></li>
+<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;" class="scroll-load" data-thumb="%s"><div class="img" style="background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="select"><p>%s</p></div></div></div></li>
 FORMAT;
 	$output='';
 	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
@@ -129,13 +135,16 @@ FORMAT;
 		if(!file_exists(ABSPATH.'/'.$filepath)) {
 			continue;
 		}else if(file_exists(ABSPATH.'/'.$thumbpath)) {
-			list($width, $height) = get_image_size(ABSPATH.'/'.$thumbpath);
+			list($width, $height, $geterror) = get_image_size(ABSPATH.'/'.$thumbpath);
 		}else {
-			list($width, $height) = get_image_size(ABSPATH.'/'.$filepath);
+			list($width, $height, $geterror) = get_image_size(ABSPATH.'/'.$filepath);
 			$thumbpath = $filepath;
 		}
-		$select=__('Selected');
-		$output.=sprintf($format, $i, $width, $height, (205-$height), '../'.$filepath, '../'.$thumbpath, $width, $height, $width, $height, $height-30, $select);
+		$thumbpath = '/'.$thumbpath;
+		if($geterror) {
+			$thumbpath = 'images/error.svg';
+		}
+		$output .= sprintf($format, $i, $width, $height, htmlspecialchars($thumbpath), $width, $height, $width, __('Selected'));
 	}
 	return $output;
 }
@@ -146,14 +155,7 @@ function format_script($filem,$page=1) {
 	$year=$_GET['year'];
 	$month=$_GET['month'];
 	$format = <<<FORMAT
-if(!n%d) {
-	n%d = document.getElementById('n%d');
-}
-n%d.onclick = toggleinfo();
-n%d.ondblclick = openimage;
-n%d.oncontextmenu = toggleinfo();
-n%d.work = %s;
-
+$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s);
 FORMAT;
 	$output = '';
 	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
@@ -162,8 +164,8 @@ FORMAT;
 		if(!file_exists(ABSPATH.'/'.$filepath)) {
 			continue;
 		}
-		$work = json_encode(array('name'=>$filem[$i], 'path'=>'../'.$filepath, 'thumb' => '../'.$thumbpath, 'qid' => 'n'.$i));
-		$output .= sprintf($format, $i, $i, $i, $i, $i, $i, $i, $work);
+		$work = json_encode(array('name'=>basename($filem[$i]), 'path'=>'../'.$filepath, 'thumb' => '../'.$thumbpath, 'qid' => 'n'.$i));
+		$output .= sprintf($format, $i, $work);
 	}
 	return $output;
 }

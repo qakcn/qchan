@@ -23,7 +23,6 @@ function url_upload_handler() {
 			}else {
 				work.status = 'failed'
 				work.err = 'illegal_url';
-				show_error(work);
 			}
 		}
 	}
@@ -42,11 +41,9 @@ function file_upload_handler(files) {
 		if(!/image\/(jpeg|png|gif|svg\+xml)/.test(file.type)) {
 			work.status = 'failed';
 			work.err = 'wrong_type';
-			show_error(work);
 		}else if(file.size > prop.size_limit) {
 			work.status = 'failed';
 			work.err = 'size_limit';
-			show_error(work);
 		}else {
 			work.qid = queueid++;
 			show_thumbnail(work);
@@ -57,7 +54,7 @@ function file_upload_handler(files) {
 
 /* Submit from */
 function normal_upload_handler() {
-	normal_form.submit();
+	$('#normal_form')[0].submit();
 }
 
 /* Start upload or put in the queue */
@@ -87,7 +84,6 @@ function retry_upload(work) {
 	}else {
 		work.status = 'failed';
 		work.err = 'fail_retry';
-		show_error(work);
 	}
 }
 
@@ -121,14 +117,20 @@ function url_upload(work) {
 	
 	var sendData = 'qid='+work.qid+'&url='+encodeURIComponent(work.path);
 	
+	var retry = (function(work){
+		return function(){
+			retry_upload(work);
+		}
+	})(work);
+	
 	xhr.addEventListener('readystatechange', function(e){
 		if(xhr.readyState == 4) {
 			if(xhr.status == 200) {
 				var res=JSON.parse(xhr.responseText);
 				after_upload(res);
 				upload_next();
-			}else if(xhr.status == 504) {
-				retry_upload(work);
+			}else if(xhr.status == 504 || xhr.status == 503) {
+				retry();
 			}
 		}
 	},false);
@@ -160,12 +162,20 @@ function file_upload(work) {
 	xhr.open('POST', 'api.php?type=file&'+(new Date()).getTime(), true);
 	//xhr.setRequestHeader("Content-type", "multipart/form-data");
 	
+	var retry = (function(work){
+		return function(){
+			retry_upload(work);
+		}
+	})(work);
+	
 	xhr.addEventListener('readystatechange', function(e){
 		if(xhr.readyState == 4) {
 			if(xhr.status == 200) {
 				eval('var res = '+xhr.responseText);
 				after_upload(res);
 				upload_next();
+			}else if(xhr.status == 504 || xhr.status == 503) {
+				retry();
 			}
 		}
 	},false);
@@ -197,49 +207,50 @@ function isempty(theurl) {
 }
 
 function after_upload(res) {
-	var qli = document.getElementById('q'+res.qid);
-	var qimg = qli.children[0];
-	var qprg = qimg.children[0];
-	var qsel = qprg.children[0];
-	if(!qli) {
+	var qli = $('#q'+res.qid);
+	var qimg = qli.children();
+	var qprg = qimg.children();
+	var qsel = qprg.children();
+	if(!qli[0]) {
 		var callself = function(){after_upload(res);};
 		setTimeout(callself,100);
 		return false;
 	}
 	switch (res.status) {
 		case 'success':
-			qli.work.status = 'success';
-			qli.work.name = res.name;
-			qli.work.path = res.path;
-			qli.work.thumb = res.thumb;
+			qli.prop('work').status = 'success';
+			qli.prop('work').name = res.name;
+			qli.prop('work').path = res.path;
+			qli.prop('work').thumb = res.thumb;
 			if(res.thumb=='none') {
-				qimg.style.backgroundImage = 'url("'+res.path+'")';
+				qimg.css('background-image', 'url("'+res.path+'")');
 			}else {
-				qimg.style.backgroundImage = 'url("'+res.thumb+'")';
+				qimg.css('background-image', 'url("'+res.thumb+'")');
 			}
 			break;
 		case 'error':
-			qli.work.status = 'error';
-			qli.work.err = res.err;
-			qli.work.name = res.name;
-			qli.work.path = res.path;
-			qli.work.thumb = res.thumb;
+			qli.prop('work').status = 'error';
+			qli.prop('work').err = res.err;
+			qli.prop('work').name = res.name;
+			qli.prop('work').path = res.path;
+			qli.prop('work').thumb = res.thumb;
 			if(res.thumb=='none') {
-				qimg.style.backgroundImage = 'url("'+res.path+'")';
+				qimg.css('background-image', 'url("'+res.path+'")');
 			}else {
-				qimg.style.backgroundImage = 'url("'+res.thumb+'")';
+				qimg.css('background-image', 'url("'+res.thumb+'")');
 			}
 			break;
 		case 'failed':
-				qli.work.status = 'failed';
-				qli.work.err = res.err;
-				qimg.style.backgroundImage = 'url(site-img/error.svg)';
-				qimg.style.backgroundSize = '200px 200px';
-				qimg.style.width = qprg.style.width = qli.style.width = '200px';
-				qimg.style.height = qprg.style.height = qli.style.height = '200px';
-				qli.style.marginTop = qli.marginBottom = '0';
-				qsel.style.paddingTop = '170px';
-				show_error(qli.work);
+				qli.prop('work').status = 'failed';
+				qli.prop('work').err = res.err;
+				qimg.css({
+					backgroundImage: 'url('+prop.error_image+')',
+					backgroundSize: '200px 200px'
+				});
+				qli.width('200px');
+				qli.height('200px');
+				qli.css({marginTop: 0, marginBottom: 0});
+				qsel.css('paddingTop', '170px');
 			break;
 	}
 	changeinfo(true);

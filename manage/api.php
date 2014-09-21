@@ -15,7 +15,7 @@ if($logged=is_login()) {
 }
 
 if(isset($_GET['action']) && $_GET['action']=='delete') {
-	$works = json_decode($HTTP_RAW_POST_DATA,true);
+	$works = json_decode(file_get_contents('php://input'),true);
 	$result=delete_files($works);
 }
 echo json_encode($result);

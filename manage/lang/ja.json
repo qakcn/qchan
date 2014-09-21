@@ -1,0 +1,61 @@
+{
+	"Qchan Image Hosting":
+	"Qchan画像アップローダー",
+
+	"Language":
+	"言語",
+
+	"Select display language":
+	"表示言語を選択してください",
+
+	"Selected":
+	"選択した",
+
+	" Files Selected":
+	"ファイルを選択した",
+
+	"Management":
+	"管理",
+
+	"Please Login":
+	"ログインください",
+
+	"Admin Name":
+	"管理人ID",
+
+	"Password":
+	"パスワード",
+
+	"Login":
+	"ログイン",
+
+	"Admin Name is empty!":
+	"管理人IDは空です！",
+
+	"Password is empty!":
+	"パスワードは空です！",
+
+	"Admin Name is incorrect!":
+	"管理人IDは誤ったです！",
+
+	"Password is incorrect!":
+	"パスワードは誤ったです！",
+
+	"This site is powered by <a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>":
+	"このウェブサイトは、<a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>の使用して運営しました",
+
+	"Previous":
+	"前のページ",
+
+	"Next":
+	"次のページ",
+
+	"Page: ":
+	"ページ：",
+
+	"Delete":
+	"削除",
+
+	"View":
+	"プレビュー"
+}

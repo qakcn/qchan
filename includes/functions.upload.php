@@ -35,6 +35,15 @@ function url_handler() {
 	$result = array('qid'=>$_POST['qid']);
 	$host = get_cdn();
 	
+	$purl=parse_url($url);
+	if($purl['host']==$_SERVER['SERVER_NAME'] || CDN_ENABLED && in_array($purl['host'], explode(',', CDN_LIST))) {
+		$result['status']='success';
+		$result['name']='duplicate';
+		$result['path']=$url;
+		$result['thumb']=$url;
+		return $result;
+	}
+	
 	if(remote_filesize($url) > get_size_limit()) {
 		$result['status'] = 'failed';
 		$result['err'] = 'size_limit';

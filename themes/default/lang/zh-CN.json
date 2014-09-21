@@ -1,78 +1,84 @@
 {
 	"Qchan Image Hosting":
-	"Qchan画像アップローダー",
+	"Qchan图床",
 
 	"Upload":
-	"アップロード",
+	"上传",
 
 	"Language":
-	"言語",
+	"语言",
 
 	"Select display language":
-	"表示言語を選択してください",
+	"选择显示语言",
 
 	"Upload files":
-	"ファイルをアップロード",
+	"上传文件",
 
 	"Drag and drop files here":
-	"ここにファイルをドラッグ＆ドロップ",
+	"拖放文件到此处",
+
+	"Only works with IE 10+ and other mordern browser":
+	"只能在IE 10+及其他现代浏览器上工作",
 
 	"Normal":
-	"ノーマルアップロード",
+	"普通上传",
 
 	"URL":
-	"URLアップロード",
+	"URL上传",
 
 	"Start Upload":
-	"アップロード開始",
+	"开始上传",
 
 	"Close":
-	"終了",
+	"关闭",
 
 	"Select Files":
-	"ファイルを選択してください",
+	"选择文件",
+
+	"Your browser doesn't support Drag and drop upload":
+	"您的浏览器不支持拖放上传",
 
 	"Please put URLs here, one URL per line, with leading 'http://'":
-	"URL（&quot;http://&quot;を含む）は、1行に1つずつ入力してください",
+	"请在此输入URL（包含“http://”），每行一个",
 	
 	" is not an acceptable URL.":
-	"有効なURLではありません。",
+	"不是合法的URL。",
 
 	" cannot load preview now. Waiting server response.":
-	"プレビューをロードできません、サーバーの応答を待って。",
+	"无法加载预览，等待服务器响应。",
 
 	" is unsupported file type.":
-	"ファイル形式はサポートされていません。",
+	"文件格式不支持。",
 
 	" reaches the size limitation.":
-	"ファイルサイズの制限を超え。",
+	"超出文件大小限制。",
 
 	" cannot be retrieved by server now. Check if URL is invalid.":
-	"サーバーが取得できない、URLが正しいことを確認してください。",
+	"无法被服务器获取，请检查URL是否正确。",
 
 	" cannot write to server disk.":
-	"サーバに格納することはできません。",
+	"无法存储到服务器。",
 
 	" cannot perform duplicate check.":
-	"重複したファイルを確認することができません。",
+	"无法进行重复文件检查。",
 
 	" reaches size limit set in php.ini.":
-	"php.iniで設定したサイズの上限を超えています。",
+	"超出php.ini中设置的大小限制。",
 
 	" only part of were uploaded.":
-	"部分的にしかアップロードされました。",
+	"只有部分被上传。",
 
 	" there is no temporary directory on server.":
-	"テンポラリディレクトリが存在しません。",
+	"服务器没有临时目录。",
 
 	" tried several times and all failed.":
-	"複数の再試行が失敗した。",
+	"多次重试均失败。",
 
 	"File cannot be retrieved by server now. Perhaps remote server is unreachable, or file does not exist any more, or you just make a little mistake.":
 	"文件无法被服务器获取，可能远程服务器无法访问，或者文件不再存在，或者你输入的URL有错误。",
 
 	"Reaches file size limitation.":
-	"ファイルサイズの上限を超えました。",
+	"超过文件大小限制。",
 
 	"The file preview cannot be loaded, Perhaps file is no more exist, or remote server is un reachable, or you just make a little mistake.":
 	"文件预览无法加载，可能文件不存在，或者远程服务器无法访问，或者你输入的URL有错误。",
@@ -99,85 +105,58 @@
 	"多次尝试上传但均告失败。",
 
 	"Preparing for uploading":
-	"アップロードする準備ができ",
+	"准备上传",
 
 	"Waiting for uploading":
-	"アップロードを待っている",
+	"等待上传",
 
 	"Uploading":
-	"アップロード中",
+	"上传中",
 
 	"Uploaded successfully":
-	"アップロードを成功した",
+	"上传成功",
 
 	"Something wrong":
-	"エラーが発生しました",
+	"发生错误",
 
 	"Failed to upload":
 	"上传失败",
 
 	"All selected files were uploaded successfully":
-	"アップロードに成功しました",
+	"所选文件均成功上传",
 
 	"Not all selected files were uploaded successfully, only uploaded ones showed below":
 	"所选部分文件没有成功上传，仅成功上传的会在下方显示",
 
 	"All selected files were failed to upload":
-	"アップロードに失敗しました",
+	"所选文件未成功上传",
 
 	"Selected":
-	"選択した",
+	"已选择",
 
-	" File(s) Selected":
-	"ファイルを選択した",
+	" Files Selected":
+	"个文件被选择",
 
 	"Original File":
-	"元のファイルのアドレス",
+	"原始文件地址",
 
 	"HTML Code":
-	"HTMLコード",
+	"HTML代码",
 
 	"HTML Code with thumbnail":
-	"サムネイルとHTMLコード",
+	"带有缩略图的HTML代码",
 
 	"BBCode":
-	"BBCode",
+	"BBCode代码",
 
 	"BBCode with thumbnail":
-	"サムネイルとBBCode",
+	"带有缩略图的BBCode代码",
 
 	"Click to view large version":
-	"元の画像を見せるために、クリックして",
+	"点击显示原始图片",
 
-	"Management":
-	"管理",
-
-	"Please Login":
-	"ログインください",
-
-	"Admin Name":
-	"管理人ID",
-
-	"Password":
-	"パスワード",
-
-	"Login":
-	"ログイン",
-
-	"Admin Name is empty!":
-	"管理人IDは空です！",
-
-	"Password is empty!":
-	"パスワードは空です！",
-
-	"Admin Name is incorrect!":
-	"管理人IDは誤ったです！",
-
-	"Password is incorrect!":
-	"パスワードは誤ったです！",
-
-	"This site is powered by Qchan, a light-weight image hosting program. Version: ":
-	"本站由轻量级图床程序Qchan强力驱动。版本：",
+	"This site is powered by <a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>":
+	"本站由轻量级图床程序<a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>强力驱动",
 
 	"Agreement":
 	"使用条款",
