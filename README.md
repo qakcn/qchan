@@ -2,6 +2,8 @@ Qchan
 ==========
 A light-weight PHP image hosting program.
 
+If you want use with TieTuKu.com (an image hosting cloud service), you may want try [qchan-lite](https://github.com/qakcn/qchan-lite).
+
 Requirement
 ----------
 PHP > 5.3.0
@@ -26,6 +28,8 @@ Management
 Qchan
 ==========
 轻量级PHP图床程序。
+
+如果你想配合贴图库（一个图片云存储服务）使用，你可以试试[qchan-lite](https://github.com/qakcn/qchan-lite)。
 
 需求
 ----------
