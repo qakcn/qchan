@@ -173,8 +173,11 @@ FORMAT;
 function delete_files($works) {
 	$result = array();
 	foreach($works as $work) {
+		$hash = hash_file('sha256', $work['path']);
+		$hashfile = ABSPATH.'/'.UPLOAD_DIR .'/hash/'.$hash;
 		$su = file_exists($work['path']) && unlink($work['path']);
 		$st = file_exists($work['thumb']) && unlink($work['thumb']);
+		$sh = file_exists($work['thumb']) && unlink($hashfile);
 		if($su && $st) {
 			$result[$work['qid']]='deleted';
 		}else if($su && !$st) {
