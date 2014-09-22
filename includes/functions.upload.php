@@ -410,3 +410,42 @@ function watermark($file) {
 		}
 	}
 }
+
+// Check if file is duplicate
+function is_duplicate($file) {
+	if(DUPLICATE_FILE_CHECK) {
+		$hash = hash_file('sha256', $file);
+		$hashfile = ABSPATH.'/'.UPLOAD_DIR . '/hash/'.$hash;
+		if(file_exists($hashfile)) {
+			$re = file_get_contents($hashfile);
+			$info=json_decode($re,true);
+			return $info;
+		}else {
+			return false;
+		}
+	}else {
+		return false;
+	}
+}
+
+// Generate hash file for duplicate check
+function duplicate_hash($name, $path, $thumb) {
+	if(DUPLICATE_FILE_CHECK) {
+		$hash = hash_file('sha256', ABSPATH.'/'.$path);
+		$hashfile = ABSPATH.'/'.UPLOAD_DIR . '/hash/'.$hash;
+		$info = array(
+			'name'=>$name,
+			'path'=>$path,
+			'thumb'=>$thumb['generated']?$thumb['path']:'none',
+			'width'=>$thumb['width'],
+			'height'=>$thumb['height']
+		);
+		if(file_put_contents($hashfile, json_encode($info)) !== false) {
+			return true;
+		}else {
+			return false;
+		}
+	}else {
+		return true;
+	}
+}

@@ -48,6 +48,32 @@ function check_config() {
 		exit('ADMIN_EMAIL set incorrectly.');
 	}
 	if(!(
+		defined('MAIN_SITE') &&
+		is_bool('MAIN_SITE')
+	)) {
+		exit('MAIN_SITE set incorrectly.');
+	}else if(MAIN_SITE) {
+		if(!(
+			defined('MAIN_SITE_NAME') &&
+			is_string(MAIN_SITE_NAME)
+		)) {
+			exit('MAIN_SITE_NAME set incorrectly.');
+		}
+		if(!(
+			defined('MAIN_SITE_LOGO') &&
+			is_string(MAIN_SITE_LOGO)
+		)) {
+			exit('MAIN_SITE_LOGO set incorrectly.');
+		}
+		if(!(
+			defined('MAIN_SITE_URL') &&
+			is_string(MAIN_SITE_URL) &&
+			preg_match('/^https?:\/\/[a-zA-Z_-.]+(\/.*)$/', MAIN_SITE_URL)
+		)) {
+			exit('MAIN_SITE_URL set incorrectly.');
+		}
+	}
+	if(!(
 		defined('SIZE_LIMIT') &&
 		is_string(SIZE_LIMIT) &&
 		preg_match('/[1-9]+\d*[TtGgMmKk]/', SIZE_LIMIT)
@@ -67,6 +93,12 @@ function check_config() {
 		(file_exists(ABSPATH . '/' . THUMB_DIR) ? (is_dir(ABSPATH . '/' . THUMB_DIR . '/') && is_writable(ABSPATH . '/' . THUMB_DIR . '/')) : is_writable(ABSPATH . '/'))
 	)) {
 		exit('THUMB_DIR set incorrectly.');
+	}
+	if(!(
+		defined('DUPLICATE_FILE_CHECK') &&
+		is_bool(DUPLICATE_FILE_CHECK)
+	)) {
+		exit('DUPLICATE_FILE_CHECK set incorrectly.');
 	}
 	if(!(
 		defined('MANAGE_NAME') &&

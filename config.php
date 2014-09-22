@@ -19,6 +19,7 @@ define('MAIN_SITE_URL', '');
 define('SIZE_LIMIT', '4M');
 define('UPLOAD_DIR', 'uploads');
 define('THUMB_DIR', 'thumbs');
+define('DUPLICATE_FILE_CHECK', false); // Warning: setting to true will cause quantity of file increasing double times.
 
 // Management Settings
 define('MANAGE_NAME','admin');
