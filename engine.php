@@ -49,7 +49,7 @@ function check_config() {
 	}
 	if(!(
 		defined('MAIN_SITE') &&
-		is_bool('MAIN_SITE')
+		is_bool(MAIN_SITE)
 	)) {
 		exit('MAIN_SITE set incorrectly.');
 	}else if(MAIN_SITE) {
@@ -68,7 +68,7 @@ function check_config() {
 		if(!(
 			defined('MAIN_SITE_URL') &&
 			is_string(MAIN_SITE_URL) &&
-			preg_match('/^https?:\/\/[a-zA-Z_-.]+(\/.*)$/', MAIN_SITE_URL)
+			preg_match('/^https?:\/\/[a-zA-Z_\-.]+(\/.*)?$/', MAIN_SITE_URL)
 		)) {
 			exit('MAIN_SITE_URL set incorrectly.');
 		}

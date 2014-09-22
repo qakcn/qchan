@@ -156,11 +156,3 @@ function get_upload_count(){
 function escape_special_char($name) {
 	return str_replace(array('#', '?', '=', '&', '/', '\\', ';', '<', '>', '[', ']', '%', '@', '-', '`', '(', ')'), '_', $name);
 }
-
-function is_duplicate() {
-	return false;
-}
-
-function duplicate_hash() {
-	return true;
-}

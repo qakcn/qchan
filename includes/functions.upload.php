@@ -440,7 +440,7 @@ function duplicate_hash($name, $path, $thumb) {
 			'width'=>$thumb['width'],
 			'height'=>$thumb['height']
 		);
-		if(file_put_contents($hashfile, json_encode($info)) !== false) {
+		if(file_put_contents($hashfile, json_encode($info), LOCK_EX) !== false) {
 			return true;
 		}else {
 			return false;
