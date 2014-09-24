@@ -178,6 +178,7 @@ function check_config() {
 }
 
 define('QCHAN_VER', '1.0pre build 20140921');
+define('QCHAN_URL', 'http://github.com/qakcn/qchan');
 date_default_timezone_set('UTC');
 define('ABSPATH', __DIR__);
 

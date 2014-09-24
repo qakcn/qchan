@@ -155,8 +155,8 @@
 	"Click to view large version":
 	"点击显示原始图片",
 
-	"This site is powered by <a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>":
-	"本站由轻量级图床程序<a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>强力驱动",
+	"This site is powered by <a target=\"_blank\" href=\"%s\">Qchan %s</a>":
+	"本站由轻量级图床程序<a target=\"_blank\" href=\"%s\">Qchan %s</a>强力驱动",
 
 	"Agreement":
 	"使用条款",

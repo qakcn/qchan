@@ -155,8 +155,8 @@
 	"Click to view large version":
 	"元の画像を見せるために、クリックして",
 
-	"This site is powered by <a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>":
-	"このウェブサイトは、<a target=\"_blank\" href=\"http://github.com/qakcn/qchan\">Qchan %s</a>の使用して運営しました",
+	"This site is powered by <a target=\"_blank\" href=\"%s\">Qchan %s</a>":
+	"このウェブサイトは、<a target=\"_blank\" href=\"%s\">Qchan %s</a>の使用して運営しました",
 
 	"Agreement":
 	"使用条款",
