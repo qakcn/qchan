@@ -129,7 +129,7 @@ function changeinfo() {
 			}
 			info_zone.removeClass('hide');
 			main_zone.addClass('show');
-		},200);
+		},100);
 	}
 }
 

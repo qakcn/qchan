@@ -1,3 +1,11 @@
+@font-face {font-family: "iconfont";
+  src: url('fonts/iconfont.eot'); /* IE9*/
+  src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('fonts/iconfont.woff') format('woff'), /* chrome、firefox */
+  url('fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
 /* Do some clean */
 * {
 	padding: 0;
@@ -77,8 +85,9 @@ button.negative:active {
 	background-image: url(../../site-img/logo.png);
 	background-size: 100%;
 }
-#upload_button #close_mark {
-	display: none;
+#upload_button::before {
+	font-family:"iconfont";
+	content: "\e637";
 }
 div#lang_sel {
 	float: right;
@@ -86,11 +95,12 @@ div#lang_sel {
 	padding: 1.75em;
 	text-align: center;
 }
-#lang_sel img {
-	height: 1.5em;
-	width: 3em;
+#lang_sel::before {
+	font-family:"iconfont";
+	content: "\e603";
+	font-size: 1.5em;
 }
-#lang_sel span {
+#lang_sel span{
 	font-size: 1.5em;
 }
 #lang_sel ul {
@@ -101,6 +111,7 @@ div#lang_sel {
 	display: none;
 	background-color: dodgerblue;
 	padding: 1em;
+	max-width: 20em;
 }
 #lang_sel:hover {
 	background-color: dodgerblue;
@@ -111,6 +122,13 @@ div#lang_sel {
 #lang_sel ul li a {
 	color: white;
 	text-decoration: none;
+}
+#lang_sel ul li {
+	float: left;
+	padding: 0.5em;
+}
+#lang_sel ul li a:hover {
+	text-decoration: underline;
 }
 
 #main {
@@ -216,16 +234,6 @@ div#lang_sel {
 #upload_button_wrap {
 	padding: 1em;
 }
-#lang_sel ul {
-	max-width: 20em;
-}
-#lang_sel ul li {
-	float: left;
-	padding: 0.5em;
-}
-#lang_sel ul li a:hover {
-	text-decoration: underline;
-}
 
 #main.show {
 	bottom: 13.75em;
@@ -250,6 +258,10 @@ div#lang_sel {
 }
 #pop_window button {
 	min-width: 10em;
+}
+#file_select::before {
+	font-family:"iconfont";
+	content: "\e63f";
 }
 #submit_zone {
 	background-color: #f8f8f8;
@@ -374,7 +386,6 @@ div#lang_sel {
 }
 #main_site img {
 	width: 4.5em;
-	height: 1.5em;
 	vertical-align: top;
 }
 
@@ -471,7 +482,7 @@ div#upload_button_wrap {
 	padding: 0;
 	float: right;
 	margin-left: -10em;
-	margin-right: 3.5em;
+	margin-right: 3em;
 }
 div#upload_button_wrap button{
 	min-width: 2.3em;
@@ -488,15 +499,14 @@ button.close:hover {
 button.close:active {
 	background-color: palevioletred;
 }
-#upload_button.close #add_mark {
-	display: none;
-}
-#upload_button.close #close_mark {
-	display: inline;
+#upload_button.close::before {
+	font-family:"iconfont";
+	content: "\f003e";
 }
 div#lang_sel {
 	height: 1.5em;
-	padding: 0.75em 0.25em;
+	width: 1.5em;
+	padding: 0.75em;
 }
 #lang_sel ul {
 	max-width: none;
@@ -593,7 +603,6 @@ div#lang_sel {
 	font-size: 2em;
 }
 #main_site img {
-	width: 3.6em;
 	height: 1.2em;
 }
 #info_zone p.result_info input,#info_zone p.result_info textarea {

@@ -269,7 +269,7 @@ function changeinfo() {
 			}
 			info_zone.removeClass('hide').append(namep).append(statusp).append(infop);
 			main_zone.addClass('show');
-		},200);
+		},100);
 	}
 }
 

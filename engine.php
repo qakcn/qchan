@@ -68,7 +68,7 @@ function check_config() {
 		if(!(
 			defined('MAIN_SITE_URL') &&
 			is_string(MAIN_SITE_URL) &&
-			preg_match('/^https?:\/\/[a-zA-Z_\-.]+(\/.*)?$/', MAIN_SITE_URL)
+			preg_match('/^https?:\/\/[a-zA-Z0-9_\-.]+(\/.*)?$/', MAIN_SITE_URL)
 		)) {
 			exit('MAIN_SITE_URL set incorrectly.');
 		}

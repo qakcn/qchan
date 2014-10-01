@@ -57,11 +57,11 @@ if(!defined('INDEX_RUN')) {
 	<div id="logo"></div>
 	<?php if(!is_page()) { ?>
 	<div id="upload_button_wrap">
-		<button class="affirmative" id="upload_button" title="<?=__('Upload files') ?>"><span id="add_mark">&#10133;</span><span id="close_mark">&#10060;</span><span class="hide_mobile">&nbsp;<?=__('Upload') ?></span></button>
+		<button class="affirmative" id="upload_button" title="<?=__('Upload files') ?>"><span class="hide_mobile">&nbsp;<?=__('Upload') ?></span></button>
 	</div>
 	<?php } ?>
 	<div id="lang_sel">
-		<img src="<?=get_url().theme_path() ?>images/WorldMap.svg"><span class="hide_mobile"><?=__('Language') ?></span>
+		<span class="hide_mobile"><?=__('Language') ?></span>
 		<ul><?=get_langlist() ?></ul>
 	</div>
 </header>
