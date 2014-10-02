@@ -1,3 +1,11 @@
+@font-face {font-family: "iconfont";
+  src: url('fonts/iconfont.eot'); /* IE9*/
+  src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('fonts/iconfont.woff') format('woff'), /* chrome、firefox */
+  url('fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
 /* Do some clean */
 * {
 	padding: 0;
@@ -218,6 +226,7 @@ div#lang_sel {
 	background-image: url(images/transparent.svg);
 	background-position: center center;
 	box-shadow: 5px 5px 5px 2px silver;
+	overflow: hidden;
 }
 #result_zone div.img {
 	position: absolute;
@@ -234,6 +243,30 @@ div#lang_sel {
 	right: 0;
 	background-image: url(images/mask.svg);
 }
+#result_zone div.name{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: none;
+}
+#result_zone li:hover div.name{
+	display: block;
+}
+#result_zone div.name p{
+	background-color: black;
+	color: white;
+	opacity: 0.6;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 5px;
+}
 #result_zone div.select{
 	position: absolute;
 	top: 0;
@@ -241,7 +274,6 @@ div#lang_sel {
 	left: 0;
 	right: 0;
 	border: 5px solid slateblue;
-	border-bottom: none;
 	display: none;
 }
 #result_zone .selected div.select{
@@ -252,10 +284,12 @@ div#lang_sel {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background-color: slateblue;
-	color:white;
-	padding: 0.2em;
+	color: slateblue;
+	margin: -1px;
 	text-align: right;
+	font-size: 2em;
+	line-height: 100%;
+	font-family: iconfont;
 }
 #main_footer {
 	background-color: #666;
@@ -327,6 +361,7 @@ div#lang_sel {
 #info_zone p {
 	margin: 0.3em 0;
 	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 #info_zone.hide {
 	padding: 0 0.625em;

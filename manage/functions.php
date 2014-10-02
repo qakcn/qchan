@@ -125,7 +125,7 @@ function format_filelist($filem,$page=1) {
 	$year=$_GET['year'];
 	$month=$_GET['month'];
 	$format = <<<FORMAT
-<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;" class="scroll-load" data-thumb="%s"><div class="img" style="background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="select"><p>%s</p></div></div></div></li>
+<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;" class="scroll-load" data-thumb="%s"><div class="img" style="background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="name"><p>%s</p></div><div class="select"><p>\xee\x98\x81</p></div></div></div></li>
 FORMAT;
 	$output='';
 	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
@@ -144,7 +144,7 @@ FORMAT;
 		if($geterror) {
 			$thumbpath = 'images/error.svg';
 		}
-		$output .= sprintf($format, $i, $width, $height, htmlspecialchars($thumbpath), $width, $height, $width, __('Selected'));
+		$output .= sprintf($format, $i, $width, $height, htmlspecialchars($thumbpath), $width, $height, $width, $filem[$i]);
 	}
 	return $output;
 }
@@ -164,7 +164,7 @@ FORMAT;
 		if(!file_exists(ABSPATH.'/'.$filepath)) {
 			continue;
 		}
-		$work = json_encode(array('name'=>basename($filem[$i]), 'path'=>'../'.$filepath, 'thumb' => '../'.$thumbpath, 'qid' => 'n'.$i));
+		$work = json_encode(array('name'=>$filem[$i], 'path'=>'../'.$filepath, 'thumb' => '../'.$thumbpath, 'qid' => 'n'.$i));
 		$output .= sprintf($format, $i, $work);
 	}
 	return $output;

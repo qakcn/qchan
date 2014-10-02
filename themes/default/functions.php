@@ -2,7 +2,7 @@
 function format_results($results) {
 	$id = 0;
 	$format = <<<FORMAT
-<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="background-image: url(&quot;%s&quot;); background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="select"><p>%s</p></div></div></div></li>
+<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="background-image: url(&quot;%s&quot;); background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="name"><p>%s</p></div><div class="select"><p>\xee\x98\x81</p></div></div></div></li>
 FORMAT;
 	$output='';
 	foreach($results as $result) {
@@ -13,7 +13,7 @@ FORMAT;
 			$width = 200;
 			$height = 200;
 		}
-		$output .= sprintf($format, $id++, $width, $height, htmlspecialchars($result['thumb']), $width, $height, $width, __('Selected'));
+		$output .= sprintf($format, $id++, $width, $height, htmlspecialchars($result['thumb']), $width, $height, $width, $result['name']);
 	}
 	return $output;
 }
@@ -74,7 +74,6 @@ function format_message() {
 		),
 		
 		'info' => array(
-			'selected' => __('Selected'),
 			'files_selected' => __(' Files Selected'),
 			'orig' => __('Original File'),
 			'html' => __('HTML Code'),

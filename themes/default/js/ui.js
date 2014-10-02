@@ -107,38 +107,39 @@ function show_thumbnail(work) {
 	var thmli = $('<li></li>').attr('id', 'q'+work.qid).prop('draggable',true); //list item
 	var thmprg = $('<div></div>').addClass('progress'); //div for show progress
 	var thmimg = $('<div></div>').addClass('img'); //div for show thumbnail
-	var thmsel =$('<div></div>').addClass('select').html('<p>'+ui_msg.info.selected+'</p>'); //div for show selected box
+	var thmname = $('<div></div>').addClass('name').html('<p>'+work.path+'</p>');
+	var thmsel =$('<div></div>').addClass('select').html('<p>\ue601</p>'); //div for show selected box
 	var thmi = $('<img>'); //img for get image width and height
 	if(work.type=='url') {
 		thmi.attr('src',work.path);
-		var thmishow=function(work,thmli,thmimg,thmprg,thmsel) {
+		var thmishow=function(work,thmli,thmimg,thmprg,thmname,thmsel) {
 			return function(e) {
-				show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,this);
+				show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,this);
 			}
 		};
-		thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmsel));
+		thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel));
 
 	}else if(work.type=='file') {
 		var fr;
 		if(fr = new FileReader ) {
-			fr.onload = (function(work,thmli,thmimg,thmprg,thmsel,thmi){
+			fr.onload = (function(work,thmli,thmimg,thmprg,thmname,thmsel,thmi){
 				return function(e) {
 					thmi.attr('src',e.target.result);
-					var thmishow=function(work,thmli,thmimg,thmprg,thmsel) {
+					var thmishow=function(work,thmli,thmimg,thmprg,thmname,thmsel) {
 						return function(e) {
-							show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,this);
+							show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,this);
 						}
 					};
-					thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmsel));
+					thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel));
 				}
-			})(work,thmli,thmimg,thmprg,thmsel,thmi);
+			})(work,thmli,thmimg,thmprg,thmname,thmsel,thmi);
 			fr.readAsDataURL(work.fileobj);
 		}
 	}
 }
 
 /* Put thumbnail in the result zone part B, in order to execute after proper load */
-function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
+function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,thmi) {
 	var width_orig = thmi.naturalWidth;
 	var height_orig = thmi.naturalHeight;
 	var width = 1000,height=200;
@@ -161,7 +162,7 @@ function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
 	}
 	thmimg.css('background-size',width+'px '+height+'px');
 	thmprg.css('background-position', '0px center');
-	thmli.width(width+'px').height(height+'px').append(thmimg.append(thmprg.append(thmsel))).prop('work',work).on('contextmenu', toggleinfo).on('click', toggleinfo);//.css('margin-top', (205 - height)/2+'px').css('margin-bottom', (205 - height)/2+'px')
+	thmli.width(width+'px').height(height+'px').append(thmimg.append(thmprg.append(thmname).append(thmsel))).prop('work',work).on('contextmenu', toggleinfo).on('click', toggleinfo);//.css('margin-top', (205 - height)/2+'px').css('margin-bottom', (205 - height)/2+'px')
 	
 	/* progress handler */
 	thmli[0].progress = progress(thmprg);
