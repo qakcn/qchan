@@ -125,7 +125,7 @@ function format_filelist($filem,$page=1) {
 	$year=$_GET['year'];
 	$month=$_GET['month'];
 	$format = <<<FORMAT
-<li id="n%d" %s draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="%sbackground-image: url(&quot;%s&quot;);"><div class="name"><p>%s</p></div><div class="infotag"><span class="longtag" title="%s">LONG</span><span class="tinytag" title="%s">TINY</span></div><div class="select"><p>\xee\x98\x81</p></div></div></li>
+<li id="n%d" %s draggable="true" style="width: %dpx; height: %dpx;" data-thumb="%s"><div class="img" style="%s"><div class="name"><p>%s</p></div><div class="infotag"><span class="longtag" title="%s">LONG</span><span class="tinytag" title="%s">TINY</span></div><div class="select"><p>\xee\x98\x81</p></div></div></li>
 FORMAT;
 	$output='';
 	$tinytag = __('This image is tiny and enlarged');
@@ -134,7 +134,7 @@ FORMAT;
 		$filepath=UPLOAD_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$thumbpath=THUMB_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$status='select';
-		$exclass = '';
+		$exclass = 'class="scroll-load"';
 		$imgstyle = '';
 		if(!file_exists(ABSPATH.'/'.$filepath)) {
 			continue;
@@ -164,7 +164,7 @@ FORMAT;
 					$exclass='data-direction="ltr" ';
 					$imgstyle = 'background-size: auto 100%;';
 				}
-				$exclass .= 'class="tiny long"';
+				$exclass .= 'class="tiny long scroll-load"';
 			}else if($extiny && !$exlong) {
 				if($ratio < 1) {
 					$width = 67;
@@ -173,7 +173,7 @@ FORMAT;
 					$height = 67;
 					$width = $height * $ratio;
 				}
-				$exclass = 'class="tiny"';
+				$exclass = 'class="tiny scroll-load"';
 			}else if(!$extiny && $exlong) {
 				if($ratio < 1) {
 					$height = 200;
@@ -184,10 +184,10 @@ FORMAT;
 					$exclass='data-direction="ltr" ';
 					$imgstyle = 'background-size: auto 100%;';
 				}
-				$exclass .= 'class="long"';
+				$exclass .= 'class="long scroll-load"';
 			}
 		}
-		$output .= sprintf($format, $i, $exclass, $width, $height, $imgstyle, htmlspecialchars($thumbpath), $filem[$i], $longtag, $tinytag);
+		$output .= sprintf($format, $i, $exclass, $width, $height, htmlspecialchars($thumbpath), $imgstyle, $filem[$i], $longtag, $tinytag);
 	}
 	return $output;
 }
