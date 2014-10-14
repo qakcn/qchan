@@ -15,7 +15,7 @@ require 'lang/' . LANG . '.php';
 
 // Some system settings
 define('SUPPORT_TYPE', 'jpg|jpeg|jpe|jfif|jfi|jif|gif|png|svg');
-define('QCHAN_VER', '0.7');
+define('QCHAN_VER', '0.7.1');
 if(function_exists('date_default_timezone_set'))
 	date_default_timezone_set(TIMEZONE);
 

@@ -251,7 +251,7 @@ if (defined('SITE_HOMEPAGE') && SITE_HOMEPAGE != '') {
 	echo '<a href="' . the_url() . '" title="' . SITE_DESCRIPTION .'" target="_blank">' . SITE_TITLE . '</a>';
 }
 ?>.</p>
-  <p>Powered by <a href="http://sourceforge.net/projects/qchan/" target="_blank" title="Qchan Image Hosting">Qchan <?=QCHAN_VER ?></a>. &copy;2011-2012 <a href="http://tsukkomi.org" title="有槽必吐 - 不吐槽，毋宁死" target="_blank">有槽必吐</a>.</p>
+  <p>Powered by <a href="http://sourceforge.net/projects/qchan/" target="_blank" title="Qchan Image Hosting">Qchan <?=QCHAN_VER ?></a>. &copy;2011-2012 <a href="http://quadra-studios.com" title="Quadra Studios" target="_blank">Quadra Studios</a>.</p>
 </div>
 </body>
 
