@@ -235,6 +235,10 @@ div#lang_sel {
 	bottom: 0;
 	left: 0;
 	right: 0;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	transition-property: background-position;
+	transition-timing-function: linear;
 }
 #result_zone div.name{
 	position: absolute;

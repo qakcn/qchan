@@ -324,6 +324,7 @@ div#lang_sel {
 	background-image: url(images/transparent.png);
 	background-position: center center;
 	box-shadow: 5px 5px 5px 2px #c8f8de;
+	overflow: hidden;
 }
 #result_zone div.img {
 	position: absolute;
