@@ -58,6 +58,10 @@ function url_handler() {
 			$result['thumb'] = ($duplicate['thumb']=='none' ? '' : $host) . $duplicate['thumb'];
 			$result['path'] = $host . $duplicate['path'];
 			$result['name'] = $duplicate['name'];
+			$result['width'] = $duplicate['width'];
+			$result['height'] = $duplicate['height'];
+			$result['exlong'] = $duplicate['exlong'];
+			$result['extiny'] = $duplicate['extiny'];
 			unlink($temp);
 		}else if(filesize($temp) > get_size_limit()) {
 			$result['status'] = 'failed';
@@ -99,25 +103,20 @@ function url_handler() {
 				}else {
 					watermark($path);
 					$thumb = make_thumb($name, $path, $thumbs_dir);
-					if($duplicate = duplicate_hash($name, $path, $thumb)) {
+					if(duplicate_hash($name, $path, $thumb)) {
 						$result['status'] = 'success';
-						$result['thumb'] = $thumb['generated'] ? $host . $thumb['path'] : 'none';
-						$result['path'] = $host . $path;
-						$result['name'] = $name;
-						if(isset($thumb['width'])) {
-							$result['width'] = $thumb['width'];
-							$result['height'] = $thumb['height'];
-						}
 					}else {
 						$result['status'] = 'error';
 						$result['err'] = 'fail_duplicate';
-						$result['path'] = $host . $path;
-						$result['name'] = $name;
-						$result['thumb'] = $thumb['generated'] ? $host . $thumb['path'] : 'none';
-						if(isset($thumb['width'])) {
-							$result['width'] = $thumb['width'];
-							$result['height'] = $thumb['height'];
-						}
+					}
+					$result['path'] = $host . $path;
+					$result['name'] = $name;
+					$result['thumb'] = $thumb['generated'] ? $host . $thumb['path'] : 'none';
+					if(isset($thumb['width'])) {
+						$result['width'] = $thumb['width'];
+						$result['height'] = $thumb['height'];
+						$result['exlong'] = $thumb['exlong'];
+						$result['extiny'] = $thumb['extiny'];
 					}
 				}
 			}
@@ -154,6 +153,8 @@ function file_handler() {
 					$result['name'] = $duplicate['name'];
 					$result['width'] = $duplicate['width'];
 					$result['height'] = $duplicate['height'];
+					$result['exlong'] = $duplicate['exlong'];
+					$result['extiny'] = $duplicate['extiny'];
 				}else {
 					$mime=file_mime_type($temp);
 					switch($mime) {
@@ -193,23 +194,18 @@ function file_handler() {
 							$thumb = make_thumb($name, $path, $thumbs_dir);
 							if($duplicate = duplicate_hash($name, $path, $thumb)) {
 								$result['status'] = 'success';
-								$result['thumb'] = $thumb['generated'] ? $host . $thumb['path'] : 'none';
-								$result['path'] = $host . $path;
-								$result['name'] = $name;
-								if(isset($thumb['width'])) {
-									$result['width'] = $thumb['width'];
-									$result['height'] = $thumb['height'];
-								}
 							}else {
 								$result['status'] = 'error';
 								$result['err'] = 'fail_duplicate';
-								$result['path'] = $host . $path;
-								$result['name'] = $name;
-								$result['thumb'] = $thumb['generated'] ? $host . $thumb['path'] : 'none';
-								if(isset($thumb['width'])) {
-									$result['width'] = $thumb['width'];
-									$result['height'] = $thumb['height'];
-								}
+							}
+							$result['path'] = $host . $path;
+							$result['name'] = $name;
+							$result['thumb'] = $thumb['generated'] ? $host . $thumb['path'] : 'none';
+							if(isset($thumb['width'])) {
+								$result['width'] = $thumb['width'];
+								$result['height'] = $thumb['height'];
+								$result['exlong'] = $thumb['exlong'];
+								$result['extiny'] = $thumb['extiny'];
 							}
 						}
 					}
@@ -308,8 +304,33 @@ function file_mime_type($file) {
 //Generate thumbnail image
 function make_thumb($name, $path, $thumbs_dir) {
 	$height = 200;
-	$width = 1000;
+	$width = 200;
+	$exlong = $extiny = false;
 	$return = array('generated'=>false);
+	if(file_mime_type(ABSPATH.'/'.$path) == 'image/svg+xml') {
+		$svg=file_get_contents(ABSPATH.'/'.$path);
+		if(preg_match('/<svg.*?width="([\d.]+)(em|ex|px|in|cm|mm|pt|pc|%)?".*?height="([\d.]+)(em|ex|px|in|cm|mm|pt|pc|%)?".*?>/', $svg, $match)){
+			$width = $match[1];
+			$height = $match [3];
+			
+		}else if(preg_match('/<svg.*?height="([\d.]+)(em|ex|px|in|cm|mm|pt|pc|%)?".*?width="([\d.]+)(em|ex|px|in|cm|mm|pt|pc|%)?".*?>/', $svg, $match)) {
+			$width = $match[3];
+			$height = $match [1];
+		}else {
+			$width = $height = 200;
+		}
+		$ratio = $width/$height;
+		$exlong = ($ratio > 3 || $ratio < 0.33);
+		if($ratio < 0.33 || $ratio >= 1 && $ratio <= 3) {
+			$width = 200;
+			$height = $width/$ratio;
+		}else if ($ratio >= 0.33 && $ratio < 1 || $ratio > 3) {
+			$height = 200;
+			$width = $height*$ratio;
+		}
+		$return['width'] = $width;
+		$return['height'] = $height;
+	}else {
 	if(!$imgInfo=getimagesize(ABSPATH.'/'.$path)) {
 		return $return;
 	}
@@ -332,17 +353,20 @@ function make_thumb($name, $path, $thumbs_dir) {
 		default:
 			$notype = true;
 	}
-	
-	if($height_orig <= $height && $width_orig <= $width) {
+	$ratio_orig = $width_orig/$height_orig;
+	$exlong = ($ratio_orig < 0.33 || $ratio_orig > 3);
+	$extiny = ($width_orig < 67 || $height_orig < 67);
+
+	if($height_orig <= $height && $width_orig <= $width || $extiny || ($exlong && ($height_orig <= $height ||  $width_orig <= $width))) {
 		$return['width'] = $width_orig;
 		$return['height'] = $height_orig;
 	}else{
-		$ratio_orig = $width_orig/$height_orig;
-		if ($width/$height > $ratio_orig) {
-			$width = $height*$ratio_orig;
-		}else {
-			$height = $width/$ratio_orig;
+		if ($ratio_orig < 0.33 || $ratio_orig >= 1 && $ratio_orig <= 3) {
+			$height = $width / $ratio_orig;
+		}else if($ratio_orig >= 0.33 && $ratio_orig < 1 || $ratio_orig > 3) {
+			$width = $height * $ratio_orig;
 		}
+
 		$return['width'] = $width;
 		$return['height'] = $height;
 		if($notype || !$image_p = imagecreatetruecolor($width, $height)) {
@@ -362,12 +386,10 @@ function make_thumb($name, $path, $thumbs_dir) {
 			$transparent_index = imagecolortransparent($image);
 			if($transparent_index != -1) {
 				$bgcolor = imagecolorsforindex($image, $transparent_index);
-			}else {
-				$bgcolor = array('red' => 0, 'green' => 0, 'blue' => 0);
+				$bgcolor = imagecolorallocate($image_p, $bgcolor['red'], $bgcolor['green'], $bgcolor['blue']);
+				$bgcolor_index = imagecolortransparent($image_p, $bgcolor);
+				imagefill($image_p, 0, 0, $bgcolor_index);
 			}
-			$bgcolor = imagecolorallocate($image_p, $bgcolor['red'], $bgcolor['green'], $bgcolor['blue']);
-			$bgcolor_index = imagecolortransparent($image_p, $bgcolor);
-			imagefill($image_p, 0, 0, $bgcolor_index);
 		}
 
 		// Resize image
@@ -382,6 +404,10 @@ function make_thumb($name, $path, $thumbs_dir) {
 		$return['generated'] = true;
 		$return['path'] = "$thumbs_dir/$name";
 	}
+	}
+	$return['exlong'] = $exlong?'long':'';
+	$return['extiny'] = $extiny?'tiny':'';
+	
 	return $return;
 }
 
@@ -438,7 +464,9 @@ function duplicate_hash($name, $path, $thumb) {
 			'path'=>$path,
 			'thumb'=>$thumb['generated']?$thumb['path']:'none',
 			'width'=>$thumb['width'],
-			'height'=>$thumb['height']
+			'height'=>$thumb['height'],
+			'exlong' => $thumb['exlong'],
+			'extiny' => $thumb['extiny'],
 		);
 		if(file_put_contents($hashfile, json_encode($info), LOCK_EX) !== false) {
 			return true;

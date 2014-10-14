@@ -208,9 +208,7 @@ function isempty(theurl) {
 
 function after_upload(res) {
 	var qli = $('#q'+res.qid);
-	var qimg = qli.children();
-	var qprg = qimg.children();
-	var qsel = qprg.children();
+	var qimg = qli.children('.img');
 	if(!qli[0]) {
 		var callself = function(){after_upload(res);};
 		setTimeout(callself,100);
@@ -247,10 +245,7 @@ function after_upload(res) {
 					backgroundImage: 'url('+prop.error_image+')',
 					backgroundSize: '200px 200px'
 				});
-				qli.width('200px');
-				qli.height('200px');
-				qli.css({marginTop: 0, marginBottom: 0});
-				qsel.css('paddingTop', '170px');
+				qli.width('200px').height('200px').css({marginTop: 0, marginBottom: 0});
 			break;
 	}
 	changeinfo(true);

@@ -28,7 +28,7 @@ if(!defined('INDEX_RUN')) {
 		prop = {
 			size_limit: <?=get_size_limit() ?>,
 			upload_count: <?=get_upload_count() ?>,
-			error_image: '<?=theme_path() ?>/images/error.svg'
+			error_image: '<?=theme_path() ?>/images/error.png'
 		};
 	</script>
 	

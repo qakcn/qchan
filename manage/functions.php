@@ -99,6 +99,14 @@ function get_image_size($file){
 			$width=200;
 			$height=200;
 		}
+		$ratio=$width/$height;
+		if($ratio < 0.33 || $ratio >= 1 && $ratio <= 3) {
+			$width = 200;
+			$height = $width/$ratio;
+		}else if ($ratio >= 0.33 && $ratio < 1 || $ratio > 3) {
+			$height = 200;
+			$width = $height*$ratio;
+		}
 	}else {
 	    if(!$imgInfo = @getimagesize($file)) {
 	        list($width, $height) = array(200,200);
@@ -107,15 +115,7 @@ function get_image_size($file){
 		    list($width, $height,,) = $imgInfo;
 		}
 	}
-	$ratio=$width/$height;
-	if($height>200) {
-		$height=200;
-		$width=$ratio*200;
-	}
-	if($width>1000) {
-		$height=1000/$ratio;
-		$width=1000;
-	}
+	
 	return array($width, $height, $geterror);
 }
 
@@ -125,13 +125,17 @@ function format_filelist($filem,$page=1) {
 	$year=$_GET['year'];
 	$month=$_GET['month'];
 	$format = <<<FORMAT
-<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;" class="scroll-load" data-thumb="%s"><div class="img" style="background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="name"><p>%s</p></div><div class="select"><p>\xee\x98\x81</p></div></div></div></li>
+<li id="n%d" %s draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="%sbackground-image: url(&quot;%s&quot;);"><div class="name"><p>%s</p></div><div class="infotag"><span class="longtag" title="%s">LONG</span><span class="tinytag" title="%s">TINY</span></div><div class="select"><p>\xee\x98\x81</p></div></div></li>
 FORMAT;
 	$output='';
+	$tinytag = __('This image is tiny and enlarged');
+	$longtag = __('This image is long and will be auto scrolled when mouse over');
 	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {
 		$filepath=UPLOAD_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$thumbpath=THUMB_DIR.'/'.$year.'/'.$month.'/'.$filem[$i];
 		$status='select';
+		$exclass = '';
+		$imgstyle = '';
 		if(!file_exists(ABSPATH.'/'.$filepath)) {
 			continue;
 		}else if(file_exists(ABSPATH.'/'.$thumbpath)) {
@@ -142,9 +146,48 @@ FORMAT;
 		}
 		$thumbpath = '/'.$thumbpath;
 		if($geterror) {
-			$thumbpath = 'images/error.svg';
+			$thumbpath = 'images/error.png';
+			$width = $height = 200;
+		}else {
+			$ratio = $width/$height;
+			$extiny = ($width < 67 || $height < 67);
+			$exlong = ($ratio > 3 || $ratio < 0.33 );
+			if($extiny && $exlong) {
+				if($ratio < 1) {
+					$width = 67;
+					$height = 200;
+					$exclass='data-direction="ttb" ';
+					$imgstyle = 'background-size: 100% auto;';
+				}else {
+					$height = 67;
+					$width = 200;
+					$exclass='data-direction="ltr" ';
+					$imgstyle = 'background-size: auto 100%;';
+				}
+				$exclass .= 'class="tiny long"';
+			}else if($extiny && !$exlong) {
+				if($ratio < 1) {
+					$width = 67;
+					$height = $width/$ratio;
+				}else {
+					$height = 67;
+					$width = $height * $ratio;
+				}
+				$exclass = 'class="tiny"';
+			}else if(!$extiny && $exlong) {
+				if($ratio < 1) {
+					$height = 200;
+					$exclass='data-direction="ttb" ';
+					$imgstyle = 'background-size: 100% auto;';
+				}else {
+					$width = 200;
+					$exclass='data-direction="ltr" ';
+					$imgstyle = 'background-size: auto 100%;';
+				}
+				$exclass .= 'class="long"';
+			}
 		}
-		$output .= sprintf($format, $i, $width, $height, htmlspecialchars($thumbpath), $width, $height, $width, $filem[$i]);
+		$output .= sprintf($format, $i, $exclass, $width, $height, $imgstyle, htmlspecialchars($thumbpath), $filem[$i], $longtag, $tinytag);
 	}
 	return $output;
 }
@@ -155,7 +198,7 @@ function format_script($filem,$page=1) {
 	$year=$_GET['year'];
 	$month=$_GET['month'];
 	$format = <<<FORMAT
-$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s);
+$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s).on('mouseenter', movelongstart).on('mouseleave', movelongend);
 FORMAT;
 	$output = '';
 	for($i=($page-1)*$perpage;$i<$page*$perpage && $i<count($filem);$i++) {

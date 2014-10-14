@@ -69,7 +69,7 @@ if($logged=is_login()) {
 <header id="main_header">
 	<div id="logo"></div>
 	<div id="lang_sel">
-		<img src="images/WorldMap.svg"><span class="hide_mobile"><?=__('Language') ?></span>
+		<span class="hide_mobile"><?=__('Language') ?></span>
 		<ul><?=get_langlist() ?></ul>
 	</div>
 </header>

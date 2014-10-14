@@ -152,6 +152,12 @@
 	"Click to view large version":
 	"点击显示原始图片",
 
+	"This image is tiny and enlarged":
+	"图片过小，已放大显示",
+
+	"This image is long and will be auto scrolled when mouse over":
+	"图片过长，鼠标悬停以滚动",
+
 	"This site is powered by <a target=\"_blank\" href=\"%s\">Qchan %s</a>":
 	"本站由轻量级图床程序<a target=\"_blank\" href=\"%s\">Qchan %s</a>强力驱动",
 

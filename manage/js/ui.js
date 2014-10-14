@@ -67,6 +67,48 @@ $(function(){
 	});
 });
 
+function movelongend(e){
+	if(!$(this).hasClass('long')) return false;
+	var direction = $(this).data('direction');
+	var thmimg = $(this).children('.img');
+	var position = window.getComputedStyle(thmimg[0]).backgroundPosition;
+	if(direction == 'ltr') {
+		if(position.match(/^(.+)(%|px) .+$/)[1]*1==100) $(this).data('direction', 'rtl');
+		thmimg.css('background-position', position);
+	}else if(direction == 'rtl') {
+		if(position.match(/^(.+)(%|px) .+$/)[1]*1==0) $(this).data('direction', 'ltr');
+		thmimg.css('background-position', position);
+	}else if(direction == 'ttb') {
+		if(position.match(/^.+ (.+)(%|px)$/)[1]*1==100) $(this).data('direction', 'btt');
+		thmimg.css('background-position', position);
+	}else if(direction == 'btt') {
+		if(position.match(/^.+ (.+)(%|px)$/)[1]*1==0) $(this).data('direction', 'ttb');
+		thmimg.css('background-position', position);
+	}
+}
+function movelongstart(e){
+	if(!$(this).hasClass('long')) return false;
+	var direction = $(this).data('direction');
+	var thmimg = $(this).children('.img');
+	var position = window.getComputedStyle(thmimg[0]).backgroundPosition;
+	var duration=0;
+	
+	thmimg.css('transition-timing-function', 'linear'); //Fuck Chrome
+	if(direction == 'ltr') {
+		duration = (100 - position.match(/^(.+)(%|px) .+$/)[1]) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '100% 0');
+	}else if(direction == 'rtl') {
+		duration = (position.match(/^(.+)(%|px) .+$/)[1]*1) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '0 0');
+	}else if(direction == 'ttb') {
+		duration = (100 - position.match(/^.+ (.+)(%|px)$/)[1]) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '0 100%');
+	}else if(direction == 'btt') {
+		duration = (position.match(/^.+ (.+)(%|px)$/)[1]*1) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '0 0');
+	}
+}
+
 window.lastselected=null;
 function toggleinfo(e) {
 	e.preventDefault();

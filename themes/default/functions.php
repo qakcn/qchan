@@ -2,18 +2,60 @@
 function format_results($results) {
 	$id = 0;
 	$format = <<<FORMAT
-<li id="n%d" draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="background-image: url(&quot;%s&quot;); background-size: %dpx %dpx;"><div class="progress" style="background-position: %dpx center;"><div class="name"><p>%s</p></div><div class="select"><p>\xee\x98\x81</p></div></div></div></li>
+<li id="n%d" %s draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="%sbackground-image: url(&quot;%s&quot;);"><div class="name"><p>%s</p></div><div class="infotag"><span class="longtag" title="%s">LONG</span><span class="tinytag" title="%s">TINY</span></div><div class="select"><p>\xee\x98\x81</p></div></div></li>
 FORMAT;
 	$output='';
+	$tinytag = __('This image is tiny and enlarged');
+	$longtag = __('This image is long and will be auto scrolled when mouse over');
 	foreach($results as $result) {
+		$exclass = '';
+		$imgstyle = '';
 		if(isset($result['width'])) {
 			$width = $result['width'];
 			$height = $result['height'];
+			$extiny = (isset($result['extiny']) && $result['extiny'] == 'tiny');
+			$exlong = (isset($result['exlong']) && $result['exlong'] == 'long');
+			$ratio = $width/$height;
+			if($extiny && $exlong) {
+				if($ratio < 1) {
+					$width = 67;
+					$height = 200;
+					$exclass='data-direction="ttb" ';
+					$imgstyle = 'background-size: 100% auto;';
+				}else {
+					$height = 67;
+					$width = 200;
+					$exclass='data-direction="ltr" ';
+					$imgstyle = 'background-size: auto 100%;';
+				}
+				$exclass .= 'class="tiny long"';
+			}else if($extiny && !$exlong) {
+				if($ratio < 1) {
+					$width = 67;
+					$height = $width/$ratio;
+				}else {
+					$height = 67;
+					$width = $height * $ratio;
+				}
+				$exclass = 'class="tiny"';
+			}else if(!$extiny && $exlong) {
+				if($ratio < 1) {
+					$height = 200;
+					$exclass='data-direction="ttb" ';
+					$imgstyle = 'background-size: 100% auto;';
+				}else {
+					$width = 200;
+					$exclass='data-direction="ltr" ';
+					$imgstyle = 'background-size: auto 100%;';
+				}
+				$exclass .= 'class="long"';
+			}
 		}else {
 			$width = 200;
 			$height = 200;
 		}
-		$output .= sprintf($format, $id++, $width, $height, htmlspecialchars($result['thumb']), $width, $height, $width, $result['name']);
+		$preview = ($result['thumb']!='none')?$result['thumb']:$result['path'];
+		$output .= sprintf($format, $id++, $exclass, $width, $height, $imgstyle, $preview, $result['name'], $longtag, $tinytag);
 	}
 	return $output;
 }
@@ -21,7 +63,7 @@ FORMAT;
 function format_script($results) {
 	$id = 0;
 	$format = <<<FORMAT
-$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s);
+$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s).on('mouseenter', movelongstart).on('mouseleave', movelongend);
 FORMAT;
 	$output = '';
 	foreach($results as $result) {
@@ -81,7 +123,9 @@ function format_message() {
 			'bbcode' => __('BBCode'),
 			'bbcode_with_thumb' => __('BBCode with thumbnail'),
 			'thumb_tips' => __('Click to view large version'),
-			'undrop' => __('Your browser doesn\'t support Drag and drop upload')
+			'undrop' => __('Your browser doesn\'t support Drag and drop upload'),
+			'tinytag' => __('This image is tiny and enlarged'),
+			'longtag' => __('This image is long and will be auto scrolled when mouse over')
 		),
 	));
 }

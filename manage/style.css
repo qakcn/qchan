@@ -94,9 +94,10 @@ div#lang_sel {
 	padding: 1.75em;
 	text-align: center;
 }
-#lang_sel img {
-	height: 1.5em;
-	width: 3em;
+#lang_sel::before {
+	font-family:"iconfont";
+	content: "\e603";
+	font-size: 1.5em;
 }
 #lang_sel span {
 	font-size: 1.5em;
@@ -223,7 +224,7 @@ div#lang_sel {
 	vertical-align: top;
 	margin: 5px;
 	position: relative;
-	background-image: url(images/transparent.svg);
+	background-image: url(images/transparent.png);
 	background-position: center center;
 	box-shadow: 5px 5px 5px 2px silver;
 	overflow: hidden;
@@ -235,14 +236,6 @@ div#lang_sel {
 	left: 0;
 	right: 0;
 }
-#result_zone div.progress{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-image: url(images/mask.svg);
-}
 #result_zone div.name{
 	position: absolute;
 	top: 0;
@@ -251,6 +244,40 @@ div#lang_sel {
 	right: 0;
 	display: none;
 }
+#result_zone div.infotag{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: none;
+	text-align: right;
+	font-size: 0.6em;
+	opacity: 0.7;
+}
+#result_zone li.long div.infotag,#result_zone li.tiny div.infotag {
+	display: block;
+}
+#result_zone div.infotag span {
+	display: none;
+	padding: 0 0.2em;
+	cursor: default;
+}
+#result_zone div.infotag span.longtag{
+	background-color: teal;
+	color: white;
+}
+#result_zone div.infotag span.tinytag{
+	background-color: brown;
+	color: white;
+}
+#result_zone li.long div.infotag span.longtag{
+	display: inline;
+}
+#result_zone li.tiny div.infotag span.tinytag{
+	display: inline;
+}
+
 #result_zone li:hover div.name{
 	display: block;
 }
@@ -327,7 +354,6 @@ div#lang_sel {
 #page_zone button{
 	border: none;
 	padding: 0.625em;
-	width: 6.25em;
 	color: white;
 	background-color: chocolate;
 }

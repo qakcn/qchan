@@ -102,67 +102,143 @@ $(document).on('drop', function(e) {
 
 });
 
+function movelongend(e){
+	if(!$(this).hasClass('long')) return false;
+	var direction = $(this).data('direction');
+	var thmimg = $(this).children('.img');
+	var position = window.getComputedStyle(thmimg[0]).backgroundPosition;
+	if(direction == 'ltr') {
+		if(position.match(/^(.+)(%|px) .+$/)[1]*1==100) $(this).data('direction', 'rtl');
+		thmimg.css('background-position', position);
+	}else if(direction == 'rtl') {
+		if(position.match(/^(.+)(%|px) .+$/)[1]*1==0) $(this).data('direction', 'ltr');
+		thmimg.css('background-position', position);
+	}else if(direction == 'ttb') {
+		if(position.match(/^.+ (.+)(%|px)$/)[1]*1==100) $(this).data('direction', 'btt');
+		thmimg.css('background-position', position);
+	}else if(direction == 'btt') {
+		if(position.match(/^.+ (.+)(%|px)$/)[1]*1==0) $(this).data('direction', 'ttb');
+		thmimg.css('background-position', position);
+	}
+}
+function movelongstart(e){
+	if(!$(this).hasClass('long')) return false;
+	var direction = $(this).data('direction');
+	var thmimg = $(this).children('.img');
+	var position = window.getComputedStyle(thmimg[0]).backgroundPosition;
+	var duration=0;
+	
+	thmimg.css('transition-timing-function', 'linear'); //Fuck Chrome
+	if(direction == 'ltr') {
+		duration = (100 - position.match(/^(.+)(%|px) .+$/)[1]) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '100% 0');
+	}else if(direction == 'rtl') {
+		duration = (position.match(/^(.+)(%|px) .+$/)[1]*1) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '0 0');
+	}else if(direction == 'ttb') {
+		duration = (100 - position.match(/^.+ (.+)(%|px)$/)[1]) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '0 100%');
+	}else if(direction == 'btt') {
+		duration = (position.match(/^.+ (.+)(%|px)$/)[1]*1) * 0.03;
+		thmimg.css('transition-duration',duration+'s').css('background-position', '0 0');
+	}
+}
+
 /* Put thumbnail in the result zone */
 function show_thumbnail(work) {
 	var thmli = $('<li></li>').attr('id', 'q'+work.qid).prop('draggable',true); //list item
 	var thmprg = $('<div></div>').addClass('progress'); //div for show progress
 	var thmimg = $('<div></div>').addClass('img'); //div for show thumbnail
-	var thmname = $('<div></div>').addClass('name').html('<p>'+work.path+'</p>');
+	var thminfo = $('<div class="name"><p>'+work.path+'</p></div><div class="infotag"><span class="longtag" title="'+ui_msg.info.longtag+'">LONG</span><span class="tinytag" title="'+ui_msg.info.tinytag+'">TINY</span></div>');
 	var thmsel =$('<div></div>').addClass('select').html('<p>\ue601</p>'); //div for show selected box
 	var thmi = $('<img>'); //img for get image width and height
+	thmimg.append(thminfo);
 	if(work.type=='url') {
 		thmi.attr('src',work.path);
-		var thmishow=function(work,thmli,thmimg,thmprg,thmname,thmsel) {
+		var thmishow=function(work,thmli,thmimg,thmprg,thmsel) {
 			return function(e) {
-				show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,this);
+				show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,this);
 			}
 		};
-		thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel));
+		thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmsel));
 
 	}else if(work.type=='file') {
 		var fr;
 		if(fr = new FileReader ) {
-			fr.onload = (function(work,thmli,thmimg,thmprg,thmname,thmsel,thmi){
+			fr.onload = (function(work,thmli,thmimg,thmprg,thmsel,thmi){
 				return function(e) {
 					thmi.attr('src',e.target.result);
-					var thmishow=function(work,thmli,thmimg,thmprg,thmname,thmsel) {
+					var thmishow=function(work,thmli,thmimg,thmprg,thmsel) {
 						return function(e) {
-							show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,this);
+							show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,this);
 						}
 					};
-					thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmname,thmsel));
+					thmi.on('error',thmishow(work,thmli,thmimg,thmprg,thmsel)).on('load',thmishow(work,thmli,thmimg,thmprg,thmsel));
 				}
-			})(work,thmli,thmimg,thmprg,thmname,thmsel,thmi);
+			})(work,thmli,thmimg,thmprg,thmsel,thmi);
 			fr.readAsDataURL(work.fileobj);
 		}
 	}
 }
 
 /* Put thumbnail in the result zone part B, in order to execute after proper load */
-function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,thmi) {
+function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmsel,thmi) {
 	var width_orig = thmi.naturalWidth;
 	var height_orig = thmi.naturalHeight;
-	var width = 1000,height=200;
+	var width = 200,height=200;
+	
+	setexlong = function(thmli, thmimg, ratio){
+		thmli.on('mouseenter', movelongstart).on('mouseleave', movelongend);
+		if(ratio > 3) {
+			thmli.addClass('long').data('direction','ltr');
+			thmimg.css('background-size', 'auto 100%');
+		}else if(ratio < 0.33) {
+			thmli.addClass('long').data('direction','ttb');
+			thmimg.css('background-size', '100% auto');
+		}
+	};
 	if(width_orig==0 || height_orig==0) {
 		work.status = 'error';
 		work.err='fail_load';
 		thmimg.css('background-image','url('+prop.error_image+')');
-	}else if(height_orig>height || width_orig>width) {
+	}else if(height_orig>height || width_orig>width || width_orig < 67 || height_orig < 67) {
 		var ratio_orig = width_orig/height_orig;
-		if (width/height > ratio_orig) {
+		var extiny=false;
+		if(width_orig < 67 || height_orig < 67) {
+			width = height = 67;
+			extiny=true;
+			thmli.addClass('tiny');
+		}
+		if (ratio_orig >= 1 && ratio_orig <= 3) {
+			height = width/ratio_orig;
+		}else if(ratio_orig >= 0.33 && ratio_orig < 1) {
 			width = height*ratio_orig;
 		}else {
-			height = width/ratio_orig;
+			if(extiny) {
+				if(ratio_orig > 1) {
+					width = 200;
+				}else{
+					height = 200;
+				}
+			}else {
+				if(ratio_orig < 1) {
+					width = (width_orig>200) ? 200 : width_orig;
+					height = 200;
+				}else{
+					width = 200;
+					height = (height_orig>200) ? 200 : height_orig;
+				}
+			}
+			setexlong(thmli, thmimg, ratio_orig);
 		}
+		
 		thmimg.css('background-image','url("'+thmi.src+'")');
 	}else {
 		width = width_orig;
 		height = height_orig;
 		thmimg.css('background-image','url("'+thmi.src+'")');
 	}
-	thmimg.css('background-size',width+'px '+height+'px');
-	thmprg.css('background-position', '0px center');
-	thmli.width(width+'px').height(height+'px').append(thmimg.append(thmprg.append(thmname).append(thmsel))).prop('work',work).on('contextmenu', toggleinfo).on('click', toggleinfo);//.css('margin-top', (205 - height)/2+'px').css('margin-bottom', (205 - height)/2+'px')
+	thmli.width(width+'px').height(height+'px').append(thmimg.append(thmprg).append(thmsel)).prop('work',work).on('contextmenu', toggleinfo).on('click', toggleinfo);
 	
 	/* progress handler */
 	thmli[0].progress = progress(thmprg);
@@ -171,8 +247,8 @@ function show_thumbnail_part_b(work,thmli,thmimg,thmprg,thmname,thmsel,thmi) {
 
 function progress(thmprg) {
 	return function(percent) {
-		var pos = thmprg.width() * percent;
-		thmprg.animate({'background-position': pos+'px center'});
+		var pos = thmprg.parent().width() * percent;
+		thmprg.css('left', pos+'px');
 	}
 }
 

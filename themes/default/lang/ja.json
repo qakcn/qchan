@@ -152,6 +152,12 @@
 	"Click to view large version":
 	"元の画像を見せるために、クリックして",
 
+	"This image is tiny and enlarged":
+	"画像は小っさいです",
+
+	"This image is long and will be auto scrolled when mouse over":
+	"画像は長いです",
+
 	"This site is powered by <a target=\"_blank\" href=\"%s\">Qchan %s</a>":
 	"このウェブサイトは、<a target=\"_blank\" href=\"%s\">Qchan %s</a>の使用して運営しました",
 
