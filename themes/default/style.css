@@ -326,6 +326,17 @@ div#lang_sel {
 	box-shadow: 5px 5px 5px 2px #c8f8de;
 	overflow: hidden;
 }
+#result_zone li.moving{
+	opacity: 0.4;
+}
+#result_zone li.koko {
+	background-image: none;
+	box-sizing: border-box;
+	width: 100px;
+	height: 100px;
+	border: dashed 5px #ddd;
+	box-shadow: none;
+}
 #result_zone div.img {
 	position: absolute;
 	top: 0;

@@ -2,7 +2,7 @@
 function format_results($results) {
 	$id = 0;
 	$format = <<<FORMAT
-<li id="n%d" %s draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="%sbackground-image: url(&quot;%s&quot;);"><div class="name"><p>%s</p></div><div class="infotag"><span class="longtag" title="%s">LONG</span><span class="tinytag" title="%s">TINY</span></div><div class="select"><p>\xee\x98\x81</p></div></div></li>
+<li id="n%d" %s draggable="true" style="width: %dpx; height: %dpx;"><div class="img" style="%sbackground-image: url(&quot;%s&quot;);"><div draggable="true" class="name"><p>%s</p></div><div class="infotag" draggable="true"><span class="longtag" title="%s">LONG</span><span class="tinytag" title="%s">TINY</span></div><div class="select" draggable="true"><p>\xee\x98\x81</p></div></div></li>
 FORMAT;
 	$output='';
 	$tinytag = __('This image is tiny and enlarged');
@@ -63,7 +63,7 @@ FORMAT;
 function format_script($results) {
 	$id = 0;
 	$format = <<<FORMAT
-$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s).on('mouseenter', movelongstart).on('mouseleave', movelongend);
+$('#n%d').on('click', toggleinfo).on('contextmenu', toggleinfo).prop('work', %s).on('mouseenter', movelongstart).on('mouseleave', movelongend).on('dragstart', thm_dragstart).on('dragover', thm_dragover);
 FORMAT;
 	$output = '';
 	foreach($results as $result) {

@@ -82,12 +82,10 @@ $('#submit').on('click',function(e){
 $(document).on('dragenter', function(e) {
 	e.stopPropagation();
 	e.preventDefault();
-});
-$(document).on('dragover', function(e) {
+}).on('dragover', function(e) {
 	e.stopPropagation();
 	e.preventDefault();
-});
-$(document).on('drop', function(e) {
+}).on('drop', function(e) {
 	e.stopPropagation();
 	e.preventDefault();
 	$('#closepop').trigger('click');
@@ -100,7 +98,47 @@ $(document).on('drop', function(e) {
 	}
 });
 
+$('#result_zone').on('drop', thm_drop);
+
 });
+
+function thm_dragstart(e){
+	e.dataTransfer.effectAllowed='copy';
+	var ids=[];
+	if($('.selected').length==0 || !$(this).is('.selected')) {
+		ids.push('#'+this.id);
+		$(this).addClass('moving');
+	}else {
+		$('.selected').each(function(){
+			ids.push('#'+this.id);
+			$(this).addClass('moving');
+		});
+	}
+	e.dataTransfer.setData('ID',ids);
+}
+
+function thm_drop(e) {
+	e.dataTransfer.dropEffect='copy';
+	var id=e.dataTransfer.getData('ID');
+	if(/#q\d+(,#q\d+)*/.test(id)) {
+		e.stopPropagation();
+		e.preventDefault();
+		if($('.koko').length>0) {
+			$('.koko').replaceWith($(id).detach().removeClass('moving'));
+		}else {
+			$(id).removeClass('moving');
+		}
+	}
+}
+
+function thm_dragover(e) {
+	e.stopPropagation();
+	e.preventDefault();
+	if($('.moving').length>0) {
+		$('.koko').remove();
+		$(this).before('<li class="koko"></li>');
+	}
+}
 
 function movelongend(e){
 	if(!$(this).hasClass('long')) return false;
@@ -146,13 +184,15 @@ function movelongstart(e){
 
 /* Put thumbnail in the result zone */
 function show_thumbnail(work) {
-	var thmli = $('<li></li>').attr('id', 'q'+work.qid).prop('draggable',true); //list item
+	var thmli = $('<li></li>').attr('id', 'q'+work.qid); //list item
 	var thmprg = $('<div></div>').addClass('progress'); //div for show progress
 	var thmimg = $('<div></div>').addClass('img'); //div for show thumbnail
 	var thminfo = $('<div class="name"><p>'+work.path+'</p></div><div class="infotag"><span class="longtag" title="'+ui_msg.info.longtag+'">LONG</span><span class="tinytag" title="'+ui_msg.info.tinytag+'">TINY</span></div>');
 	var thmsel =$('<div></div>').addClass('select').html('<p>\ue601</p>'); //div for show selected box
 	var thmi = $('<img>'); //img for get image width and height
 	thmimg.append(thminfo);
+	$(Array.prototype.concat(thmli,thminfo,thmsel)).prop('draggable',true);
+	thmli.on('dragstart', thm_dragstart).on('dragover', thm_dragover);
 	if(work.type=='url') {
 		thmi.attr('src',work.path);
 		var thmishow=function(work,thmli,thmimg,thmprg,thmsel) {
