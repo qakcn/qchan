@@ -1,5 +1,9 @@
 $(function(){
 	
+qchan().setBefore(show_thumbnail);
+qchan().setAfter(after_upload);
+qchan().setProgress(progress_handler);
+	
 $('#main_header').on('click',function(e){
 	$('section#main').scrollTop(0);
 });
@@ -64,16 +68,16 @@ $('#submit').on('click',function(e){
 	$('#submit').removeClass('show');
 	if(window.method == 'url') {
 		var urls = $('#url_list').val().split('\n');
-		url_upload_handler(urls);
+		qchan().url_upload(urls);
 		$('#url_list').val('');
 	}else if(window.method=='normal') {
-		if(FileReader && FormData) {
-			var files = $('#file_list').attr('files');
-			file_upload_handler(files);
+		if(qchan().isSupport) {
+			var files = $('#file_list').prop('files');
+			qchan().file_upload(files);
 			$('#file_review').html('');
 			$('#file_list').val('');
 		}else {
-			normal_upload_handler();
+			qchan.form_upload($('#normal_form')[0]);
 		}
 	}
 });
@@ -91,8 +95,8 @@ $(document).on('dragenter', function(e) {
 	$('#closepop').trigger('click');
 	$('#first_load').remove();
 	var files = e.dataTransfer.files;
-	if(FileReader && FormData) {
-		file_upload_handler(files);
+	if(qchan().isSupport) {
+		qchan().file_upload(files);
 	}else {
 		alert(ui_msg.info.undrop);
 	}
@@ -180,6 +184,61 @@ function movelongstart(e){
 		duration = (position.match(/^.+ (.+)(%|px)$/)[1]*1) * 0.03;
 		thmimg.css('transition-duration',duration+'s').css('background-position', '0 0');
 	}
+}
+
+function progress_handler(work, range) {
+	var qli = $('#q'+work.qid);
+	if(!qli[0]) {
+		var callself = function(){progress_handler(work, range);};
+		setTimeout(callself,100);
+		return false;
+	}
+	qli[0].progress(range);
+}
+
+function after_upload(res) {
+	var qli = $('#q'+res.qid);
+	if(!qli[0]) {
+		var callself = function(){after_upload(res);};
+		setTimeout(callself,100);
+		return false;
+	}
+	var qimg = qli.children('.img');
+	switch (res.status) {
+		case 'success':
+			qli.prop('work').status = 'success';
+			qli.prop('work').name = res.name;
+			qli.prop('work').path = res.path;
+			qli.prop('work').thumb = res.thumb;
+			if(res.thumb=='none') {
+				qimg.css('background-image', 'url("'+res.path+'")');
+			}else {
+				qimg.css('background-image', 'url("'+res.thumb+'")');
+			}
+			break;
+		case 'error':
+			qli.prop('work').status = 'error';
+			qli.prop('work').err = res.err;
+			qli.prop('work').name = res.name;
+			qli.prop('work').path = res.path;
+			qli.prop('work').thumb = res.thumb;
+			if(res.thumb=='none') {
+				qimg.css('background-image', 'url("'+res.path+'")');
+			}else {
+				qimg.css('background-image', 'url("'+res.thumb+'")');
+			}
+			break;
+		case 'failed':
+				qli.prop('work').status = 'failed';
+				qli.prop('work').err = res.err;
+				qimg.css({
+					backgroundImage: 'url('+prop.error_image+')',
+					backgroundSize: '200px 200px'
+				});
+				qli.width('200px').height('200px').css({marginTop: 0, marginBottom: 0});
+			break;
+	}
+	changeinfo(true);
 }
 
 /* Put thumbnail in the result zone */

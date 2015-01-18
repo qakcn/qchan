@@ -64,8 +64,8 @@ if(!$results) {
 </aside>
 
 <script type="application/javascript" src="<?=get_url().theme_path() ?>js/zepto.min.js"></script>
+<?=embed_script() ?>
 <script type="application/javascript" src="<?=get_url().theme_path() ?>js/ui.js"></script>
-<script type="application/javascript" src="<?=get_url().theme_path() ?>js/upload.js"></script>
 <script type="application/javascript">
 <?=$results!=null ? format_script($results) : '' ?>
 </script>

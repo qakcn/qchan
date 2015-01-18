@@ -29,3 +29,7 @@ function load_header() {
 function load_footer() {
 	require_once ABSPATH.'/'.theme_path().'footer.php';
 }
+
+function embed_script() {
+	return '<script src="'.get_url().'js/upload.js" type="application/javascript"></script>';
+}
