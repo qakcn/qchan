@@ -2,15 +2,22 @@
 ==========
 版本：v1.0
 
-本文介绍如何设置*config.php*文件。  
-本文件使用Markdown语法，若您使用记事本等文本编辑器查看，请注意区分格式标记，这些标记并不是内容的组成部分。  
-如：  
-> *表示说明* （两个各有一个星号）  
-> **表示强调**（两侧各有两个星号）  
-> `表示代码`（两侧各有一个反引号，中间的内容才是代码内容，输入代码时请不要包括反引号）  
-> <表示链接>（两侧各有一个尖括号）
+本文介绍如何设置*config.php*文件。
+
+本指引使用Markdown语法书写，若使用文本编辑器查看，请注意正文中的格式标记，这些标记并不是正文的一部分。
+
+以下示例只适用于使用文本编辑器查看：
+
+    *表示说明* （两侧各有一个星号）
+    **表示强调**（两侧各有两个星号）
+    `表示代码`（两侧各有一个反引号，中间的内容才是代码内容，输入代码时请不要包括反引号）
+    <表示链接>（两侧各有一个尖括号）
+
+更多关于Markdown语法的说明，请参见<http://wowubuntu.com/markdown/>。
 
 如果您使用Windows，可以使用[MarkdownEditor](https://github.com/jijinggang/MarkdownEditor)来查看本文档。下载地址：<https://github.com/jijinggang/MarkdownEditor/blob/master/download/MarkdownEditor.zip?raw=true>
+
+如果您使用Mozilla Firefox，亦可安装扩展[Markdown Viewer](https://addons.mozilla.org/zh-CN/firefox/addon/markdown-viewer/)，然后直接用Firefox打开本文件。
 
 设置格式
 ----------
