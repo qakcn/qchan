@@ -1,0 +1,6 @@
+uploads/*
+thumbs/*
+*~
+apikey/*
+config.timestamp
+themes/default/fonts/iconfont.css
