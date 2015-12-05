@@ -114,9 +114,9 @@ function get_url() {
 		$_SERVER['SERVER_NAME'] = $_SERVER['SERVER_ADDR'];
 	}
 	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') {
-		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'https://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==443 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
+		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'https://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==443 ? '' : ':'.$_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
 	}else {
-		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'http://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==80 ? '' : $_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
+		return preg_replace('/(.*\/)(.*?\.php|.*?\?.+)$/', '\1', 'http://'.$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT']==80 ? '' : ':'.$_SERVER['SERVER_PORT']).$_SERVER['REQUEST_URI']);
 	}
 }
 
