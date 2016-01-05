@@ -97,7 +97,7 @@ return array(
         * The path of watermark image refer to Qchan root
         * type: boolean
         */
-        'image_path' => 'images/watermark.png';
+        'image_path' => 'images/watermark.png',
 
         /**
          * Minimum size of image that will be watermarked. Formatted in '<width>x<height>', <width> and <height> must be integer

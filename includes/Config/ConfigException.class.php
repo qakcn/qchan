@@ -20,26 +20,14 @@ class ConfigException extends \QchanException {
 
     public function __construct($type) {
         switch($type) {
-            case 'CONSTRUCT_ERROR':
+            case 'CARRIER_CAN_NOT_SET_VALUE':
                 $errno = 101;
                 break;
-            case 'CONFIG_ITEM_NOT_FOUND':
+            case 'CARRIER_CAN_NOT_OVERWRITE_BY_ENTRY':
                 $errno = 102;
                 break;
-            case 'OBJECT_OVERWRITE_WITH_SCALAR_OR_ARRAY':
+            case 'NO_SUCH_A_CONFIG_ENTRY':
                 $errno = 103;
-                break;
-            case 'VALUE_TYPE_NOT_SUPPORT':
-                $errno = 104;
-                break;
-            case 'FILE_NOT_FOUND':
-                $errno = 105;
-                break;
-            case 'NO_CONFIG_TO_SAVE':
-                $errno = 106;
-                break;
-            case 'SAVE_TO_FILE_FAILED':
-                $errno = 107;
                 break;
         }
         parent::__construct($errno);

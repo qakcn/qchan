@@ -8,7 +8,7 @@
  * @package     qchan
  * @subpackage  Qchan
  * @author      qakcn <qakcnyn@gmail.com>
- * @copyright   2015 Quadra Studio
+ * @copyright   2015 Quadra Work
  * @version     0.1
  * @license     http://mozilla.org/MPL/2.0/
  * @link        https://github.com/qakcn/qchan
@@ -20,10 +20,14 @@ class Qchan {
         try{
             //Register autoload function
             spl_autoload_register('Qchan::autoload');
-            Config::parseFile(ABSPATH.'/config.php', INCLUDE_PATH.'/default.config.php');
-            self::load_function('utils');
 
-            Router::route();
+
+            Database::registerHandler('MySQL', '\Database\MySQL\Handler');
+            Database::linkStart('main', 'MySQL', array('host'=>'localhost', 'username'=>'root', 'password'=>'basic@)ismyLOVE', 'dbname'=>'test'));
+
+            echo '<pre>';
+            var_dump(Database::linkStart()->insert()->into('fuck')->values(array('name'=>'\'itfa\''))->query());
+
 
 
         }catch (Exception $e) {
